@@ -2,9 +2,10 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 import csv
 import random
+import sys
 
 app = FastAPI()
 
@@ -25,15 +26,32 @@ with open(csv_path, newline='', encoding='utf-8') as csvfile:
     puzzles = list(reader)
 
 # Serve built React frontend as static files
-frontend_dist = Path(__file__).parent.parent / "frontend" / "dist"
-if frontend_dist.exists():
-    app.mount("/assets", StaticFiles(directory=str(frontend_dist / "assets")), name="assets")
+# Search multiple possible paths in case Render uses a different working dir
+script_dir = Path(__file__).resolve().parent
+candidates = [
+    script_dir.parent / "frontend" / "dist",        # repo-root/frontend/dist
+    script_dir / "frontend" / "dist",                # backend/frontend/dist
+    Path.cwd().parent / "frontend" / "dist",
+    Path.cwd() / "frontend" / "dist",
+    Path("/opt/render/project/src/frontend/dist"),
+]
+
+frontend_dist = None
+for c in candidates:
+    if (c / "index.html").exists():
+        frontend_dist = c
+        break
+
+if frontend_dist:
+    # Mount assets subdirectory
+    assets_dir = frontend_dist / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
 
     @app.get("/")
     def serve_frontend():
         return FileResponse(str(frontend_dist / "index.html"))
 
-    # Catch-all for SPA client-side routing
     @app.exception_handler(404)
     async def not_found_handler(request, exc):
         if request.url.path.startswith("/puzzle") or request.url.path.startswith("/guess"):
@@ -43,13 +61,17 @@ if frontend_dist.exists():
             return FileResponse(str(index))
         raise exc
 else:
-    # Fallback dev mode — embed a simple HTML page
     @app.get("/")
     def root():
-        return {
+        return JSONResponse({
             "message": "Heteronym API is running",
             "frontend": "Run `cd frontend && npm run dev` to start the dev server",
-        }
+            "debug": {
+                "cwd": str(Path.cwd()),
+                "script_dir": str(script_dir),
+                "searched": [str(c) for c in candidates],
+            }
+        })
 
 
 @app.get("/puzzle")
