@@ -211,7 +211,7 @@ export default function App() {
     }
     lines.push(grid.join(''))
     lines.push('')
-    lines.push('heteronym.onrender.com')
+    lines.push('heteronym.online')
 
     const text = lines.join('\n')
     navigator.clipboard.writeText(text).then(() => {
