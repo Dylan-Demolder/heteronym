@@ -5,7 +5,8 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
 import csv
 import random
-import sys
+import hashlib
+from datetime import date
 
 app = FastAPI()
 
@@ -54,7 +55,7 @@ if frontend_dist:
 
     @app.exception_handler(404)
     async def not_found_handler(request, exc):
-        if request.url.path.startswith("/puzzle") or request.url.path.startswith("/guess"):
+        if request.url.path.startswith("/puzzle") or request.url.path.startswith("/guess") or request.url.path.startswith("/daily"):
             raise exc
         index = frontend_dist / "index.html"
         if index.exists():
@@ -72,6 +73,30 @@ else:
                 "searched": [str(c) for c in candidates],
             }
         })
+
+
+@app.get("/daily")
+def get_daily_puzzle(d: str = None):
+    if d:
+        try:
+            target_date = date.fromisoformat(d)
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD")
+    else:
+        target_date = date.today()
+
+    date_str = target_date.isoformat()
+    seed = int(hashlib.md5(date_str.encode()).hexdigest(), 16)
+    idx = seed % len(puzzles)
+
+    puzzle = puzzles[idx]
+    return {
+        "clue1": puzzle["Clue 1"],
+        "clue2": puzzle["Clue 2"],
+        "hints": [puzzle["Hint 1"], puzzle["Hint 2"], puzzle["Hint 3"]],
+        "id": idx,
+        "date": date_str,
+    }
 
 
 @app.get("/puzzle")
