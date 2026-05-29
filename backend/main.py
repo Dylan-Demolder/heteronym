@@ -1,8 +1,7 @@
 from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import JSONResponse
 import csv
 import random
 import hashlib
@@ -10,7 +9,7 @@ from datetime import date
 
 app = FastAPI()
 
-# Allow CORS (still useful for local dev)
+# Allow CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -26,56 +25,13 @@ with open(csv_path, newline='', encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile)
     puzzles = list(reader)
 
-# Serve built React frontend as static files
-# Search multiple possible paths in case Render uses a different working dir
-script_dir = Path(__file__).resolve().parent
-candidates = [
-    script_dir.parent / "frontend" / "dist",        # repo-root/frontend/dist
-    script_dir / "frontend" / "dist",                # backend/frontend/dist
-    Path.cwd().parent / "frontend" / "dist",
-    Path.cwd() / "frontend" / "dist",
-    Path("/opt/render/project/src/frontend/dist"),
-]
 
-frontend_dist = None
-for c in candidates:
-    if (c / "index.html").exists():
-        frontend_dist = c
-        break
-
-if frontend_dist:
-    # Mount assets subdirectory
-    assets_dir = frontend_dist / "assets"
-    if assets_dir.exists():
-        app.mount("/assets", StaticFiles(directory=str(assets_dir)), name="assets")
-
-    @app.get("/")
-    def serve_frontend():
-        return FileResponse(str(frontend_dist / "index.html"))
-
-    @app.exception_handler(404)
-    async def not_found_handler(request, exc):
-        if request.url.path.startswith("/puzzle") or request.url.path.startswith("/guess") or request.url.path.startswith("/daily"):
-            raise exc
-        index = frontend_dist / "index.html"
-        if index.exists():
-            return FileResponse(str(index))
-        raise exc
-else:
-    @app.get("/")
-    def root():
-        return JSONResponse({
-            "message": "Heteronym API is running",
-            "frontend": "Run `cd frontend && npm run dev` to start the dev server",
-            "debug": {
-                "cwd": str(Path.cwd()),
-                "script_dir": str(script_dir),
-                "searched": [str(c) for c in candidates],
-            }
-        })
+@app.get("/api")
+def root():
+    return JSONResponse({"message": "Heteronym API is running", "puzzles": len(puzzles)})
 
 
-@app.get("/daily")
+@app.get("/api/daily")
 def get_daily_puzzle(d: str = None):
     if d:
         try:
@@ -99,7 +55,7 @@ def get_daily_puzzle(d: str = None):
     }
 
 
-@app.get("/puzzle")
+@app.get("/api/puzzle")
 def get_puzzle():
     puzzle = random.choice(puzzles)
     return {
@@ -110,7 +66,7 @@ def get_puzzle():
     }
 
 
-@app.post("/guess")
+@app.post("/api/guess")
 def check_guess(puzzle_id: int, guess: str):
     if puzzle_id < 0 or puzzle_id >= len(puzzles):
         raise HTTPException(status_code=404, detail="Puzzle not found")

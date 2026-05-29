@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 
-const API = ''
+const API = '/api'
 const STATS_KEY = 'heteronym_stats'
 const SCORE_KEY = 'heteronym_score'
 
