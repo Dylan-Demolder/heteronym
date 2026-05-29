@@ -345,6 +345,31 @@ export default function App() {
         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Score: {score}</p>
       )}
 
+      {/* Carbon Ads — native ad placement */}
+      <div id="carbonads" className="mt-6 w-full max-w-md flex justify-center min-h-[100px]">
+        {/*
+          To enable Carbon Ads:
+          1. Sign up at https://carbonads.net
+          2. Replace the script src below with your tag
+        */}
+      </div>
+      <script
+        async
+        type="text/javascript"
+        src="https://cdn.carbonads.com/carbon.js?serve=CESI52J7&placement=heteronymonline"
+        id="_carbonads_js"
+      ></script>
+
+      {/* Tip / Support button */}
+      <a
+        href="https://ko-fi.com/your-kofi"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-full text-sm font-medium hover:bg-amber-200 dark:hover:bg-amber-900/50 transition-colors"
+      >
+        ☕ Support the game
+      </a>
+
       {/* Stats modal */}
       {showStats && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" onClick={() => setShowStats(false)}>
