@@ -14,22 +14,26 @@ app_dir = "/home/heteutzw/heteronym"
 def upload(local, remote_dir):
     boundary = "----B" + str(abs(hash(local)) % 10**10)
     name = os.path.basename(local)
-    with open(local) as f:
+    with open(local, "rb") as f:
         content = f.read()
     body = (
-        "--" + boundary + "\r\n"
-        'Content-Disposition: form-data; name="file-0"; filename="' + name + '"\r\n'
-        "Content-Type: text/plain\r\n\r\n" + content + "\r\n"
-        "--" + boundary + "--\r\n"
-    ).encode()
-    url = api_url + "/upload_files?dir=" + urllib.parse.quote(remote_dir)
+        b"--" + boundary.encode() + b"\r\n"
+        + b'Content-Disposition: form-data; name="file-0"; filename="' + name.encode() + b'"\r\n'
+        + b"Content-Type: application/octet-stream\r\n\r\n"
+        + content + b"\r\n"
+        + b"--" + boundary.encode() + b"--\r\n"
+    )
+    url = api_url + "/upload_files?dir=" + urllib.parse.quote(remote_dir) + "&overwrite=1"
     req = urllib.request.Request(url, data=body, headers={
         "Authorization": auth_hdr,
-        "Content-Type": "multipart/form-data; boundary=" + boundary,
+        "Content-Type": b"multipart/form-data; boundary=" + boundary.encode(),
     }, method="POST")
     with urllib.request.urlopen(req, timeout=30) as r:
         result = json.loads(r.read())
-    return result["data"]["uploads"][0]["status"] == 1
+    ok = result["data"]["uploads"][0]["status"] == 1
+    if not ok:
+        print("::warning::Upload failed for " + name + ": " + str(result["data"]["uploads"][0].get("reason", "unknown")))
+    return ok
 
 
 ok = True
