@@ -1,0 +1,13 @@
+# Render Blueprint — single Web Service for combined backend + frontend
+services:
+  - type: web
+    name: heteronym
+    runtime: python
+    region: frankfurt
+    plan: free
+    buildCommand: cd frontend && npm ci && npm run build
+    startCommand: cd backend && pip install -r requirements.txt && uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /puzzle
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0

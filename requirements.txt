@@ -1,0 +1,6 @@
+# This is handled by backend/requirements.txt for the actual server.
+# This root-level file exists so Render detects it as a Python project.
+# The real start command installs from backend/requirements.txt.
+fastapi
+uvicorn
+python-multipart
