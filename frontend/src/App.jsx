@@ -16,7 +16,7 @@ function loadStats() {
   catch { return defaultStats() }
 }
 function defaultStats() {
-  return { gamesPlayed: 0, wins: 0, currentStreak: 0, maxStreak: 0, totalGuesses: 0, lastPlayedDate: null }
+  return { gamesPlayed: 0, wins: 0, currentStreak: 0, maxStreak: 0, totalGuesses: 0, gaveUp: 0, lastPlayedDate: null }
 }
 function saveStats(s) { localStorage.setItem(STATS_KEY, JSON.stringify(s)) }
 
@@ -44,6 +44,7 @@ export default function App() {
   const [stats, setStatsRaw] = useState(loadStats)
   const [dailyPuzzleNum, setDailyPuzzleNum] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [gaveUp, setGaveUp] = useState(false)
   const inputRef = useRef()
   const puzzleCardRef = useRef()
 
@@ -71,6 +72,7 @@ export default function App() {
     setLoading(true)
     setShowCompletion(false)
     setCopied(false)
+    setGaveUp(false)
 
     if (mode === 'daily') {
       const saved = loadDaily(today())
@@ -120,6 +122,7 @@ export default function App() {
     setGuesses([])
     setHintIndex(0)
     setLives(4)
+    setGaveUp(false)
     const res = await fetch(`${API}/puzzle`)
     const data = await res.json()
     setPuzzle(data)
@@ -165,10 +168,18 @@ export default function App() {
     }
   }
 
+  const handleGiveUp = async () => {
+    if (!puzzle) return
+    const res = await fetch(`${API}/guess?puzzle_id=${puzzle.id}&guess=`, { method: 'POST' })
+    const data = await res.json()
+    setResult(data)
+    setGaveUp(true)
+  }
+
   // Persist daily state & update stats on completion
   useEffect(() => {
     if (!puzzle || mode !== 'daily' || !result) return
-    if (!result.correct && lives > 0) return // still playing
+    if (!result.correct && lives > 0 && !gaveUp) return // still playing
 
     const state = { puzzle, guesses, hintIndex, lives, result, completed: true }
     saveDaily(today(), state)
@@ -179,7 +190,10 @@ export default function App() {
     s.gamesPlayed += 1
     s.lastPlayedDate = today()
 
-    if (result.correct) {
+    if (gaveUp) {
+      s.gaveUp += 1
+      s.currentStreak = 0
+    } else if (result.correct) {
       s.wins += 1
       s.totalGuesses += guesses.length
       s.currentStreak = stats.lastPlayedDate === yesterday() ? s.currentStreak + 1 : 1
@@ -188,7 +202,7 @@ export default function App() {
       s.currentStreak = 0
     }
     setStats(s)
-  }, [result, lives])
+  }, [result, lives, gaveUp])
 
   const toggleTheme = () => {
     const nt = theme === 'light' ? 'dark' : 'light'
@@ -200,6 +214,8 @@ export default function App() {
     const lines = [`Heteronym #${dailyPuzzleNum + 1}`]
     if (result?.correct) {
       lines.push(`✅ Solved in ${guesses.length} guess${guesses.length === 1 ? '' : 's'} · ${hintIndex} hint${hintIndex === 1 ? '' : 's'}`)
+    } else if (gaveUp) {
+      lines.push(`🙌 Gave up — answer: ${result?.answer}`)
     } else {
       lines.push(`❌ Out of lives — answer: ${result?.answer}`)
     }
@@ -215,7 +231,7 @@ export default function App() {
     lines.push('')
     lines.push('heteronym.online')
 
-    const text = lines.join('\n')
+    const text = lines.join('\\n')
 
     // Native share API with clipboard fallback
     if (navigator.share) {
@@ -360,6 +376,15 @@ export default function App() {
                   </ChromaButton>
                 )}
               </div>
+
+              {/* Give Up — shown when lives exhausted but answer not yet revealed */}
+              {lives === 0 && !result && (
+                <div className="mb-4">
+                  <ChromaButton variant="ghost" icon="visibility" fullWidth onClick={handleGiveUp}>
+                    Give Up / Show Answer
+                  </ChromaButton>
+                </div>
+              )}
             </>
           )}
 
@@ -375,6 +400,8 @@ export default function App() {
                 <><Icon name="check_circle" size={18} color="var(--green)" filled /> Correct!</>
               ) : lives > 0 ? (
                 <><Icon name="close" size={18} color="var(--red)" /> Nope, try again!</>
+              ) : gaveUp ? (
+                <><Icon name="visibility" size={18} color="var(--violet)" /> Gave up — the answer was <strong>{result.answer}</strong></>
               ) : (
                 <><Icon name="heart_broken" size={18} color="var(--red)" /> Out of lives — <strong>{result.answer}</strong></>
               )}
@@ -453,7 +480,7 @@ export default function App() {
 
       {/* Support link */}
       <a
-        href="https://ko-fi.com/your-kofi"
+        href="https://ko-fi.com/dylandemolder"
         target="_blank"
         rel="noopener noreferrer"
         className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors"
@@ -483,6 +510,11 @@ export default function App() {
               {stats.wins > 0 && (
                 <p className="text-sm text-center" style={{ color: 'var(--text-tertiary)' }}>
                   Avg guesses: <strong style={{ color: 'var(--text-primary)' }}>{(stats.totalGuesses / stats.wins).toFixed(1)}</strong>
+                </p>
+              )}
+              {stats.gaveUp > 0 && (
+                <p className="text-sm text-center mt-1" style={{ color: 'var(--text-tertiary)' }}>
+                  Gave up: <strong style={{ color: 'var(--violet)' }}>{stats.gaveUp}</strong>
                 </p>
               )}
             </div>
