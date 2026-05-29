@@ -2,12 +2,13 @@
 """Deploy heteronym to Namecheap cPanel via API."""
 import json, os, sys, urllib.request, urllib.parse
 
-CPANEL_SERVER = os.environ["CPANEL_SERVER"]
-CPANEL_USER = os.environ["CPANEL_USER"]
-AUTH = f"cpanel {CPANEL_USER}:{CPANEL_TOKEN}"
-API = f"https://{CPANEL_SERVER}:2083/execute/Fileman"
-PUBLIC_HTML = "/home/heteutzw/public_html"
-APP_DIR = "/home/heteutzw/heteronym"
+svr = os.environ["CPANEL_SERVER"]
+usr = os.environ["CPANEL_USER"]
+tok = os.environ["CPANEL_TOKEN"]
+auth_hdr = "cpanel " + usr + ":" + tok
+api_url = "https://" + svr + ":2083/execute/Fileman"
+pub_html = "/home/heteutzw/public_html"
+app_dir = "/home/heteutzw/heteronym"
 
 
 def upload(local, remote_dir):
@@ -16,15 +17,15 @@ def upload(local, remote_dir):
     with open(local) as f:
         content = f.read()
     body = (
-        f"--{boundary}\r\n"
-        f'Content-Disposition: form-data; name="file-0"; filename="{name}"\r\n'
-        f"Content-Type: text/plain\r\n\r\n{content}\r\n"
-        f"--{boundary}--\r\n"
+        "--" + boundary + "\r\n"
+        'Content-Disposition: form-data; name="file-0"; filename="' + name + '"\r\n'
+        "Content-Type: text/plain\r\n\r\n" + content + "\r\n"
+        "--" + boundary + "--\r\n"
     ).encode()
-    url = f"{API}/upload_files?dir={urllib.parse.quote(remote_dir)}"
+    url = api_url + "/upload_files?dir=" + urllib.parse.quote(remote_dir)
     req = urllib.request.Request(url, data=body, headers={
-        "Authorization": AUTH,
-        "Content-Type": f"multipart/form-data; boundary={boundary}",
+        "Authorization": auth_hdr,
+        "Content-Type": "multipart/form-data; boundary=" + boundary,
     }, method="POST")
     with urllib.request.urlopen(req, timeout=30) as r:
         result = json.loads(r.read())
@@ -39,35 +40,36 @@ for root, dirs, files in os.walk(dist):
     for f in files:
         local = os.path.join(root, f)
         rel = os.path.relpath(root, dist)
-        rdir = PUBLIC_HTML if rel == "." else f"{PUBLIC_HTML}/{rel}"
+        rdir = pub_html if rel == "." else pub_html + "/" + rel
         if upload(local, rdir):
-            print(f"  OK  {rel}/{f}")
+            print("  OK  " + rel + "/" + f)
         else:
-            print(f"::error::Failed {rel}/{f}")
+            print("::error::Failed " + rel + "/" + f)
             ok = False
 print("::endgroup::")
 
 print("::group::Deploying backend")
-for f in ["main.py", "puzzles.csv", "requirements.txt", "heteronym_app.py"]:
-    lp = f"backend/{f}"
+backend_files = ["main.py", "puzzles.csv", "requirements.txt", "heteronym_app.py"]
+for f in backend_files:
+    lp = "backend/" + f
     if os.path.exists(lp):
-        if upload(lp, APP_DIR):
-            print(f"  OK  {f}")
+        if upload(lp, app_dir):
+            print("  OK  " + f)
         else:
-            print(f"::error::Failed {f}")
+            print("::error::Failed " + f)
             ok = False
 print("::endgroup::")
 
 print("::group::Restarting Passenger")
 try:
-    data = urllib.parse.urlencode({
-        "dir": f"{APP_DIR}/tmp",
+    db = urllib.parse.urlencode({
+        "dir": app_dir + "/tmp",
         "file": "restart.txt",
         "content": "restart",
     }).encode()
     req = urllib.request.Request(
-        f"{API}/save_file_content", data=data, headers={
-            "Authorization": AUTH,
+        api_url + "/save_file_content", data=db, headers={
+            "Authorization": auth_hdr,
             "Content-Type": "application/x-www-form-urlencoded",
         })
     with urllib.request.urlopen(req, timeout=30) as r:
@@ -75,9 +77,9 @@ try:
     if result.get("status") == 1:
         print("  OK  Passenger restarted")
     else:
-        print(f"::warning::Restart result: {result}")
+        print("::warning::Restart result: " + str(result))
 except Exception as e:
-    print(f"::warning::Restart error: {e}")
+    print("::warning::Restart error: " + str(e))
 print("::endgroup::")
 
 sys.exit(0 if ok else 1)
