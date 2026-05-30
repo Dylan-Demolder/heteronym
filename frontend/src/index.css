@@ -364,6 +364,10 @@ body {
   box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.15);
 }
 
+.chroma-input-full {
+  width: 100%;
+}
+
 .chroma-input::placeholder {
   color: var(--text-tertiary);
 }
@@ -490,6 +494,39 @@ body {
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Text Color Utilities ──────────────────────── */
+.chroma-text-primary { color: var(--text-primary); }
+.chroma-text-secondary { color: var(--text-secondary); }
+.chroma-text-tertiary { color: var(--text-tertiary); }
+.chroma-text-violet { color: var(--violet); }
+.chroma-text-amber { color: var(--amber); }
+.chroma-text-green { color: var(--green); }
+.chroma-text-red { color: var(--red); }
+.chroma-text-coral { color: var(--coral); }
+
+/* ── Link (CHROMA) ────────────────────────────── */
+.chroma-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border-radius: var(--r-full);
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  cursor: pointer;
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--amber);
+}
+.chroma-link:hover {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--amber-light);
+}
+.chroma-link:active {
+  transform: translateY(0);
 }
 
 /* ── Utility Classes ───────────────────────────── */

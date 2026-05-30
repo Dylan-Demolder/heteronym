@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
-import { HeartsDisplay, GlassPanel, ChromaButton, StatCard, Icon } from './chroma'
+import { HeartsDisplay, GlassPanel, ChromaButton, StatCard, Icon, Badge, Input, Modal, Tabs, Skeleton } from './chroma'
 
 const API = '/api'
 const STATS_KEY = 'heteronym_stats'
@@ -264,6 +264,10 @@ export default function App() {
     if (e.key === 'Enter') submitGuess()
   }
 
+  const handleTabChange = (id) => {
+    setMode(id)
+  }
+
   return (
     <main className="min-h-screen bg-chroma-mesh flex flex-col items-center px-4 py-6 transition-colors duration-300">
 
@@ -273,42 +277,33 @@ export default function App() {
           Info
         </ChromaButton>
 
-        <div className="chroma-tabs-bar">
-          <button
-            onClick={() => setMode('daily')}
-            className={`chroma-tab ${mode === 'daily' ? 'chroma-tab-active' : ''}`}
-          >
-            Daily
-          </button>
-          <button
-            onClick={() => setMode('freeplay')}
-            className={`chroma-tab ${mode === 'freeplay' ? 'chroma-tab-active' : ''}`}
-          >
-            Free Play
-          </button>
-        </div>
+        <Tabs
+          tabs={[
+            { id: 'daily', label: 'Daily' },
+            { id: 'freeplay', label: 'Free Play' },
+          ]}
+          activeId={mode}
+          onChange={handleTabChange}
+        />
 
         <div className="flex items-center gap-2">
           <ChromaButton variant="ghost" size="sm" icon="bar_chart" onClick={() => setShowStats(true)} />
-          <button
+          <ChromaButton
+            variant="ghost"
+            size="sm"
+            icon={theme === 'light' ? 'dark_mode' : 'light_mode'}
             onClick={toggleTheme}
-            className="chroma-btn chroma-btn-ghost chroma-btn-sm"
             aria-label="Toggle theme"
-          >
-            <Icon name={theme === 'light' ? 'dark_mode' : 'light_mode'} size={18} />
-          </button>
+          />
         </div>
       </div>
 
       {/* Title */}
-      <h1 className="font-display text-3xl font-bold mb-1 text-balance">Heteronym</h1>
+      <h1 className="font-display text-3xl font-bold mb-1 chroma-text-balance">Heteronym</h1>
       {mode === 'daily' && (
-        <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>Puzzle #{dailyPuzzleNum + 1}</p>
+        <p className="text-xs chroma-text-tertiary">Puzzle #{dailyPuzzleNum + 1}</p>
       )}
-      <p
-        className="text-sm md:text-base mb-1 text-center max-w-md"
-        style={{ color: 'var(--text-secondary)' }}
-      >
+      <p className="text-sm md:text-base mb-1 text-center max-w-md chroma-text-secondary">
         Two clues point to one hidden synonym
       </p>
 
@@ -318,7 +313,7 @@ export default function App() {
       </div>
 
       {loading ? (
-        <div className="chroma-skeleton" style={{ width: 400, height: 300, maxWidth: '100%', borderRadius: 'var(--r-lg)' }} />
+        <Skeleton width={400} height={300} radius="var(--r-lg)" className="max-w-full" />
       ) : puzzle && (
         <GlassPanel
           ref={puzzleCardRef}
@@ -326,33 +321,28 @@ export default function App() {
           className="w-full max-w-md text-center relative"
         >
           {/* Clues */}
-          <p className="text-base mb-1" style={{ color: 'var(--text-secondary)' }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 16, verticalAlign: 'middle', marginRight: 4 }}>
-              psychology
-            </span>
-            Clue 1: <strong style={{ color: 'var(--text-primary)' }}>{puzzle.clue1}</strong>
+          <p className="text-base mb-1 chroma-text-secondary">
+            <Icon name="psychology" size={16} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+            Clue 1: <strong className="chroma-text-primary">{puzzle.clue1}</strong>
           </p>
-          <p className="text-base mb-5" style={{ color: 'var(--text-secondary)' }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 16, verticalAlign: 'middle', marginRight: 4 }}>
-              psychology
-            </span>
-            Clue 2: <strong style={{ color: 'var(--text-primary)' }}>{puzzle.clue2}</strong>
+          <p className="text-base mb-5 chroma-text-secondary">
+            <Icon name="psychology" size={16} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+            Clue 2: <strong className="chroma-text-primary">{puzzle.clue2}</strong>
           </p>
 
           {/* Input & buttons */}
           {!(result?.correct || (lives === 0 && result)) && (
             <>
-              <input
+              <Input
                 ref={inputRef}
                 type="text"
-                className="chroma-input mb-3"
                 placeholder="Your guess..."
                 value={guess}
                 onChange={(e) => setGuess(e.target.value)}
                 onKeyDown={handleKeyDown}
                 autoFocus
               />
-              <div className="flex gap-2 mb-4">
+              <div className="flex gap-2 mt-3 mb-4">
                 <ChromaButton
                   variant="primary"
                   icon="arrow_forward"
@@ -390,12 +380,13 @@ export default function App() {
 
           {/* Result message */}
           {result && (
-            <p
-              className="text-base font-semibold mb-3"
-              style={{
-                color: lives === 0 && !result.correct ? 'var(--red)' : result.correct ? 'var(--green)' : 'var(--amber)'
-              }}
-            >
+            <p className={`text-base font-semibold mb-3 ${
+              lives === 0 && !result.correct
+                ? 'chroma-text-red'
+                : result.correct
+                  ? 'chroma-text-green'
+                  : 'chroma-text-amber'
+            }`}>
               {result.correct ? (
                 <><Icon name="check_circle" size={18} color="var(--green)" filled /> Correct!</>
               ) : lives > 0 ? (
@@ -411,10 +402,10 @@ export default function App() {
           {/* Hints */}
           {hintIndex > 0 && (
             <div className="mb-3">
-              <p className="text-xs mb-1" style={{ color: 'var(--text-tertiary)' }}>Hints revealed:</p>
+              <p className="text-xs mb-1 chroma-text-tertiary">Hints revealed:</p>
               <ul className="space-y-0.5">
                 {puzzle.hints.slice(0, hintIndex).map((h, i) => (
-                  <li key={i} className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  <li key={i} className="text-sm chroma-text-secondary">
                     <Icon name="lightbulb" size={14} color="var(--amber)" /> {h}
                   </li>
                 ))}
@@ -425,15 +416,15 @@ export default function App() {
           {/* Previous guesses */}
           {guesses.length > 0 && (
             <div className="mb-3">
-              <p className="text-xs mb-1" style={{ color: 'var(--text-tertiary)' }}>Your guesses:</p>
+              <p className="text-xs mb-1 chroma-text-tertiary">Your guesses:</p>
               <div className="flex flex-wrap gap-1.5 justify-center">
                 {guesses.map((g, i) => (
-                  <span
+                  <Badge
                     key={i}
-                    className={`chroma-badge ${i === guesses.length - 1 && result?.correct ? 'chroma-badge-correct' : 'chroma-badge-wrong'}`}
+                    variant={i === guesses.length - 1 && result?.correct ? 'correct' : 'wrong'}
                   >
                     {g}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             </div>
@@ -442,11 +433,15 @@ export default function App() {
           {/* Post-completion actions (daily mode) */}
           {mode === 'daily' && (result?.correct || (lives === 0 && result)) && (
             <div className="mt-4 space-y-3">
-              <button onClick={shareResult} className="chroma-share-btn">
-                <Icon name={copied ? 'check' : 'share'} size={18} filled={copied} />
+              <ChromaButton
+                variant="primary"
+                icon={copied ? 'check' : 'share'}
+                fullWidth
+                onClick={shareResult}
+              >
                 {copied ? 'Copied!' : 'Share Result'}
-              </button>
-              <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
+              </ChromaButton>
+              <p className="text-xs chroma-text-tertiary">
                 <Icon name="schedule" size={14} style={{ verticalAlign: 'middle', marginRight: 4 }} />
                 Next puzzle in {nextTimer}
               </p>
@@ -464,8 +459,8 @@ export default function App() {
 
       {/* Score (free play) */}
       {mode === 'freeplay' && (
-        <p className="mt-3 text-sm" style={{ color: 'var(--text-tertiary)' }}>
-          Score: <strong style={{ color: 'var(--violet)' }}>{score}</strong>
+        <p className="mt-3 text-sm chroma-text-tertiary">
+          Score: <strong className="chroma-text-violet">{score}</strong>
         </p>
       )}
 
@@ -483,92 +478,62 @@ export default function App() {
         href="https://ko-fi.com/dylandemolder"
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors"
-        style={{
-          background: 'rgba(245, 158, 11, 0.1)',
-          color: 'var(--amber)',
-        }}
-        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(245, 158, 11, 0.2)' }}
-        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)' }}
+        className="chroma-link mt-3"
       >
         <Icon name="coffee" size={16} /> Support the game
       </a>
 
       {/* Stats modal */}
-      {showStats && (
-        <div className="chroma-overlay" onClick={() => setShowStats(false)}>
-          <div className="chroma-modal" onClick={e => e.stopPropagation()}>
-            <button onClick={() => setShowStats(false)} className="chroma-modal-close">✕</button>
-            <div style={{ padding: '24px' }}>
-              <h2 className="font-display text-xl font-bold mb-5 text-center">Statistics</h2>
-              <div className="grid grid-cols-4 gap-3 text-center mb-4">
-                <StatCard value={stats.gamesPlayed} label="Played" compact />
-                <StatCard value={stats.gamesPlayed > 0 ? Math.round(stats.wins / stats.gamesPlayed * 100) : 0} label="Win %" compact />
-                <StatCard value={stats.currentStreak} label="Streak" compact accent />
-                <StatCard value={stats.maxStreak} label="Max" compact />
-              </div>
-              {stats.wins > 0 && (
-                <p className="text-sm text-center" style={{ color: 'var(--text-tertiary)' }}>
-                  Avg guesses: <strong style={{ color: 'var(--text-primary)' }}>{(stats.totalGuesses / stats.wins).toFixed(1)}</strong>
-                </p>
-              )}
-              {stats.gaveUp > 0 && (
-                <p className="text-sm text-center mt-1" style={{ color: 'var(--text-tertiary)' }}>
-                  Gave up: <strong style={{ color: 'var(--violet)' }}>{stats.gaveUp}</strong>
-                </p>
-              )}
-            </div>
-          </div>
+      <Modal open={showStats} onClose={() => setShowStats(false)} title="Statistics">
+        <div className="grid grid-cols-4 gap-3 text-center mb-4">
+          <StatCard value={stats.gamesPlayed} label="Played" compact />
+          <StatCard value={stats.gamesPlayed > 0 ? Math.round(stats.wins / stats.gamesPlayed * 100) : 0} label="Win %" compact />
+          <StatCard value={stats.currentStreak} label="Streak" compact accent />
+          <StatCard value={stats.maxStreak} label="Max" compact />
         </div>
-      )}
+        {stats.wins > 0 && (
+          <p className="text-sm text-center chroma-text-tertiary">
+            Avg guesses: <strong className="chroma-text-primary">{(stats.totalGuesses / stats.wins).toFixed(1)}</strong>
+          </p>
+        )}
+        {stats.gaveUp > 0 && (
+          <p className="text-sm text-center chroma-text-tertiary">
+            Gave up: <strong className="chroma-text-violet">{stats.gaveUp}</strong>
+          </p>
+        )}
+      </Modal>
 
       {/* Info modal */}
-      {showInfo && (
-        <div className="chroma-overlay" onClick={() => setShowInfo(false)}>
-          <div className="chroma-modal" onClick={e => e.stopPropagation()}>
-            <button onClick={() => setShowInfo(false)} className="chroma-modal-close">✕</button>
-            <div style={{ padding: '24px' }}>
-              <div className="flex items-center gap-2 mb-4">
-                <Icon name="info" size={22} color="var(--violet)" filled />
-                <h2 className="font-display text-xl font-bold">How to Play</h2>
-              </div>
-              <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
-                You're given two clues. Both are synonyms of the same hidden word — a <strong style={{ color: 'var(--text-primary)' }}>heteronym</strong> (spelled the same, different meanings).
-              </p>
-              <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
-                Guess the word they both point to. Each wrong guess costs a life, and each hint you reveal also costs a life.
-              </p>
-              <div
-                className="rounded-lg p-3 mb-3 space-y-1"
-                style={{ background: 'var(--bg-hover)' }}
-              >
-                <p className="text-sm" style={{ color: 'var(--text-primary)' }}>
-                  <span
-                    className="chroma-badge chroma-tab-active"
-                    style={{ display: 'inline-flex', marginRight: 6, padding: '1px 8px' }}
-                  >
-                    Daily
-                  </span>
-                  <span style={{ color: 'var(--text-secondary)' }}>One puzzle per day, same for everyone. Streaks and stats tracked.</span>
-                </p>
-                <p className="text-sm" style={{ color: 'var(--text-primary)' }}>
-                  <span
-                    className="chroma-badge chroma-tab-active"
-                    style={{ display: 'inline-flex', marginRight: 6, padding: '1px 8px' }}
-                  >
-                    Free Play
-                  </span>
-                  <span style={{ color: 'var(--text-secondary)' }}>Random puzzles, practice mode with score.</span>
-                </p>
-              </div>
-              <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
-                <Icon name="rocket_launch" size={16} style={{ verticalAlign: 'middle', marginRight: 4 }} />
-                Good luck!
-              </p>
-            </div>
-          </div>
+      <Modal open={showInfo} onClose={() => setShowInfo(false)} title="How to Play" titleIcon="info">
+        <p className="text-sm mb-3 chroma-text-secondary">
+          You're given two clues. Both are synonyms of the same hidden word — a <strong className="chroma-text-primary">heteronym</strong> (spelled the same, different meanings).
+        </p>
+        <p className="text-sm mb-3 chroma-text-secondary">
+          Guess the word they both point to. Each wrong guess costs a life, and each hint you reveal also costs a life.
+        </p>
+        <div
+          className="rounded-lg p-3 mb-3 space-y-1"
+          style={{ background: 'var(--bg-hover)' }}
+        >
+          <p className="text-sm chroma-text-primary">
+            <Badge variant="correct" className="chroma-tab-active" style={{ display: 'inline-flex', marginRight: 6, padding: '1px 8px' }}>
+              Daily
+            </Badge>
+            <span className="chroma-text-secondary">One puzzle per day, same for everyone. Streaks and stats tracked.</span>
+          </p>
+          <p className="text-sm chroma-text-primary">
+            <Badge variant="correct" className="chroma-tab-active" style={{ display: 'inline-flex', marginRight: 6, padding: '1px 8px' }}>
+              Free Play
+            </Badge>
+            <span className="chroma-text-secondary">Random puzzles, practice mode with score.</span>
+          </p>
         </div>
-      )}
+        <p className="text-sm chroma-text-tertiary">
+          <Icon name="rocket_launch" size={16} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+          Good luck!
+        </p>
+      </Modal>
+
     </main>
   )
 }
