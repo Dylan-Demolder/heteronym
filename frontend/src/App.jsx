@@ -511,13 +511,13 @@ export default function App() {
         <p className="text-sm mb-3 chroma-text-secondary">
           Guess the word they both point to. Each wrong guess costs a life, and each hint you reveal also costs a life.
         </p>
-        <div className="rounded-lg p-3 mb-3 space-y-1 bg-[var(--bg-hover)]">
+        <div className="rounded-lg p-3 mb-3 space-y-1 chroma-bg-hover">
           <p className="text-sm chroma-text-primary">
-            <Badge variant="correct" className="chroma-tab-active inline-flex mr-1.5 px-[1px_8px]">Daily</Badge>
+            <Badge variant="correct" className="chroma-tab-active inline-flex mr-1.5 p-[6px_10px]">Daily</Badge>
             <span className="chroma-text-secondary">One puzzle per day, same for everyone. Streaks and stats tracked.</span>
           </p>
           <p className="text-sm chroma-text-primary">
-            <Badge variant="correct" className="chroma-tab-active inline-flex mr-1.5 px-[1px_8px]">Free Play</Badge>
+            <Badge variant="correct" className="chroma-tab-active inline-flex mr-1.5 p-[6px_10px]">Free Play</Badge>
             <span className="chroma-text-secondary">Random puzzles, practice mode with score.</span>
           </p>
         </div>

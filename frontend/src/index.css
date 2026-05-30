@@ -435,6 +435,14 @@ body {
   border-radius: var(--r-sm);
 }
 
+/* ── CHROMA utility classes (component-agnostic) ── */
+.chroma-shake {
+  animation: chroma-shake 0.4s ease-in-out;
+}
+.chroma-bg-hover {
+  background: var(--bg-hover);
+}
+
 /* ── Animations ────────────────────────────────── */
 @keyframes chroma-shake {
   0%, 100% { transform: translateX(0); }
