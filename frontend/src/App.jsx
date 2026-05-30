@@ -322,11 +322,11 @@ export default function App() {
         >
           {/* Clues */}
           <p className="text-base mb-1 chroma-text-secondary">
-            <Icon name="psychology" size={16} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+            <Icon name="psychology" size={16} className="align-middle mr-1" />
             Clue 1: <strong className="chroma-text-primary">{puzzle.clue1}</strong>
           </p>
           <p className="text-base mb-5 chroma-text-secondary">
-            <Icon name="psychology" size={16} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+            <Icon name="psychology" size={16} className="align-middle mr-1" />
             Clue 2: <strong className="chroma-text-primary">{puzzle.clue2}</strong>
           </p>
 
@@ -442,7 +442,7 @@ export default function App() {
                 {copied ? 'Copied!' : 'Share Result'}
               </ChromaButton>
               <p className="text-xs chroma-text-tertiary">
-                <Icon name="schedule" size={14} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+                <Icon name="schedule" size={14} className="align-middle mr-1" />
                 Next puzzle in {nextTimer}
               </p>
             </div>
@@ -511,25 +511,18 @@ export default function App() {
         <p className="text-sm mb-3 chroma-text-secondary">
           Guess the word they both point to. Each wrong guess costs a life, and each hint you reveal also costs a life.
         </p>
-        <div
-          className="rounded-lg p-3 mb-3 space-y-1"
-          style={{ background: 'var(--bg-hover)' }}
-        >
+        <div className="rounded-lg p-3 mb-3 space-y-1 bg-[var(--bg-hover)]">
           <p className="text-sm chroma-text-primary">
-            <Badge variant="correct" className="chroma-tab-active" style={{ display: 'inline-flex', marginRight: 6, padding: '1px 8px' }}>
-              Daily
-            </Badge>
+            <Badge variant="correct" className="chroma-tab-active inline-flex mr-1.5 px-[1px_8px]">Daily</Badge>
             <span className="chroma-text-secondary">One puzzle per day, same for everyone. Streaks and stats tracked.</span>
           </p>
           <p className="text-sm chroma-text-primary">
-            <Badge variant="correct" className="chroma-tab-active" style={{ display: 'inline-flex', marginRight: 6, padding: '1px 8px' }}>
-              Free Play
-            </Badge>
+            <Badge variant="correct" className="chroma-tab-active inline-flex mr-1.5 px-[1px_8px]">Free Play</Badge>
             <span className="chroma-text-secondary">Random puzzles, practice mode with score.</span>
           </p>
         </div>
         <p className="text-sm chroma-text-tertiary">
-          <Icon name="rocket_launch" size={16} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+          <Icon name="rocket_launch" size={16} className="align-middle mr-1" />
           Good luck!
         </p>
       </Modal>
