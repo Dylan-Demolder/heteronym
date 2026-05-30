@@ -269,10 +269,10 @@ export default function App() {
   }
 
   return (
-    <main className="min-h-screen bg-chroma-mesh flex flex-col items-center px-4 py-6 transition-colors duration-300">
+    <main className="chroma-min-h-screen bg-chroma-mesh chroma-flex chroma-flex-col chroma-items-center chroma-px-4 chroma-py-6 chroma-transition-colors chroma-duration-300">
 
       {/* Header bar */}
-      <div className="w-full max-w-md flex items-center justify-between mb-5">
+      <div className="chroma-w-full chroma-max-w-md chroma-flex chroma-items-center chroma-justify-between chroma-mb-5">
         <ChromaButton variant="ghost" size="sm" icon="info" onClick={() => setShowInfo(true)}>
           Info
         </ChromaButton>
@@ -286,7 +286,7 @@ export default function App() {
           onChange={handleTabChange}
         />
 
-        <div className="flex items-center gap-2">
+        <div className="chroma-flex chroma-items-center chroma-gap-2">
           <ChromaButton variant="ghost" size="sm" icon="bar_chart" onClick={() => setShowStats(true)} />
           <ChromaButton
             variant="ghost"
@@ -299,34 +299,34 @@ export default function App() {
       </div>
 
       {/* Title */}
-      <h1 className="font-display text-3xl font-bold mb-1 chroma-text-balance">Heteronym</h1>
+      <h1 className="chroma-font-display chroma-text-3xl chroma-font-bold chroma-mb-1 chroma-text-balance">Heteronym</h1>
       {mode === 'daily' && (
-        <p className="text-xs chroma-text-tertiary">Puzzle #{dailyPuzzleNum + 1}</p>
+        <p className="chroma-text-xs chroma-text-tertiary">Puzzle #{dailyPuzzleNum + 1}</p>
       )}
-      <p className="text-sm md:text-base mb-1 text-center max-w-md chroma-text-secondary">
+      <p className="chroma-text-sm chroma-md-text-base chroma-mb-1 chroma-text-center chroma-max-w-md chroma-text-secondary">
         Two clues point to one hidden synonym
       </p>
 
       {/* Lives */}
-      <div className="mb-4 mt-1">
+      <div className="chroma-mb-4 chroma-mt-1">
         <HeartsDisplay total={4} active={lives} animate={false} />
       </div>
 
       {loading ? (
-        <Skeleton width={400} height={300} radius="var(--r-lg)" className="max-w-full" />
+        <Skeleton width={400} height={300} radius="var(--r-lg)" className="chroma-max-w-full" />
       ) : puzzle && (
         <GlassPanel
           ref={puzzleCardRef}
           padding={24}
-          className="w-full max-w-md text-center relative"
+          className="chroma-w-full chroma-max-w-md chroma-text-center chroma-relative"
         >
           {/* Clues */}
-          <p className="text-base mb-1 chroma-text-secondary">
-            <Icon name="psychology" size={16} className="align-middle mr-1" />
+          <p className="chroma-text-base chroma-mb-1 chroma-text-secondary">
+            <Icon name="psychology" size={16} className="chroma-align-middle chroma-mr-1" />
             Clue 1: <strong className="chroma-text-primary">{puzzle.clue1}</strong>
           </p>
-          <p className="text-base mb-5 chroma-text-secondary">
-            <Icon name="psychology" size={16} className="align-middle mr-1" />
+          <p className="chroma-text-base chroma-mb-5 chroma-text-secondary">
+            <Icon name="psychology" size={16} className="chroma-align-middle chroma-mr-1" />
             Clue 2: <strong className="chroma-text-primary">{puzzle.clue2}</strong>
           </p>
 
@@ -342,7 +342,7 @@ export default function App() {
                 onKeyDown={handleKeyDown}
                 autoFocus
               />
-              <div className="flex gap-2 mt-3 mb-4">
+              <div className="chroma-flex chroma-gap-2 chroma-mt-3 chroma-mb-4">
                 <ChromaButton
                   variant="primary"
                   icon="arrow_forward"
@@ -369,7 +369,7 @@ export default function App() {
 
               {/* Give Up — shown when lives exhausted but answer not yet revealed */}
               {lives === 0 && !result && (
-                <div className="mb-4">
+                <div className="chroma-mb-4">
                   <ChromaButton variant="ghost" icon="visibility" fullWidth onClick={handleGiveUp}>
                     Give Up / Show Answer
                   </ChromaButton>
@@ -380,7 +380,7 @@ export default function App() {
 
           {/* Result message */}
           {result && (
-            <p className={`text-base font-semibold mb-3 ${
+            <p className={`chroma-text-base chroma-font-semibold chroma-mb-3 ${
               lives === 0 && !result.correct
                 ? 'chroma-text-red'
                 : result.correct
@@ -401,11 +401,11 @@ export default function App() {
 
           {/* Hints */}
           {hintIndex > 0 && (
-            <div className="mb-3">
-              <p className="text-xs mb-1 chroma-text-tertiary">Hints revealed:</p>
-              <ul className="space-y-0.5">
+            <div className="chroma-mb-3">
+              <p className="chroma-text-xs chroma-mb-1 chroma-text-tertiary">Hints revealed:</p>
+              <ul className="chroma-space-y-0h">
                 {puzzle.hints.slice(0, hintIndex).map((h, i) => (
-                  <li key={i} className="text-sm chroma-text-secondary">
+                  <li key={i} className="chroma-text-sm chroma-text-secondary">
                     <Icon name="lightbulb" size={14} color="var(--amber)" /> {h}
                   </li>
                 ))}
@@ -415,9 +415,9 @@ export default function App() {
 
           {/* Previous guesses */}
           {guesses.length > 0 && (
-            <div className="mb-3">
-              <p className="text-xs mb-1 chroma-text-tertiary">Your guesses:</p>
-              <div className="flex flex-wrap gap-1.5 justify-center">
+            <div className="chroma-mb-3">
+              <p className="chroma-text-xs chroma-mb-1 chroma-text-tertiary">Your guesses:</p>
+              <div className="chroma-flex chroma-flex-wrap chroma-gap-1h chroma-justify-center">
                 {guesses.map((g, i) => (
                   <Badge
                     key={i}
@@ -432,7 +432,7 @@ export default function App() {
 
           {/* Post-completion actions (daily mode) */}
           {mode === 'daily' && (result?.correct || (lives === 0 && result)) && (
-            <div className="mt-4 space-y-3">
+            <div className="chroma-mt-4 chroma-space-y-3">
               <ChromaButton
                 variant="primary"
                 icon={copied ? 'check' : 'share'}
@@ -441,8 +441,8 @@ export default function App() {
               >
                 {copied ? 'Copied!' : 'Share Result'}
               </ChromaButton>
-              <p className="text-xs chroma-text-tertiary">
-                <Icon name="schedule" size={14} className="align-middle mr-1" />
+              <p className="chroma-text-xs chroma-text-tertiary">
+                <Icon name="schedule" size={14} className="chroma-align-middle chroma-mr-1" />
                 Next puzzle in {nextTimer}
               </p>
             </div>
@@ -450,7 +450,7 @@ export default function App() {
 
           {/* Free play next */}
           {mode === 'freeplay' && (result?.correct || (lives === 0 && result)) && (
-            <ChromaButton variant="ghost" icon="arrow_forward" onClick={loadPuzzle} className="mt-4">
+            <ChromaButton variant="ghost" icon="arrow_forward" onClick={loadPuzzle} className="chroma-mt-4">
               Next Puzzle
             </ChromaButton>
           )}
@@ -459,13 +459,13 @@ export default function App() {
 
       {/* Score (free play) */}
       {mode === 'freeplay' && (
-        <p className="mt-3 text-sm chroma-text-tertiary">
+        <p className="chroma-mt-3 chroma-text-sm chroma-text-tertiary">
           Score: <strong className="chroma-text-violet">{score}</strong>
         </p>
       )}
 
       {/* Carbon Ads */}
-      <div id="carbonads" className="mt-6 w-full max-w-md flex justify-center min-h-[100px]" />
+      <div id="carbonads" className="chroma-mt-6 chroma-w-full chroma-max-w-md chroma-flex chroma-justify-center chroma-min-h-ad" />
       <script
         async
         type="text/javascript"
@@ -478,26 +478,26 @@ export default function App() {
         href="https://ko-fi.com/dylandemolder"
         target="_blank"
         rel="noopener noreferrer"
-        className="chroma-link mt-3"
+        className="chroma-link chroma-mt-3"
       >
         <Icon name="coffee" size={16} /> Support the game
       </a>
 
       {/* Stats modal */}
       <Modal open={showStats} onClose={() => setShowStats(false)} title="Statistics">
-        <div className="grid grid-cols-4 gap-3 text-center mb-4">
+        <div className="chroma-grid chroma-grid-cols-4 chroma-gap-3 chroma-text-center chroma-mb-4">
           <StatCard value={stats.gamesPlayed} label="Played" compact />
           <StatCard value={stats.gamesPlayed > 0 ? Math.round(stats.wins / stats.gamesPlayed * 100) : 0} label="Win %" compact />
           <StatCard value={stats.currentStreak} label="Streak" compact accent />
           <StatCard value={stats.maxStreak} label="Max" compact />
         </div>
         {stats.wins > 0 && (
-          <p className="text-sm text-center chroma-text-tertiary">
+          <p className="chroma-text-sm chroma-text-center chroma-text-tertiary">
             Avg guesses: <strong className="chroma-text-primary">{(stats.totalGuesses / stats.wins).toFixed(1)}</strong>
           </p>
         )}
         {stats.gaveUp > 0 && (
-          <p className="text-sm text-center chroma-text-tertiary">
+          <p className="chroma-text-sm chroma-text-center chroma-text-tertiary">
             Gave up: <strong className="chroma-text-violet">{stats.gaveUp}</strong>
           </p>
         )}
@@ -505,24 +505,24 @@ export default function App() {
 
       {/* Info modal */}
       <Modal open={showInfo} onClose={() => setShowInfo(false)} title="How to Play" titleIcon="info">
-        <p className="text-sm mb-3 chroma-text-secondary">
+        <p className="chroma-text-sm chroma-mb-3 chroma-text-secondary">
           You're given two clues. Both are synonyms of the same hidden word — a <strong className="chroma-text-primary">heteronym</strong> (spelled the same, different meanings).
         </p>
-        <p className="text-sm mb-3 chroma-text-secondary">
+        <p className="chroma-text-sm chroma-mb-3 chroma-text-secondary">
           Guess the word they both point to. Each wrong guess costs a life, and each hint you reveal also costs a life.
         </p>
-        <div className="rounded-lg p-3 mb-3 space-y-1 chroma-bg-hover">
-          <p className="text-sm chroma-text-primary">
-            <Badge variant="correct" className="chroma-tab-active inline-flex mr-1.5 p-[6px_10px]">Daily</Badge>
+        <div className="chroma-rounded-lg chroma-p-3 chroma-mb-3 chroma-space-y-1 chroma-bg-hover">
+          <p className="chroma-text-sm chroma-text-primary">
+            <Badge variant="correct" className="chroma-tab-active chroma-inline-flex chroma-mr-1h p-3">Daily</Badge>
             <span className="chroma-text-secondary">One puzzle per day, same for everyone. Streaks and stats tracked.</span>
           </p>
-          <p className="text-sm chroma-text-primary">
-            <Badge variant="correct" className="chroma-tab-active inline-flex mr-1.5 p-[6px_10px]">Free Play</Badge>
+          <p className="chroma-text-sm chroma-text-primary">
+            <Badge variant="correct" className="chroma-tab-active chroma-inline-flex chroma-mr-1h p-3">Free Play</Badge>
             <span className="chroma-text-secondary">Random puzzles, practice mode with score.</span>
           </p>
         </div>
-        <p className="text-sm chroma-text-tertiary">
-          <Icon name="rocket_launch" size={16} className="align-middle mr-1" />
+        <p className="chroma-text-sm chroma-text-tertiary">
+          <Icon name="rocket_launch" size={16} className="chroma-align-middle chroma-mr-1" />
           Good luck!
         </p>
       </Modal>
