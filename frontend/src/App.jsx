@@ -47,6 +47,7 @@ export default function App() {
   const [gaveUp, setGaveUp] = useState(false)
   const inputRef = useRef()
   const puzzleCardRef = useRef()
+  const adsRef = useRef()
 
   const setStats = useCallback(s => { setStatsRaw(s); saveStats(s) }, [])
 
@@ -65,6 +66,17 @@ export default function App() {
     }
     tick(); const id = setInterval(tick, 1000)
     return () => clearInterval(id)
+  }, [])
+
+  // Carbon Ads — load script after mount so div exists
+  useEffect(() => {
+    if (!adsRef.current || document.getElementById('_carbonads_js')) return
+    const s = document.createElement('script')
+    s.async = true
+    s.type = 'text/javascript'
+    s.src = '//cdn.carbonads.com/carbon.js?serve=CESI52J7&placement=heteronymonline'
+    s.id = '_carbonads_js'
+    adsRef.current.appendChild(s)
   }, [])
 
   // Load puzzle
@@ -229,7 +241,7 @@ export default function App() {
     }
     lines.push(grid.join(''))
     lines.push('')
-    lines.push('heteronym.online')
+    lines.push('https://heteronym.online')
 
     const text = lines.join('\\n')
 
@@ -441,6 +453,28 @@ export default function App() {
               >
                 {copied ? 'Copied!' : 'Share Result'}
               </ChromaButton>
+              {/* Social share links */}
+              <div className="chroma-flex chroma-gap-2 chroma-justify-center">
+                <ChromaButton
+                  variant="ghost"
+                  size="sm"
+                  icon="alternate_email"
+                  onClick={() => {
+                    const text = encodeURIComponent(
+                      `Heteronym #${dailyPuzzleNum + 1}` +
+                      (result?.correct
+                        ? ` ✅ Solved in ${guesses.length} guess${guesses.length === 1 ? '' : 's'}`
+                        : gaveUp
+                          ? ` 🙌 Gave up`
+                          : ` ❌ Out of lives`) +
+                      `\nhttps://heteronym.online`
+                    )
+                    window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank', 'noopener')
+                  }}
+                >
+                  X
+                </ChromaButton>
+              </div>
               <p className="chroma-text-xs chroma-text-tertiary">
                 <Icon name="schedule" size={14} className="chroma-align-middle chroma-mr-1" />
                 Next puzzle in {nextTimer}
@@ -465,13 +499,7 @@ export default function App() {
       )}
 
       {/* Carbon Ads */}
-      <div id="carbonads" className="chroma-mt-6 chroma-w-full chroma-max-w-md chroma-flex chroma-justify-center chroma-min-h-ad" />
-      <script
-        async
-        type="text/javascript"
-        src="//cdn.carbonads.com/carbon.js?serve=CESI52J7&placement=heteronymonline"
-        id="_carbonads_js"
-      ></script>
+      <div ref={adsRef} id="carbonads" className="chroma-mt-6 chroma-w-full chroma-max-w-md chroma-flex chroma-justify-center chroma-min-h-ad" />
 
       {/* Support link */}
       <a
