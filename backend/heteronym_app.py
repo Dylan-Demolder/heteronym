@@ -310,6 +310,20 @@ def app(environ, start_response):
         new_id = str(uuid.uuid4())
         return json_resp(start_response, {"player_id": new_id})
 
+    # --- Reset all streaks (admin) ---
+    if path == "/reset" and method == "POST":
+        conn = get_db()
+        try:
+            conn.execute("DELETE FROM solved_puzzles")
+            conn.execute("DELETE FROM streaks")
+            conn.commit()
+            return json_resp(start_response, {
+                "status": "ok",
+                "message": "All streaks and solved puzzles have been reset to 0.",
+            })
+        finally:
+            conn.close()
+
     return json_resp(start_response, {"error": "Not found"}, "404 Not Found")
 
 
