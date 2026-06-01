@@ -215,9 +215,9 @@ export default function App() {
     if (result?.correct) {
       lines.push(`✅ Solved in ${guesses.length} guess${guesses.length === 1 ? '' : 's'} · ${hintIndex} hint${hintIndex === 1 ? '' : 's'}`)
     } else if (gaveUp) {
-      lines.push(`🙌 Gave up — answer: ${result?.answer}`)
+      lines.push('🙌 Gave up')
     } else {
-      lines.push(`❌ Out of lives — answer: ${result?.answer}`)
+      lines.push('❌ Out of lives')
     }
     // Emoji visualization: 🔍 for hint, 🔴 for wrong, 🟩 for correct
     let visual = ''
