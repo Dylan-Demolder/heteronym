@@ -27,14 +27,14 @@ Compound,Mix,Enclosure,Mixture,Fort,Combine,Hard
 Check,Bill,Examine,Inspect,Receipt,Mark,Easy
 Pound,Hit,Weight,Beat,Smash,Unit,Medium
 Can,Container,Able,Jar,Tin,Capable,Easy
-Engage,Book,Employ,Recruit,Hire,Involve,Hard
+Engage,Attract,Hire,Recruit,Employ,Involve,Hard
 Close,Shut,Near,Seal,End,Adjacent,Easy
 Bound,Limit,Leap,Jump,Restrict,Tie,Medium
 Mold,Form,Fungus,Shape,Mildew,Imprint,Hard
 Subject,Topic,Expose,Reveal,Theme,Area,Hard
 Row,Line,Fight,Dispute,Tier,Argument,Medium
 Right,Correct,Entitled,Just,Legal,Fair,Easy
-Bass,Lead,Scale,Deep,Tone,Fish,Medium
+Bass,Low,Trout,Deep,Fish,Scale,Medium
 Break,Fracture,Pause,Stop,Rest,Snap,Easy
 Refuse,Deny,Trash,Reject,Decline,Garbage,Medium
 Charge,Accuse,Power,Battery,Attack,Fee,Medium
@@ -95,7 +95,7 @@ Waste,Garbage,Squander,Rubbish,Misuse,Dump,Easy
 Wing,Feather,Squadron,Fly,Division,Air,Medium
 Wire,Cable,Telegram,Copper,Message,Send,Medium
 Stool,Chair,Feces,Stairs,Excrement,Sit,Hard
-Wood,Forest,Timber,Pulp,Plank,Plywood,Easy
+Wood,Grove,Lumber,Pulp,Plank,Plywood,Easy
 Pool,Swim,Carpool,Together,Water,Lake,Easy
 Lap,Knee,Circuit,Around,Leg,Cross,Easy
 Fall,Drop,Autumn,Plummet,Tumble,Season,Easy
