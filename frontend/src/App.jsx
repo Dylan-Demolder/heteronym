@@ -219,19 +219,18 @@ export default function App() {
     } else {
       lines.push(`❌ Out of lives — answer: ${result?.answer}`)
     }
-    // Emoji grid: 🔴 for wrong, 🟢 for correct, 🔍 for hints used
-    const grid = guesses.map((g, i) => {
+    // Emoji visualization: 🔍 for hint, 🔴 for wrong, 🟩 for correct
+    let visual = ''
+    if (hintIndex > 0) visual += '🔍'.repeat(hintIndex)
+    visual += guesses.map((g, i) => {
       if (i === guesses.length - 1 && result?.correct) return '🟩'
       return '🔴'
-    })
-    if (hintIndex > 0) {
-      lines.push('🔍'.repeat(hintIndex))
-    }
-    lines.push(grid.join(''))
+    }).join('')
+    lines.push(visual)
     lines.push('')
     lines.push('heteronym.online')
 
-    const text = lines.join('\\n')
+    const text = lines.join('\n')
 
     // Native share API with clipboard fallback
     if (navigator.share) {
