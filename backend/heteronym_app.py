@@ -7,11 +7,13 @@ import os
 import json as json_mod
 import csv
 import random
-import hashlib
 import sqlite3
 import uuid
 from datetime import date, datetime, timedelta
 from pathlib import Path
+
+# --- Sequential daily puzzle epoch ---
+SEQ_EPOCH = date(2026, 6, 1)
 
 # --- SQLite Database ---
 DB_PATH = Path(__file__).parent / "heteronym.db"
@@ -121,7 +123,7 @@ def app(environ, start_response):
             "puzzles": len(puzzles),
         })
 
-    # --- Daily puzzle ---
+    # --- Daily puzzle (sequential from June 1, 2026) ---
     if path == "/daily":
         if not puzzles:
             return json_resp(start_response,
@@ -137,9 +139,8 @@ def app(environ, start_response):
         else:
             target_date = date.today()
 
-        date_str = target_date.isoformat()
-        seed = int(hashlib.md5(date_str.encode()).hexdigest(), 16)
-        idx = seed % len(puzzles)
+        delta = (target_date - SEQ_EPOCH).days
+        idx = delta % len(puzzles)
         puzzle = puzzles[idx]
 
         return json_resp(start_response, {
@@ -151,7 +152,7 @@ def app(environ, start_response):
                 puzzle.get("Hint 3", ""),
             ],
             "id": idx,
-            "date": date_str,
+            "date": target_date.isoformat(),
         })
 
     # --- Random puzzle ---

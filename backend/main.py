@@ -4,10 +4,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import csv
 import random
-import hashlib
 from datetime import date
 
 app = FastAPI()
+
+# --- Sequential daily puzzle epoch ---
+SEQ_EPOCH = date(2026, 6, 1)
 
 # Allow CORS
 app.add_middleware(
@@ -41,9 +43,7 @@ def get_daily_puzzle(d: str = None):
     else:
         target_date = date.today()
 
-    date_str = target_date.isoformat()
-    seed = int(hashlib.md5(date_str.encode()).hexdigest(), 16)
-    idx = seed % len(puzzles)
+    idx = (target_date - SEQ_EPOCH).days % len(puzzles)
 
     puzzle = puzzles[idx]
     return {
@@ -51,7 +51,7 @@ def get_daily_puzzle(d: str = None):
         "clue2": puzzle["Clue 2"],
         "hints": [puzzle["Hint 1"], puzzle["Hint 2"], puzzle["Hint 3"]],
         "id": idx,
-        "date": date_str,
+        "date": target_date.isoformat(),
     }
 
 
