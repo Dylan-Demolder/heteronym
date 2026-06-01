@@ -228,7 +228,7 @@ export default function App() {
     }).join('')
     lines.push(visual)
     lines.push('')
-    lines.push('heteronym.online')
+    lines.push('https://heteronym.online')
 
     const text = lines.join('\n')
 
