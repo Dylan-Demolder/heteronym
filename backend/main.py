@@ -73,4 +73,4 @@ def check_guess(puzzle_id: int, guess: str):
 
     correct_answer = puzzles[puzzle_id]["Answer"].strip().lower()
     is_correct = guess.strip().lower() == correct_answer
-    return {"correct": is_correct, "answer": correct_answer if not is_correct else None}
+    return {"correct": is_correct}

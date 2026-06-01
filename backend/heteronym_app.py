@@ -194,7 +194,23 @@ def app(environ, start_response):
         is_correct = guess.strip().lower() == correct_answer
         return json_resp(start_response, {
             "correct": is_correct,
-            "answer": correct_answer if not is_correct else None,
+        })
+
+    # --- Reveal answer (out of lives / give up) ---
+    if path == "/reveal":
+        try:
+            puzzle_id = int(params.get("puzzle_id", -1))
+        except (ValueError, TypeError):
+            return json_resp(start_response,
+                             {"error": "Invalid parameters"}, "400 Bad Request")
+
+        if puzzle_id < 0 or puzzle_id >= len(puzzles):
+            return json_resp(start_response,
+                             {"error": "Puzzle not found"}, "404 Not Found")
+
+        answer = puzzles[puzzle_id].get("Answer", "")
+        return json_resp(start_response, {
+            "answer": answer,
         })
 
     # --- Get streak/player stats ---

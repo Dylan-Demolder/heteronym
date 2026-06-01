@@ -45,6 +45,7 @@ export default function App() {
   const [dailyPuzzleNum, setDailyPuzzleNum] = useState(0)
   const [loading, setLoading] = useState(true)
   const [gaveUp, setGaveUp] = useState(false)
+  const [revealedAnswer, setRevealedAnswer] = useState(null)
   const inputRef = useRef()
   const puzzleCardRef = useRef()
 
@@ -73,6 +74,7 @@ export default function App() {
     setShowCompletion(false)
     setCopied(false)
     setGaveUp(false)
+    setRevealedAnswer(null)
 
     if (mode === 'daily') {
       const saved = loadDaily(today())
@@ -82,6 +84,7 @@ export default function App() {
         setHintIndex(saved.hintIndex)
         setLives(saved.lives)
         setResult(saved.result)
+        setRevealedAnswer(saved.revealedAnswer || null)
         setShowCompletion(true)
         setLoading(false)
         return
@@ -152,6 +155,12 @@ export default function App() {
         setHintIndex(i => i + 1)
       }
       setLives(l => l - 1)
+      // Last life lost — fetch the answer for the reveal dialog
+      if (lives === 1) {
+        fetch(`${API}/reveal?puzzle_id=${puzzle.id}`).then(r => r.json()).then(d => {
+          setRevealedAnswer(d.answer)
+        })
+      }
     }
   }
 
@@ -170,9 +179,9 @@ export default function App() {
 
   const handleGiveUp = async () => {
     if (!puzzle) return
-    const res = await fetch(`${API}/guess?puzzle_id=${puzzle.id}&guess=`, { method: 'POST' })
+    const res = await fetch(`${API}/reveal?puzzle_id=${puzzle.id}`)
     const data = await res.json()
-    setResult(data)
+    setRevealedAnswer(data.answer)
     setGaveUp(true)
   }
 
@@ -181,7 +190,7 @@ export default function App() {
     if (!puzzle || mode !== 'daily' || !result) return
     if (!result.correct && lives > 0 && !gaveUp) return // still playing
 
-    const state = { puzzle, guesses, hintIndex, lives, result, completed: true }
+    const state = { puzzle, guesses, hintIndex, lives, result, revealedAnswer, completed: true }
     saveDaily(today(), state)
 
     if (stats.lastPlayedDate === today()) return // already counted
@@ -400,9 +409,9 @@ export default function App() {
               ) : lives > 0 ? (
                 <><Icon name="close" size={18} color="var(--red)" /> Nope, try again!</>
               ) : gaveUp ? (
-                <><Icon name="visibility" size={18} color="var(--violet)" /> Gave up — the answer was <strong>{result.answer}</strong></>
+                <><Icon name="visibility" size={18} color="var(--violet)" /> Gave up — the answer was <strong>{revealedAnswer}</strong></>
               ) : (
-                <><Icon name="heart_broken" size={18} color="var(--red)" /> Out of lives — <strong>{result.answer}</strong></>
+                <><Icon name="heart_broken" size={18} color="var(--red)" /> Out of lives — <strong>{revealedAnswer}</strong></>
               )}
             </p>
           )}
