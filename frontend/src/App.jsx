@@ -68,6 +68,18 @@ export default function App() {
     return () => clearInterval(id)
   }, [])
 
+  // Load Adsterra ad script
+  useEffect(() => {
+    const existing = document.querySelector('script[src*="effectivecpmnetwork"]')
+    if (existing) return
+    const s = document.createElement('script')
+    s.async = true
+    s.setAttribute('data-cfasync', 'false')
+    s.src = 'https://pl29639886.effectivecpmnetwork.com/549cbeb6999c4e80413bcd2218d2532b/invoke.js'
+    document.body.appendChild(s)
+    return () => { s.remove() }
+  }, [])
+
   // Load puzzle
   useEffect(() => {
     setLoading(true)
@@ -477,14 +489,10 @@ export default function App() {
         </p>
       )}
 
-      {/* Carbon Ads */}
-      <div id="carbonads" className="mt-6 w-full max-w-md flex justify-center min-h-[100px]" />
-      <script
-        async
-        type="text/javascript"
-        src="//cdn.carbonads.com/carbon.js?serve=CESI52J7&placement=heteronymonline"
-        id="_carbonads_js"
-      ></script>
+      {/* Adsterra native banner */}
+      <div className="mt-6 w-full max-w-md flex justify-center min-h-[120px]">
+        <div id="container-549cbeb6999c4e80413bcd2218d2532b" />
+      </div>
 
       {/* Support link */}
       <a
@@ -501,13 +509,6 @@ export default function App() {
       >
         <Icon name="coffee" size={16} /> Support the game
       </a>
-
-      {/* Ad banner (placeholder) */}
-      <div
-        id="ad-banner"
-        className="mt-4 w-full max-w-md flex justify-center min-h-[60px]"
-        style={{ display: 'none' }}
-      />
 
       {/* Stats modal */}
       {showStats && (
