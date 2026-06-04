@@ -10,8 +10,15 @@ heteronym/
 │   ├── main.py       # API endpoints + static file serving
 │   ├── puzzles.csv   # 50 puzzle definitions
 │   └── requirements.txt
-├── frontend/         # React SPA (Vite + Tailwind)
-│   ├── src/          # React components
+|── frontend/         # React SPA (Vite + Tailwind + CHROMA design)
+│   ├── src/          # React components + CHROMA component library
+│   │   ├── App.jsx   # Main game UI — fully CHROMA-integrated
+│   │   ├── chroma/   # 10 reusable CHROMA components
+│   │   │   ├── Badge.jsx, ChromaButton.jsx, GlassPanel.jsx
+│   │   │   ├── HeartsDisplay.jsx, Icon.jsx, Input.jsx
+│   │   │   ├── Modal.jsx, Skeleton.jsx, StatCard.jsx, Tabs.jsx
+│   │   │   └── index.js          # Barrel export
+│   │   └── index.css             # CHROMA tokens, glass effects, animations
 │   └── package.json
 ├── render.yaml       # Render Blueprint — single deploy
 └── README.md

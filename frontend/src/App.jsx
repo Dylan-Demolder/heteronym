@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
-import { HeartsDisplay, GlassPanel, ChromaButton, StatCard, Icon } from './chroma'
+import { HeartsDisplay, GlassPanel, ChromaButton, StatCard, Icon, Badge, Input, Modal, Tabs, Skeleton } from './chroma'
 
 const API = '/api'
 const STATS_KEY = 'heteronym_stats'
@@ -48,6 +48,7 @@ export default function App() {
   const [revealedAnswer, setRevealedAnswer] = useState(null)
   const inputRef = useRef()
   const puzzleCardRef = useRef()
+  const adsRef = useRef()
 
   const setStats = useCallback(s => { setStatsRaw(s); saveStats(s) }, [])
 
@@ -284,95 +285,85 @@ export default function App() {
     if (e.key === 'Enter') submitGuess()
   }
 
+  const handleTabChange = (id) => {
+    setMode(id)
+  }
+
   return (
-    <main className="min-h-screen bg-chroma-mesh flex flex-col items-center px-4 py-6 transition-colors duration-300">
+    <main className="chroma-min-h-screen bg-chroma-mesh chroma-flex chroma-flex-col chroma-items-center chroma-px-4 chroma-py-6 chroma-transition-colors chroma-duration-300">
 
       {/* Header bar */}
-      <div className="w-full max-w-md flex items-center justify-between mb-5">
+      <div className="chroma-w-full chroma-max-w-md chroma-flex chroma-items-center chroma-justify-between chroma-mb-5">
         <ChromaButton variant="ghost" size="sm" icon="info" onClick={() => setShowInfo(true)}>
           Info
         </ChromaButton>
 
-        <div className="chroma-tabs-bar">
-          <button
-            onClick={() => setMode('daily')}
-            className={`chroma-tab ${mode === 'daily' ? 'chroma-tab-active' : ''}`}
-          >
-            Daily
-          </button>
-          <button
-            onClick={() => setMode('freeplay')}
-            className={`chroma-tab ${mode === 'freeplay' ? 'chroma-tab-active' : ''}`}
-          >
-            Free Play
-          </button>
-        </div>
+        <Tabs
+          tabs={[
+            { id: 'daily', label: 'Daily' },
+            { id: 'freeplay', label: 'Free Play' },
+          ]}
+          activeId={mode}
+          onChange={handleTabChange}
+        />
 
-        <div className="flex items-center gap-2">
+        <div className="chroma-flex chroma-items-center chroma-gap-2">
           <ChromaButton variant="ghost" size="sm" icon="bar_chart" onClick={() => setShowStats(true)} />
-          <button
+          <ChromaButton
+            variant="ghost"
+            size="sm"
+            icon={theme === 'light' ? 'dark_mode' : 'light_mode'}
             onClick={toggleTheme}
-            className="chroma-btn chroma-btn-ghost chroma-btn-sm"
             aria-label="Toggle theme"
-          >
-            <Icon name={theme === 'light' ? 'dark_mode' : 'light_mode'} size={18} />
-          </button>
+          />
         </div>
       </div>
 
       {/* Title */}
-      <h1 className="font-display text-3xl font-bold mb-1 text-balance">Heteronym</h1>
+      <h1 className="chroma-font-display chroma-text-3xl chroma-font-bold chroma-mb-1 chroma-text-balance">Heteronym</h1>
       {mode === 'daily' && (
-        <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>Puzzle #{dailyPuzzleNum + 1}</p>
+        <p className="chroma-text-xs chroma-text-tertiary">Puzzle #{dailyPuzzleNum + 1}</p>
       )}
-      <p
-        className="text-sm md:text-base mb-1 text-center max-w-md"
-        style={{ color: 'var(--text-secondary)' }}
-      >
+      <p className="chroma-text-sm chroma-md-text-base chroma-mb-1 chroma-text-center chroma-max-w-md chroma-text-secondary">
         Two clues point to one hidden synonym
       </p>
 
       {/* Lives */}
-      <div className="mb-4 mt-1">
+      <div className="chroma-mb-4 chroma-mt-1">
         <HeartsDisplay total={4} active={lives} animate={false} />
       </div>
 
       {loading ? (
-        <div className="chroma-skeleton" style={{ width: 400, height: 300, maxWidth: '100%', borderRadius: 'var(--r-lg)' }} />
+        <Skeleton width={400} height={300} radius="var(--r-lg)" className="chroma-max-w-full" />
       ) : puzzle && (
         <GlassPanel
           ref={puzzleCardRef}
           padding={24}
-          className="w-full max-w-md text-center relative"
+          className="chroma-w-full chroma-max-w-md chroma-text-center chroma-relative"
         >
           {/* Clues */}
-          <p className="text-base mb-1" style={{ color: 'var(--text-secondary)' }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 16, verticalAlign: 'middle', marginRight: 4 }}>
-              psychology
-            </span>
-            Clue 1: <strong style={{ color: 'var(--text-primary)' }}>{puzzle.clue1}</strong>
+          <p className="chroma-text-base chroma-mb-1 chroma-text-secondary">
+            <Icon name="psychology" size={16} className="chroma-align-middle chroma-mr-1" />
+            Clue 1: <strong className="chroma-text-primary">{puzzle.clue1}</strong>
           </p>
-          <p className="text-base mb-5" style={{ color: 'var(--text-secondary)' }}>
-            <span className="material-symbols-outlined" style={{ fontSize: 16, verticalAlign: 'middle', marginRight: 4 }}>
-              psychology
-            </span>
-            Clue 2: <strong style={{ color: 'var(--text-primary)' }}>{puzzle.clue2}</strong>
+          <p className="chroma-text-base chroma-mb-5 chroma-text-secondary">
+            <Icon name="psychology" size={16} className="chroma-align-middle chroma-mr-1" />
+            Clue 2: <strong className="chroma-text-primary">{puzzle.clue2}</strong>
           </p>
 
           {/* Input & buttons */}
           {!(result?.correct || (lives === 0 && result) || gaveUp) && (
             <>
-              <input
+              <Input
                 ref={inputRef}
                 type="text"
-                className="chroma-input mb-3"
                 placeholder="Your guess..."
                 value={guess}
                 onChange={(e) => setGuess(e.target.value)}
                 onKeyDown={handleKeyDown}
                 autoFocus
               />
-              <div className="flex gap-2 mb-4">
+              <div className="chroma-flex chroma-gap-2 chroma-mt-3 chroma-mb-4">
                 <ChromaButton
                   variant="primary"
                   icon="arrow_forward"
@@ -399,7 +390,7 @@ export default function App() {
 
               {/* Give Up — shown when 1 life left (3 lost) or exhausted, giving up reveals answer */}
               {lives <= 1 && !result && (
-                <div className="mb-4">
+                <div className="chroma-mb-4">
                   <ChromaButton variant="ghost" icon="visibility" fullWidth onClick={handleGiveUp}>
                     Give Up / Show Answer
                   </ChromaButton>
@@ -410,12 +401,11 @@ export default function App() {
 
           {/* Result message */}
           {result && (
-            <p
-              className="text-base font-semibold mb-3"
-              style={{
-                color: gaveUp ? 'var(--violet)' : lives === 0 && !result.correct ? 'var(--red)' : result.correct ? 'var(--green)' : 'var(--amber)'
-              }}
-            >
+            <p className={`chroma-text-base chroma-font-semibold chroma-mb-3 ${
+              gaveUp ? 'chroma-text-violet' :
+              lives === 0 && !result.correct ? 'chroma-text-red' :
+              result.correct ? 'chroma-text-green' : 'chroma-text-amber'
+            }`}>
               {result.correct ? (
                 <><Icon name="check_circle" size={18} color="var(--green)" filled /> Correct!</>
               ) : gaveUp ? (
@@ -430,11 +420,11 @@ export default function App() {
 
           {/* Hints */}
           {hintIndex > 0 && (
-            <div className="mb-3">
-              <p className="text-xs mb-1" style={{ color: 'var(--text-tertiary)' }}>Hints revealed:</p>
-              <ul className="space-y-0.5">
+            <div className="chroma-mb-3">
+              <p className="chroma-text-xs chroma-mb-1 chroma-text-tertiary">Hints revealed:</p>
+              <ul className="chroma-space-y-0h">
                 {puzzle.hints.slice(0, hintIndex).map((h, i) => (
-                  <li key={i} className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  <li key={i} className="chroma-text-sm chroma-text-secondary">
                     <Icon name="lightbulb" size={14} color="var(--amber)" /> {h}
                   </li>
                 ))}
@@ -444,16 +434,16 @@ export default function App() {
 
           {/* Previous guesses */}
           {guesses.length > 0 && (
-            <div className="mb-3">
-              <p className="text-xs mb-1" style={{ color: 'var(--text-tertiary)' }}>Your guesses:</p>
-              <div className="flex flex-wrap gap-1.5 justify-center">
+            <div className="chroma-mb-3">
+              <p className="chroma-text-xs chroma-mb-1 chroma-text-tertiary">Your guesses:</p>
+              <div className="chroma-flex chroma-flex-wrap chroma-gap-1h chroma-justify-center">
                 {guesses.map((g, i) => (
-                  <span
+                  <Badge
                     key={i}
-                    className={`chroma-badge ${i === guesses.length - 1 && result?.correct ? 'chroma-badge-correct' : 'chroma-badge-wrong'}`}
+                    variant={i === guesses.length - 1 && result?.correct ? 'correct' : 'wrong'}
                   >
                     {g}
-                  </span>
+                  </Badge>
                 ))}
               </div>
             </div>
@@ -461,13 +451,39 @@ export default function App() {
 
           {/* Post-completion actions (daily mode) */}
           {mode === 'daily' && (result?.correct || (lives === 0 && result) || gaveUp) && (
-            <div className="mt-4 space-y-3">
-              <button onClick={shareResult} className="chroma-share-btn">
-                <Icon name={copied ? 'check' : 'share'} size={18} filled={copied} />
+            <div className="chroma-mt-4 chroma-space-y-3">
+              <ChromaButton
+                variant="primary"
+                icon={copied ? 'check' : 'share'}
+                fullWidth
+                onClick={shareResult}
+              >
                 {copied ? 'Copied!' : 'Share Result'}
-              </button>
-              <p className="text-xs" style={{ color: 'var(--text-tertiary)' }}>
-                <Icon name="schedule" size={14} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+              </ChromaButton>
+              {/* Social share links */}
+              <div className="chroma-flex chroma-gap-2 chroma-justify-center">
+                <ChromaButton
+                  variant="ghost"
+                  size="sm"
+                  icon="alternate_email"
+                  onClick={() => {
+                    const text = encodeURIComponent(
+                      `Heteronym #${dailyPuzzleNum + 1}` +
+                      (result?.correct
+                        ? ` ✅ Solved in ${guesses.length} guess${guesses.length === 1 ? '' : 's'}`
+                        : gaveUp
+                          ? ` 🙌 Gave up`
+                          : ` ❌ Out of lives`) +
+                      `\nhttps://heteronym.online`
+                    )
+                    window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank', 'noopener')
+                  }}
+                >
+                  X
+                </ChromaButton>
+              </div>
+              <p className="chroma-text-xs chroma-text-tertiary">
+                <Icon name="schedule" size={14} className="chroma-align-middle chroma-mr-1" />
                 Next puzzle in {nextTimer}
               </p>
             </div>
@@ -475,7 +491,7 @@ export default function App() {
 
           {/* Free play next */}
           {mode === 'freeplay' && (result?.correct || (lives === 0 && result) || gaveUp) && (
-            <ChromaButton variant="ghost" icon="arrow_forward" onClick={loadPuzzle} className="mt-4">
+            <ChromaButton variant="ghost" icon="arrow_forward" onClick={loadPuzzle} className="chroma-mt-4">
               Next Puzzle
             </ChromaButton>
           )}
@@ -484,13 +500,13 @@ export default function App() {
 
       {/* Score (free play) */}
       {mode === 'freeplay' && (
-        <p className="mt-3 text-sm" style={{ color: 'var(--text-tertiary)' }}>
-          Score: <strong style={{ color: 'var(--violet)' }}>{score}</strong>
+        <p className="chroma-mt-3 chroma-text-sm chroma-text-tertiary">
+          Score: <strong className="chroma-text-violet">{score}</strong>
         </p>
       )}
 
       {/* Adsterra native banner */}
-      <div className="mt-6 w-full max-w-md flex justify-center min-h-[120px]">
+      <div className="chroma-mt-6 chroma-w-full chroma-max-w-md chroma-flex chroma-justify-center chroma-min-h-ad">
         <div id="container-549cbeb6999c4e80413bcd2218d2532b" />
       </div>
 
@@ -499,92 +515,55 @@ export default function App() {
         href="https://ko-fi.com/dylandemolder"
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors"
-        style={{
-          background: 'rgba(245, 158, 11, 0.1)',
-          color: 'var(--amber)',
-        }}
-        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(245, 158, 11, 0.2)' }}
-        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(245, 158, 11, 0.1)' }}
+        className="chroma-link chroma-mt-3"
       >
         <Icon name="coffee" size={16} /> Support the game
       </a>
 
       {/* Stats modal */}
-      {showStats && (
-        <div className="chroma-overlay" onClick={() => setShowStats(false)}>
-          <div className="chroma-modal" onClick={e => e.stopPropagation()}>
-            <button onClick={() => setShowStats(false)} className="chroma-modal-close">✕</button>
-            <div style={{ padding: '24px' }}>
-              <h2 className="font-display text-xl font-bold mb-5 text-center">Statistics</h2>
-              <div className="grid grid-cols-4 gap-3 text-center mb-4">
-                <StatCard value={stats.gamesPlayed} label="Played" compact />
-                <StatCard value={stats.gamesPlayed > 0 ? Math.round(stats.wins / stats.gamesPlayed * 100) : 0} label="Win %" compact />
-                <StatCard value={stats.currentStreak} label="Streak" compact accent />
-                <StatCard value={stats.maxStreak} label="Max" compact />
-              </div>
-              {stats.wins > 0 && (
-                <p className="text-sm text-center" style={{ color: 'var(--text-tertiary)' }}>
-                  Avg guesses: <strong style={{ color: 'var(--text-primary)' }}>{(stats.totalGuesses / stats.wins).toFixed(1)}</strong>
-                </p>
-              )}
-              {stats.gaveUp > 0 && (
-                <p className="text-sm text-center mt-1" style={{ color: 'var(--text-tertiary)' }}>
-                  Gave up: <strong style={{ color: 'var(--violet)' }}>{stats.gaveUp}</strong>
-                </p>
-              )}
-            </div>
-          </div>
+      <Modal open={showStats} onClose={() => setShowStats(false)} title="Statistics">
+        <div className="chroma-grid chroma-grid-cols-4 chroma-gap-3 chroma-text-center chroma-mb-4">
+          <StatCard value={stats.gamesPlayed} label="Played" compact />
+          <StatCard value={stats.gamesPlayed > 0 ? Math.round(stats.wins / stats.gamesPlayed * 100) : 0} label="Win %" compact />
+          <StatCard value={stats.currentStreak} label="Streak" compact accent />
+          <StatCard value={stats.maxStreak} label="Max" compact />
         </div>
-      )}
+        {stats.wins > 0 && (
+          <p className="chroma-text-sm chroma-text-center chroma-text-tertiary">
+            Avg guesses: <strong className="chroma-text-primary">{(stats.totalGuesses / stats.wins).toFixed(1)}</strong>
+          </p>
+        )}
+        {stats.gaveUp > 0 && (
+          <p className="chroma-text-sm chroma-text-center chroma-text-tertiary">
+            Gave up: <strong className="chroma-text-violet">{stats.gaveUp}</strong>
+          </p>
+        )}
+      </Modal>
 
       {/* Info modal */}
-      {showInfo && (
-        <div className="chroma-overlay" onClick={() => setShowInfo(false)}>
-          <div className="chroma-modal" onClick={e => e.stopPropagation()}>
-            <button onClick={() => setShowInfo(false)} className="chroma-modal-close">✕</button>
-            <div style={{ padding: '24px' }}>
-              <div className="flex items-center gap-2 mb-4">
-                <Icon name="info" size={22} color="var(--violet)" filled />
-                <h2 className="font-display text-xl font-bold">How to Play</h2>
-              </div>
-              <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
-                You're given two clues. Both are synonyms of the same hidden word — a <strong style={{ color: 'var(--text-primary)' }}>heteronym</strong> (spelled the same, different meanings).
-              </p>
-              <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
-                Guess the word they both point to. Each wrong guess costs a life, and each hint you reveal also costs a life.
-              </p>
-              <div
-                className="rounded-lg p-3 mb-3 space-y-1"
-                style={{ background: 'var(--bg-hover)' }}
-              >
-                <p className="text-sm" style={{ color: 'var(--text-primary)' }}>
-                  <span
-                    className="chroma-badge chroma-tab-active"
-                    style={{ display: 'inline-flex', marginRight: 6, padding: '1px 8px' }}
-                  >
-                    Daily
-                  </span>
-                  <span style={{ color: 'var(--text-secondary)' }}>One puzzle per day, same for everyone. Streaks and stats tracked.</span>
-                </p>
-                <p className="text-sm" style={{ color: 'var(--text-primary)' }}>
-                  <span
-                    className="chroma-badge chroma-tab-active"
-                    style={{ display: 'inline-flex', marginRight: 6, padding: '1px 8px' }}
-                  >
-                    Free Play
-                  </span>
-                  <span style={{ color: 'var(--text-secondary)' }}>Random puzzles, practice mode with score.</span>
-                </p>
-              </div>
-              <p className="text-sm" style={{ color: 'var(--text-tertiary)' }}>
-                <Icon name="rocket_launch" size={16} style={{ verticalAlign: 'middle', marginRight: 4 }} />
-                Good luck!
-              </p>
-            </div>
-          </div>
+      <Modal open={showInfo} onClose={() => setShowInfo(false)} title="How to Play" titleIcon="info">
+        <p className="chroma-text-sm chroma-mb-3 chroma-text-secondary">
+          You're given two clues. Both are synonyms of the same hidden word — a <strong className="chroma-text-primary">heteronym</strong> (spelled the same, different meanings).
+        </p>
+        <p className="chroma-text-sm chroma-mb-3 chroma-text-secondary">
+          Guess the word they both point to. Each wrong guess costs a life, and each hint you reveal also costs a life.
+        </p>
+        <div className="chroma-rounded-lg chroma-p-3 chroma-mb-3 chroma-space-y-1 chroma-bg-hover">
+          <p className="chroma-text-sm chroma-text-primary">
+            <Badge variant="correct" className="chroma-tab-active chroma-inline-flex chroma-mr-1h p-3">Daily</Badge>
+            <span className="chroma-text-secondary">One puzzle per day, same for everyone. Streaks and stats tracked.</span>
+          </p>
+          <p className="chroma-text-sm chroma-text-primary">
+            <Badge variant="correct" className="chroma-tab-active chroma-inline-flex chroma-mr-1h p-3">Free Play</Badge>
+            <span className="chroma-text-secondary">Random puzzles, practice mode with score.</span>
+          </p>
         </div>
-      )}
+        <p className="chroma-text-sm chroma-text-tertiary">
+          <Icon name="rocket_launch" size={16} className="chroma-align-middle chroma-mr-1" />
+          Good luck!
+        </p>
+      </Modal>
+
     </main>
   )
 }
