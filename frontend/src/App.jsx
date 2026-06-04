@@ -360,7 +360,7 @@ export default function App() {
           </p>
 
           {/* Input & buttons */}
-          {!(result?.correct || (lives === 0 && result)) && (
+          {!(result?.correct || (lives === 0 && result) || gaveUp) && (
             <>
               <input
                 ref={inputRef}
@@ -397,8 +397,8 @@ export default function App() {
                 )}
               </div>
 
-              {/* Give Up — shown when lives exhausted but answer not yet revealed */}
-              {lives === 0 && !result && (
+              {/* Give Up — shown when 1 life left (3 lost) or exhausted, giving up reveals answer */}
+              {lives <= 1 && !result && (
                 <div className="mb-4">
                   <ChromaButton variant="ghost" icon="visibility" fullWidth onClick={handleGiveUp}>
                     Give Up / Show Answer
@@ -413,15 +413,15 @@ export default function App() {
             <p
               className="text-base font-semibold mb-3"
               style={{
-                color: lives === 0 && !result.correct ? 'var(--red)' : result.correct ? 'var(--green)' : 'var(--amber)'
+                color: gaveUp ? 'var(--violet)' : lives === 0 && !result.correct ? 'var(--red)' : result.correct ? 'var(--green)' : 'var(--amber)'
               }}
             >
               {result.correct ? (
                 <><Icon name="check_circle" size={18} color="var(--green)" filled /> Correct!</>
-              ) : lives > 0 ? (
-                <><Icon name="close" size={18} color="var(--red)" /> Nope, try again!</>
               ) : gaveUp ? (
                 <><Icon name="visibility" size={18} color="var(--violet)" /> Gave up — the answer was <strong>{revealedAnswer}</strong></>
+              ) : lives > 0 ? (
+                <><Icon name="close" size={18} color="var(--red)" /> Nope, try again!</>
               ) : (
                 <><Icon name="heart_broken" size={18} color="var(--red)" /> Out of lives — <strong>{revealedAnswer}</strong></>
               )}
@@ -460,7 +460,7 @@ export default function App() {
           )}
 
           {/* Post-completion actions (daily mode) */}
-          {mode === 'daily' && (result?.correct || (lives === 0 && result)) && (
+          {mode === 'daily' && (result?.correct || (lives === 0 && result) || gaveUp) && (
             <div className="mt-4 space-y-3">
               <button onClick={shareResult} className="chroma-share-btn">
                 <Icon name={copied ? 'check' : 'share'} size={18} filled={copied} />
@@ -474,7 +474,7 @@ export default function App() {
           )}
 
           {/* Free play next */}
-          {mode === 'freeplay' && (result?.correct || (lives === 0 && result)) && (
+          {mode === 'freeplay' && (result?.correct || (lives === 0 && result) || gaveUp) && (
             <ChromaButton variant="ghost" icon="arrow_forward" onClick={loadPuzzle} className="mt-4">
               Next Puzzle
             </ChromaButton>
