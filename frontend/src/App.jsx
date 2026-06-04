@@ -502,6 +502,13 @@ export default function App() {
         <Icon name="coffee" size={16} /> Support the game
       </a>
 
+      {/* Ad banner (placeholder) */}
+      <div
+        id="ad-banner"
+        className="mt-4 w-full max-w-md flex justify-center min-h-[60px]"
+        style={{ display: 'none' }}
+      />
+
       {/* Stats modal */}
       {showStats && (
         <div className="chroma-overlay" onClick={() => setShowStats(false)}>
