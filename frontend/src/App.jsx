@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { HeartsDisplay, GlassPanel, ChromaButton, StatCard, Icon, Badge, Input, Modal, Tabs, Skeleton } from './chroma'
+import Archive from './Archive'
 
 const API = '/api'
 const STATS_KEY = 'heteronym_stats'
@@ -51,6 +52,8 @@ export default function App() {
   const [gaveUp, setGaveUp] = useState(false)
   const [revealedAnswer, setRevealedAnswer] = useState(null)
   const [challengeMode] = useState(challengeId !== null && challengeId !== '')
+  const [showArchive, setShowArchive] = useState(false)
+  const [archivePuzzleId, setArchivePuzzleId] = useState(null)
   const inputRef = useRef()
   const puzzleCardRef = useRef()
   const adsRef = useRef()
@@ -115,6 +118,30 @@ export default function App() {
       return
     }
 
+    // Archive mode: load a specific puzzle by ID
+    if (archivePuzzleId !== null) {
+      fetch(`${API}/puzzle/${archivePuzzleId}`).then(r => {
+        if (!r.ok) throw new Error('Puzzle not found')
+        return r.json()
+      }).then(data => {
+        setPuzzle(data)
+        setDailyPuzzleNum(data.id)
+        setGuesses([])
+        setHintIndex(0)
+        setLives(4)
+        setResult(null)
+        setShowArchive(false)
+        setArchivePuzzleId(null)
+        setLoading(false)
+      }).catch(() => {
+        setMode('daily')
+        setShowArchive(false)
+        setArchivePuzzleId(null)
+        setLoading(false)
+      })
+      return
+    }
+
     if (mode === 'daily') {
       const saved = loadDaily(today())
       if (saved?.completed) {
@@ -156,7 +183,7 @@ export default function App() {
         setLoading(false)
       })
     }
-  }, [mode])
+  }, [mode, archivePuzzleId])
 
   const loadPuzzle = async () => {
     setResult(null)
@@ -340,6 +367,7 @@ export default function App() {
         />
 
         <div className="chroma-flex chroma-items-center chroma-gap-2">
+          <ChromaButton variant="ghost" size="sm" icon="history" onClick={() => setShowArchive(true)} />
           <ChromaButton variant="ghost" size="sm" icon="bar_chart" onClick={() => setShowStats(true)} />
           <ChromaButton
             variant="ghost"
@@ -611,6 +639,21 @@ export default function App() {
           Good luck!
         </p>
       </Modal>
+
+      {/* Puzzle Archive */}
+      {showArchive && (
+        <div className="chroma-fixed chroma-inset-0 chroma-z-50 chroma-bg-primary chroma-overflow-y-auto chroma-p-4">
+          <div className="chroma-w-full chroma-max-w-md chroma-mx-auto">
+            <div className="chroma-flex chroma-items-center chroma-justify-between chroma-mb-4">
+              <h2 className="chroma-text-xl chroma-font-bold chroma-text-primary">Archive</h2>
+              <ChromaButton variant="ghost" size="sm" icon="close" onClick={() => setShowArchive(false)}>
+                Close
+              </ChromaButton>
+            </div>
+            <Archive onSelectPuzzle={(id) => setArchivePuzzleId(id)} />
+          </div>
+        </div>
+      )}
 
     </main>
   )
