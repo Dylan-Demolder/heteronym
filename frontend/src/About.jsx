@@ -63,6 +63,22 @@ export default function About() {
         </a>
       </GlassPanel>
 
+      <GlassPanel padding={24} className="chroma-w-full chroma-text-center chroma-mb-4">
+        <h3 className="chroma-text-base chroma-font-semibold chroma-text-primary chroma-mb-3">
+          <Icon name="alternate_email" size={16} className="chroma-align-middle chroma-mr-1" />
+          Contact & Social
+        </h3>
+        <p className="chroma-text-sm chroma-text-secondary chroma-mb-3">
+          Coming soon — follow along for updates, behind-the-scenes, and more word puzzles!
+        </p>
+        <div className="chroma-flex chroma-flex-col chroma-gap-2 chroma-items-center">
+          <span className="chroma-text-xs chroma-text-tertiary chroma-flex chroma-items-center chroma-gap-1">
+            <Icon name="mail" size={14} />
+            Contact form coming soon
+          </span>
+        </div>
+      </GlassPanel>
+
       <p className="chroma-text-xs chroma-text-center chroma-text-tertiary chroma-pb-4">
         Made with <Icon name="favorite" size={12} color="var(--red)" filled /> by Dylan Demolder
       </p>

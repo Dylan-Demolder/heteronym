@@ -57,7 +57,7 @@ export default function App() {
   const [challengeMode] = useState(challengeId !== null && challengeId !== '')
   const [showArchive, setShowArchive] = useState(() => urlParams.get('page') === 'archive')
   const [archivePuzzleId, setArchivePuzzleId] = useState(null)
-  const [showAbout, setShowAbout] = useState(false)
+  const [showAbout, setShowAbout] = useState(() => urlParams.get('page') === 'about')
   const [showBlog, setShowBlog] = useState(false)
   const [blogPostSlug, setBlogPostSlug] = useState(null)
   const inputRef = useRef()
@@ -71,22 +71,25 @@ export default function App() {
     document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 
-  // Sync archive state with URL for /archive route support
+  // Sync archive / about state with URL for ?page route support
   useEffect(() => {
     const url = new URL(window.location)
     if (showArchive) {
       url.searchParams.set('page', 'archive')
+    } else if (showAbout) {
+      url.searchParams.set('page', 'about')
     } else {
       url.searchParams.delete('page')
     }
     window.history.replaceState(null, '', url.toString())
-  }, [showArchive])
+  }, [showArchive, showAbout])
 
-  // Listen for back/forward navigation to sync archive state
+  // Listen for back/forward navigation to sync overlay state
   useEffect(() => {
     const handlePop = () => {
       const params = new URLSearchParams(window.location.search)
       setShowArchive(params.get('page') === 'archive')
+      setShowAbout(params.get('page') === 'about')
     }
     window.addEventListener('popstate', handlePop)
     return () => window.removeEventListener('popstate', handlePop)
@@ -394,6 +397,7 @@ export default function App() {
         />
 
         <div className="chroma-flex chroma-items-center chroma-gap-2">
+          <ChromaButton variant="ghost" size="sm" icon="info" onClick={() => setShowAbout(true)} />
           <ChromaButton variant="ghost" size="sm" icon="history" onClick={() => setShowArchive(true)} />
           <ChromaButton variant="ghost" size="sm" icon="bar_chart" onClick={() => setShowStats(true)} />
           <ChromaButton
