@@ -20,6 +20,33 @@ export default function BlogPost({ slug, onBack }) {
       })
   }, [slug])
 
+  // SEO: update document title and meta tags when a post is loaded
+  useEffect(() => {
+    if (!post) return
+    const prevTitle = document.title
+    const prevDesc = document.querySelector('meta[name="description"]')?.getAttribute('content') || ''
+    const prevOgTitle = document.querySelector('meta[property="og:title"]')?.getAttribute('content') || ''
+    const prevOgDesc = document.querySelector('meta[property="og:description"]')?.getAttribute('content') || ''
+
+    document.title = `${post.title} — Heteronym Blog`
+    const descMeta = document.querySelector('meta[name="description"]')
+    if (descMeta) descMeta.setAttribute('content', post.description)
+    const ogTitle = document.querySelector('meta[property="og:title"]')
+    if (ogTitle) ogTitle.setAttribute('content', post.title)
+    const ogDesc = document.querySelector('meta[property="og:description"]')
+    if (ogDesc) ogDesc.setAttribute('content', post.description)
+
+    return () => {
+      document.title = prevTitle
+      const dm = document.querySelector('meta[name="description"]')
+      if (dm) dm.setAttribute('content', prevDesc)
+      const ot = document.querySelector('meta[property="og:title"]')
+      if (ot) ot.setAttribute('content', prevOgTitle)
+      const od = document.querySelector('meta[property="og:description"]')
+      if (od) od.setAttribute('content', prevOgDesc)
+    }
+  }, [post])
+
   if (loading) {
     return (
       <div className="chroma-w-full chroma-max-w-md chroma-mx-auto">
@@ -57,6 +84,11 @@ export default function BlogPost({ slug, onBack }) {
         </p>
 
         {post.content?.map((block, i) => renderBlock(block, i))}
+
+        {/* Ad unit inside blog post */}
+        <div className="chroma-mt-5 chroma-w-full chroma-flex chroma-justify-center chroma-min-h-ad">
+          <div id="container-549cbeb6999c4e80413bcd2218d2532b" />
+        </div>
       </GlassPanel>
     </div>
   )

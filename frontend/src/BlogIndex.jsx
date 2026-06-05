@@ -20,6 +20,13 @@ export default function BlogIndex({ onSelectPost }) {
       })
   }, [])
 
+  // SEO: set blog listing title
+  useEffect(() => {
+    const prevTitle = document.title
+    document.title = 'Blog — Heteronym'
+    return () => { document.title = prevTitle }
+  }, [])
+
   if (loading) {
     return (
       <div className="chroma-w-full chroma-max-w-md chroma-mx-auto">
@@ -63,6 +70,11 @@ export default function BlogIndex({ onSelectPost }) {
           </div>
         </GlassPanel>
       ))}
+
+      {/* Ad unit at bottom of blog listing */}
+      <div className="chroma-w-full chroma-flex chroma-justify-center chroma-min-h-ad chroma-pt-2">
+        <div id="container-549cbeb6999c4e80413bcd2218d2532b" />
+      </div>
     </div>
   )
 }
