@@ -27,6 +27,10 @@ function loadDaily(d) {
 function saveDaily(d, s) { localStorage.setItem(`heteronym_daily_${d}`, JSON.stringify(s)) }
 
 export default function App() {
+  // Parse challenge param from URL on mount
+  const urlParams = new URLSearchParams(typeof window !== 'undefined' ? window.location.search : '')
+  const challengeId = urlParams.get('challenge')
+
   const [mode, setMode] = useState('daily')
   const [puzzle, setPuzzle] = useState(null)
   const [guess, setGuess] = useState('')
@@ -46,6 +50,7 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [gaveUp, setGaveUp] = useState(false)
   const [revealedAnswer, setRevealedAnswer] = useState(null)
+  const [challengeMode] = useState(challengeId !== null && challengeId !== '')
   const inputRef = useRef()
   const puzzleCardRef = useRef()
   const adsRef = useRef()
@@ -88,6 +93,27 @@ export default function App() {
     setCopied(false)
     setGaveUp(false)
     setRevealedAnswer(null)
+
+    // Challenge mode: load a specific puzzle by ID
+    if (challengeMode && challengeId) {
+      fetch(`${API}/puzzle/${challengeId}`).then(r => {
+        if (!r.ok) throw new Error('Puzzle not found')
+        return r.json()
+      }).then(data => {
+        setPuzzle(data)
+        setDailyPuzzleNum(data.id)
+        setGuesses([])
+        setHintIndex(0)
+        setLives(4)
+        setResult(null)
+        setLoading(false)
+      }).catch(() => {
+        // Fallback to daily if challenge puzzle not found
+        setMode('daily')
+        setLoading(false)
+      })
+      return
+    }
 
     if (mode === 'daily') {
       const saved = loadDaily(today())
@@ -233,6 +259,10 @@ export default function App() {
   }
 
   const shareResult = async () => {
+    const isChallenge = challengeMode
+    const siteUrl = isChallenge
+      ? `https://heteronym.online/?challenge=${dailyPuzzleNum}`
+      : 'https://heteronym.online'
     const lines = [`Heteronym — Puzzle #${dailyPuzzleNum + 1}`]
     if (result?.correct) {
       lines.push(`✅ Solved in ${guesses.length} guess${guesses.length === 1 ? '' : 's'} · ${hintIndex} hint${hintIndex === 1 ? '' : 's'}`)
@@ -252,7 +282,7 @@ export default function App() {
     lines.push(visual.trimEnd())
     lines.push(`🔥 Streak: ${stats.currentStreak}`)
     lines.push('')
-    lines.push('https://heteronym.online')
+    lines.push(siteUrl)
 
     const text = lines.join('\n')
 
@@ -324,7 +354,10 @@ export default function App() {
       {/* Title */}
       <h1 className="chroma-font-display chroma-text-3xl chroma-font-bold chroma-mb-1 chroma-text-balance">Heteronym</h1>
       {mode === 'daily' && (
-        <p className="chroma-text-xs chroma-text-tertiary">Puzzle #{dailyPuzzleNum + 1}</p>
+        <p className="chroma-text-xs chroma-text-tertiary">
+          Puzzle #{dailyPuzzleNum + 1}
+          {challengeMode && <Badge variant="accent" className="chroma-ml-1h">Challenge</Badge>}
+        </p>
       )}
       <p className="chroma-text-xs chroma-text-violet chroma-font-semibold chroma-mb-1">
         🔥 Streak: {stats.currentStreak}
@@ -481,11 +514,14 @@ export default function App() {
                     } else {
                       grid = '🟪\n'
                     }
+                    const shareUrl = challengeMode
+                      ? `https://heteronym.online/?challenge=${dailyPuzzleNum}`
+                      : `https://heteronym.online`
                     const tweetLines = [
                       `Heteronym — Puzzle #${dailyPuzzleNum + 1}`,
                       grid.trimEnd(),
                       `🔥 Streak: ${stats.currentStreak}`,
-                      `https://heteronym.online`,
+                      shareUrl,
                     ]
                     const text = encodeURIComponent(tweetLines.join('\n'))
                     window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank', 'noopener')

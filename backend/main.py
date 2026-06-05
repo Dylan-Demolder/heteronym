@@ -66,6 +66,33 @@ def get_puzzle():
     }
 
 
+@app.get("/api/puzzle/{puzzle_id}")
+def get_puzzle_by_id(puzzle_id: int):
+    if puzzle_id < 0 or puzzle_id >= len(puzzles):
+        raise HTTPException(status_code=404, detail="Puzzle not found")
+    puzzle = puzzles[puzzle_id]
+    return {
+        "clue1": puzzle["Clue 1"],
+        "clue2": puzzle["Clue 2"],
+        "hints": [puzzle["Hint 1"], puzzle["Hint 2"], puzzle["Hint 3"]],
+        "id": puzzle_id,
+    }
+
+
+@app.get("/api/archive")
+def get_archive():
+    """Return a list of past/available puzzle IDs with their dates from epoch to today."""
+    from datetime import date, timedelta
+    today = date.today()
+    archive = []
+    d = SEQ_EPOCH
+    while d <= today:
+        idx = (d - SEQ_EPOCH).days % len(puzzles)
+        archive.append({"id": idx, "date": d.isoformat()})
+        d += timedelta(days=1)
+    return archive
+
+
 @app.post("/api/guess")
 def check_guess(puzzle_id: int, guess: str):
     if puzzle_id < 0 or puzzle_id >= len(puzzles):
