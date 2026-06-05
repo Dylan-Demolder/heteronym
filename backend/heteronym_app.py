@@ -202,7 +202,13 @@ def app(environ, start_response):
         d = SEQ_EPOCH
         while d <= today:
             idx = (d - SEQ_EPOCH).days % len(puzzles) if puzzles else 0
-            archive.append({"id": idx, "date": d.isoformat()})
+            p = puzzles[idx] if puzzles else {}
+            archive.append({
+                "id": idx,
+                "date": d.isoformat(),
+                "clue1": p.get("Clue 1", ""),
+                "clue2": p.get("Clue 2", ""),
+            })
             d += timedelta(days=1)
         return json_resp(start_response, archive)
 

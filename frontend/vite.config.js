@@ -5,8 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/puzzle': 'http://localhost:8000',
-      '/guess': 'http://localhost:8000',
+      '/api': 'http://localhost:8000',
     },
   },
 })

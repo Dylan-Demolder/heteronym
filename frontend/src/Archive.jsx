@@ -70,12 +70,19 @@ export default function Archive({ onSelectPuzzle }) {
         return (
           <GlassPanel key={entry.date} padding={12} className="chroma-w-full">
             <div className="chroma-flex chroma-items-center chroma-justify-between">
-              <div className="chroma-flex chroma-flex-col chroma-text-left">
-                <span className="chroma-text-sm chroma-text-primary">
+              <div className="chroma-flex chroma-flex-col chroma-text-left chroma-flex-1 chroma-mr-2">
+                <span className="chroma-text-sm chroma-text-primary chroma-mb-0h">
                   <Icon name="puzzle-piece" size={14} className="chroma-align-middle chroma-mr-1" />
                   Puzzle #{entry.id + 1}
                 </span>
-                <span className="chroma-text-xs chroma-text-tertiary">{formatted}</span>
+                <span className="chroma-text-xs chroma-text-tertiary chroma-mb-1">{formatted}</span>
+                {/* Show clue previews */}
+                <div className="chroma-text-xs chroma-text-secondary chroma-leading-tight">
+                  <span className="chroma-text-violet">\u26a1</span> {entry.clue1}
+                </div>
+                <div className="chroma-text-xs chroma-text-secondary chroma-leading-tight">
+                  <span className="chroma-text-violet">\u26a1</span> {entry.clue2}
+                </div>
               </div>
               <ChromaButton
                 variant="ghost"

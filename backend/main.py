@@ -81,14 +81,20 @@ def get_puzzle_by_id(puzzle_id: int):
 
 @app.get("/api/archive")
 def get_archive():
-    """Return a list of past/available puzzle IDs with their dates from epoch to today."""
+    """Return a list of past/available puzzle IDs with their dates and clues from epoch to today."""
     from datetime import date, timedelta
     today = date.today()
     archive = []
     d = SEQ_EPOCH
     while d <= today:
         idx = (d - SEQ_EPOCH).days % len(puzzles)
-        archive.append({"id": idx, "date": d.isoformat()})
+        p = puzzles[idx]
+        archive.append({
+            "id": idx,
+            "date": d.isoformat(),
+            "clue1": p["Clue 1"],
+            "clue2": p["Clue 2"],
+        })
         d += timedelta(days=1)
     return archive
 

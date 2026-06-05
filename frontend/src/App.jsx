@@ -55,7 +55,7 @@ export default function App() {
   const [gaveUp, setGaveUp] = useState(false)
   const [revealedAnswer, setRevealedAnswer] = useState(null)
   const [challengeMode] = useState(challengeId !== null && challengeId !== '')
-  const [showArchive, setShowArchive] = useState(false)
+  const [showArchive, setShowArchive] = useState(() => urlParams.get('page') === 'archive')
   const [archivePuzzleId, setArchivePuzzleId] = useState(null)
   const [showAbout, setShowAbout] = useState(false)
   const [showBlog, setShowBlog] = useState(false)
@@ -70,6 +70,27 @@ export default function App() {
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
+
+  // Sync archive state with URL for /archive route support
+  useEffect(() => {
+    const url = new URL(window.location)
+    if (showArchive) {
+      url.searchParams.set('page', 'archive')
+    } else {
+      url.searchParams.delete('page')
+    }
+    window.history.replaceState(null, '', url.toString())
+  }, [showArchive])
+
+  // Listen for back/forward navigation to sync archive state
+  useEffect(() => {
+    const handlePop = () => {
+      const params = new URLSearchParams(window.location.search)
+      setShowArchive(params.get('page') === 'archive')
+    }
+    window.addEventListener('popstate', handlePop)
+    return () => window.removeEventListener('popstate', handlePop)
+  }, [])
 
   // Countdown to midnight
   useEffect(() => {
