@@ -1,0 +1,147 @@
+{
+  "title": "5 Daily Word Games That Challenge Different Parts of Your Brain",
+  "slug": "5-daily-word-games-different-brain",
+  "date": "2026-06-05",
+  "description": "Not all word games are the same. From deduction to vocabulary to lateral thinking, here are 5 daily word games that exercise different cognitive skills.",
+  "tags": ["word-games", "puzzles", "brain-training", "recommendations"],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Word games exploded in popularity when Wordle took over the internet in 2022. But while Wordle nailed the daily puzzle format, it's not the only word game worth playing. Different puzzles challenge different cognitive skills — and rotating through them is like a full mental workout."
+    },
+    {
+      "type": "paragraph",
+      "text": "Here are 5 daily word games, each exercising a unique part of your brain."
+    },
+    {
+      "type": "heading",
+      "text": "1. Heteronym — Lateral Thinking & Vocabulary"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cognitive skill: Lateral thinking, semantic connection, vocabulary breadth"
+    },
+    {
+      "type": "paragraph",
+      "text": "Heteronym (at heteronym.online) is a daily puzzle where you're given two clues, and you must find the single word that connects them both. The word is always a heteronym — spelled the same with different meanings and pronunciations."
+    },
+    {
+      "type": "paragraph",
+      "text": "Instead of guessing letters (like Wordle), you must make a semantic leap between two seemingly unrelated concepts. For example, clues 'to guide' and 'a metal' both point to 'lead.' Your brain has to explore your mental thesaurus and find the overlapping word."
+    },
+    {
+      "type": "paragraph",
+      "text": "Why it's different: Wordle tests your knowledge of what words look like. Heteronym tests your knowledge of what words MEAN — and your ability to hold multiple meanings in your head simultaneously."
+    },
+    {
+      "type": "cta",
+      "text": "Play today's Heteronym puzzle →",
+      "url": "https://heteronym.online"
+    },
+    {
+      "type": "heading",
+      "text": "2. Wordle — Deduction & Pattern Recognition"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cognitive skill: Deductive reasoning, letter-frequency knowledge, pattern matching"
+    },
+    {
+      "type": "paragraph",
+      "text": "The game that started it all. You have 6 guesses to find a 5-letter word. After each guess, the letters are color-coded: green (right place), yellow (right letter, wrong place), gray (not in the word at all)."
+    },
+    {
+      "type": "paragraph",
+      "text": "Wordle is primarily a logic puzzle disguised as a word game. Experienced players learn letter frequency patterns, common vowel placements, and the art of elimination. Each guess should narrow down the possibilities as much as possible."
+    },
+    {
+      "type": "paragraph",
+      "text": "Best for: Morning warm-ups. The one-a-day limit makes it a ritual, not a time sink."
+    },
+    {
+      "type": "heading",
+      "text": "3. Connections — Categorization & Pattern Recognition"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cognitive skill: Categorization, lateral thinking, group identification"
+    },
+    {
+      "type": "paragraph",
+      "text": "NYT Connections gives you 16 words and asks you to group them into 4 categories of 4 words each. The categories can be based on meaning, wordplay, shared prefixes, or cultural references."
+    },
+    {
+      "type": "paragraph",
+      "text": "What makes Connections special is that it actively tries to trick you. Words can belong to multiple categories, and the red herrings are often the most obvious groupings. You need to resist your first instinct and look for deeper connections."
+    },
+    {
+      "type": "paragraph",
+      "text": "Best for: Pattern recognition training. It teaches you to look past surface-level connections."
+    },
+    {
+      "type": "heading",
+      "text": "4. Semantle — Semantic Search & Thesaurus Navigation"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cognitive skill: Semantic reasoning, synonym knowledge, associative thinking"
+    },
+    {
+      "type": "paragraph",
+      "text": "Semantle is the most unique entry on this list. Instead of guessing letters or categories, you guess words and get a similarity score based on a neural network's understanding of word meaning. You're searching through semantic space, not letter space."
+    },
+    {
+      "type": "paragraph",
+      "text": "A correct guess means you've found the word that the AI model considers most semantically similar to the target. You have to think in concepts, not in letters. If you guess 'ocean' and it's close, you start thinking about water, then deeper bodies of water, then specific seas..."
+    },
+    {
+      "type": "paragraph",
+      "text": "Best for: Vocabulary exploration. You'll discover word relationships you never considered."
+    },
+    {
+      "type": "heading",
+      "text": "5. Spelling Bee — Spelling & Vocabulary Depth"
+    },
+    {
+      "type": "paragraph",
+      "text": "Cognitive skill: Spelling recall, vocabulary depth, anagramming"
+    },
+    {
+      "type": "paragraph",
+      "text": "NYT Spelling Bee presents you with 7 letters and tasks you to find as many words as possible using them. The center letter must be in every word. Finding the pangram (a word using all 7 letters) is the ultimate goal."
+    },
+    {
+      "type": "paragraph",
+      "text": "Spelling Bee rewards breadth of vocabulary and pattern recognition. It's less about deduction and more about recall — how many words can you pull from your mental dictionary that fit the given letters?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Best for: Building vocabulary. Playing regularly trains your brain to spot word patterns and prefixes."
+    },
+    {
+      "type": "heading",
+      "text": "The Daily Puzzle Rotation"
+    },
+    {
+      "type": "paragraph",
+      "text": "Many puzzle enthusiasts have a daily rotation. Here's a recommended order for a complete brain workout:"
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Morning coffee", "definition": "Wordle (deduction) + Heteronym (lateral thinking)"},
+        {"term": "Mid-day break", "definition": "Connections (categorization)"},
+        {"term": "Evening unwind", "definition": "Spelling Bee (vocabulary) or Semantle (semantic exploration)"}
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Each game exercises a different cognitive muscle, and together they provide a well-rounded mental workout that takes less than 15 minutes total."
+    },
+    {
+      "type": "cta",
+      "text": "Start your daily rotation with heteronym.online →",
+      "url": "https://heteronym.online"
+    }
+  ]
+}

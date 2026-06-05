@@ -1,0 +1,78 @@
+{
+  "title": "10 Words That Are Their Own Opposites (Contranyms)",
+  "slug": "words-that-are-their-own-opposites",
+  "date": "2026-06-05",
+  "description": "Contranyms are words that can mean two opposite things — like 'sanction' meaning both 'to approve' and 'to penalize.' Discover 10 fascinating examples and how they work.",
+  "tags": ["contranyms", "linguistics", "word-facts"],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Some words have a strange superpower: they can mean two opposite things. These are called contranyms (also known as auto-antonyms or Janus words, after the two-faced Roman god). They're words that have evolved to carry contradictory meanings — and context is the only way to tell which one is intended."
+    },
+    {
+      "type": "paragraph",
+      "text": "Contranyms are especially relevant to heteronym enthusiasts because they demonstrate the same principle: words can contain multitudes, and the same letters can encode entirely different ideas depending on how you read them. It's like a built-in puzzle in everyday English."
+    },
+    {
+      "type": "heading",
+      "text": "10 Fascinating Contranyms"
+    },
+    {
+      "type": "table",
+      "headers": ["Word", "Meaning 1", "Meaning 2", "Example Sentence"],
+      "rows": [
+        ["sanction", "to approve / authorize", "to penalize / boycott", "The government sanctioned the trade deal (approved). The UN sanctioned the country (penalized)."],
+        ["dust", "to remove dust", "to sprinkle with dust", "I dusted the shelves (cleaned). I dusted the cake with sugar (sprinkled)."],
+        ["cleave", "to split apart", "to cling together", "The axe cleaved the log (split). She will cleave to her beliefs (cling)."],
+        ["oversight", "supervision / watchful care", "an accidental omission", "The project was under careful oversight (supervision). The error was an oversight (mistake)."],
+        ["weather", "to withstand", "to wear away", "The ship weathered the storm (survived). The rocks were weathered by wind (eroded)."],
+        ["screen", "to show / display", "to hide / conceal", "The movie will screen at 8 PM (show). The bushes screen the house from view (hide)."],
+        ["seed", "to plant seeds", "to remove seeds", "I seeded the garden (planted). I seeded the watermelon (removed seeds)."],
+        ["bolt", "to run away", "to fix in place", "The horse bolted (ran away). He bolted the door shut (secured)."],
+        ["trim", "to cut away", "to decorate / add to", "I trimmed the hedges (cut). I trimmed the tree with ornaments (decorated)."],
+        ["rent", "to pay for temporary use", "to receive payment for temporary use", "I rent an apartment from the landlord (pay). The landlord rents the apartment to me (receive payment)."]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "How Do Contranyms Develop?"
+    },
+    {
+      "type": "paragraph",
+      "text": "Contranyms typically arise through one of three linguistic processes:"
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Semantic drift", "definition": "A word's meaning slowly changes over centuries until it arrives at a place where two meanings, both from the same root, end up opposite. 'Sanction' originally meant 'to make sacred' and evolved into both 'to approve' and 'to impose a penalty' through different paths."},
+        {"term": "Polysemy", "definition": "A word develops multiple related meanings, and over time those meanings diverge into opposites depending on perspective. 'Dust' can mean either 'to add dust' or 'to remove dust' depending on whether you see dust as something to apply or eliminate."},
+        {"term": "Schizoid verb", "definition": "Some verbs naturally describe actions that look opposite from different viewpoints. 'Rent' and 'lease' describe the same transaction from the perspective of two different parties."}
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Why You Should Care About Contranyms"
+    },
+    {
+      "type": "paragraph",
+      "text": "Contranyms are a perfect example of why context matters in language — and why word puzzles are so satisfying. When you encounter a word like 'cleave' in a sentence, your brain must instantly decide which of two opposite meanings applies. You do this unconsciously, in milliseconds, based on the surrounding words."
+    },
+    {
+      "type": "paragraph",
+      "text": "This is exactly the mental muscle that heteronym puzzles at heteronym.online exercise: given two clues that seem to point in different directions, can you find the single word that connects them?"
+    },
+    {
+      "type": "cta",
+      "text": "Put your word skills to the test — play today's puzzle →",
+      "url": "https://heteronym.online"
+    },
+    {
+      "type": "heading",
+      "text": "More Word Nerd Content"
+    },
+    {
+      "type": "paragraph",
+      "text": "If you enjoyed this article, check out our guide to heteronyms — words spelled the same but with different pronunciations and meanings. It's like contranyms' linguistic cousin, and it's the inspiration behind our daily puzzle."
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "title": "Homophones vs Homographs vs Heteronyms: A Cheat Sheet",
+  "slug": "homophones-homographs-heteronyms-cheat-sheet",
+  "date": "2026-06-05",
+  "description": "Confused by homophones, homographs, and heteronyms? This clear cheat sheet explains the differences with examples, a comparison table, and memory tricks.",
+  "tags": ["homophones", "homographs", "heteronyms", "linguistics"],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "If you've ever found yourself mixing up homophones, homographs, and heteronyms — you're not alone. Even linguists sometimes need a moment to untangle these four related terms. This cheat sheet will make them crystal clear."
+    },
+    {
+      "type": "heading",
+      "text": "The Quick Version"
+    },
+    {
+      "type": "paragraph",
+      "text": "Here's all you need to know in one sentence: Homophones sound the same (but are spelled differently), homographs look the same (but may sound different), heteronyms are a type of homograph that looks the same AND sounds different, and homonyms is the umbrella term for all of them."
+    },
+    {
+      "type": "heading",
+      "text": "Comparison Table"
+    },
+    {
+      "type": "table",
+      "headers": ["Term", "Spelling", "Pronunciation", "Meaning", "Example"],
+      "rows": [
+        ["Homophone", "Different", "Same", "Different", "there / their / they're"],
+        ["Homograph", "Same", "May differ", "Different", "lead (guide) / lead (metal)"],
+        ["Heteronym", "Same", "Different", "Different", "wind (air) / wind (to coil)"],
+        ["Homonym", "Various", "Various", "Different", "All of the above"]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Detailed Breakdown"
+    },
+    {
+      "type": "heading",
+      "text": "Homophones"
+    },
+    {
+      "type": "paragraph",
+      "text": "Definition: Words that sound the same but have different meanings and spellings. The name comes from 'homo-' (same) + '-phone' (sound). They're the trickiest for spellers."
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Homo-", "definition": "same"},
+        {"term": "-phone", "definition": "sound"},
+        {"term": "So:", "definition": "same sound, different spelling"}
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Common examples: there / their / they're, to / too / two, your / you're, its / it's, buy / by / bye, hear / here, write / right / rite, sea / see, flour / flower."
+    },
+    {
+      "type": "heading",
+      "text": "Homographs"
+    },
+    {
+      "type": "paragraph",
+      "text": "Definition: Words that are spelled the same but have different meanings. They may or may not have the same pronunciation. The name comes from 'homo-' (same) + '-graph' (writing)."
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Homo-", "definition": "same"},
+        {"term": "-graph", "definition": "writing"},
+        {"term": "So:", "definition": "same writing, possibly different sound"}
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Common examples: lead (guide/metal), wind (air/coil), bow (weapon/bend/ribbon), tear (rip/drop), minute (60 seconds/very small) — these are all also heteronyms because the pronunciation also differs."
+    },
+    {
+      "type": "heading",
+      "text": "Heteronyms"
+    },
+    {
+      "type": "paragraph",
+      "text": "Definition: A type of homograph where the words are spelled the same but have different meanings AND different pronunciations. The name comes from 'hetero-' (different) + '-onym' (name)."
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Hetero-", "definition": "different"},
+        {"term": "-onym", "definition": "name"},
+        {"term": "So:", "definition": "different names, same spelling"}
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Every heteronym is a homograph, but not every homograph is a heteronym. For example, 'bat' (sports equipment / flying mammal) is a homograph but NOT a heteronym, because both meanings share the same pronunciation."
+    },
+    {
+      "type": "heading",
+      "text": "Homonyms"
+    },
+    {
+      "type": "paragraph",
+      "text": "Definition: The broad umbrella term for words that share a name (spelling or pronunciation) but have different meanings. 'Homo-' (same) + '-onym' (name) = 'same name.' This covers both homophones and homographs."
+    },
+    {
+      "type": "paragraph",
+      "text": "Think of it as a family tree:"
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Homonyms", "definition": "All words with the same name but different meanings"},
+        {"term": "├── Homophones", "definition": "Same sound, different spelling (there/their/they're)"},
+        {"term": "└── Homographs", "definition": "Same spelling, different meaning"},
+        {"term": "    ├── Homophones that are also homographs", "definition": "Same sound + same spelling = rare (like 'bat')"},
+        {"term": "    └── Heteronyms", "definition": "Different sound + same spelling = the most interesting case"}
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Memory Tricks"
+    },
+    {
+      "type": "paragraph",
+      "text": "Here's how to remember which is which:"
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Homophones", "definition": "PHONE = SOUND. Think 'telephone.' Same sound, different spelling."},
+        {"term": "Homographs", "definition": "GRAPH = WRITING. Think 'autograph.' Same writing (spelling), different meaning."},
+        {"term": "Heteronyms", "definition": "HETERO = DIFFERENT. Think 'heterosexual' (different sexes). Different pronunciation, same spelling."}
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Why This Matters for Word Puzzles"
+    },
+    {
+      "type": "paragraph",
+      "text": "Our daily puzzle at heteronym.online is built entirely around heteronyms. Each day, you get two clues that seemingly point in different directions — but there's one word that connects them both. The word is a heteronym, and both clues reference different meanings of the same spelling."
+    },
+    {
+      "type": "paragraph",
+      "text": "For example, if the clues are 'to guide' and 'a metal,' the answer is 'lead' — a classic heteronym with two distinct meanings and pronunciations."
+    },
+    {
+      "type": "cta",
+      "text": "Ready to test your knowledge? Play today's puzzle →",
+      "url": "https://heteronym.online"
+    }
+  ]
+}

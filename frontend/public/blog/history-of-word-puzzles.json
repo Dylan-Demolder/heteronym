@@ -1,0 +1,110 @@
+{
+  "title": "The History of Word Puzzles: From Ancient Riddles to Wordle",
+  "slug": "history-of-word-puzzles",
+  "date": "2026-06-05",
+  "description": "Word puzzles have been around for thousands of years. From ancient Greek riddles to the Wordle phenomenon, explore how word games have evolved through history.",
+  "tags": ["history", "puzzles", "word-games", "culture"],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Word puzzles feel like a modern phenomenon — Wordle, Connections, Spelling Bee — but humans have been challenging each other with wordplay for thousands of years. The desire to twist language into puzzles is practically universal across cultures."
+    },
+    {
+      "type": "heading",
+      "text": "Ancient Origins: Riddles in Antiquity"
+    },
+    {
+      "type": "paragraph",
+      "text": "The oldest known riddles come from ancient Sumer, dating to around 2300 BCE. These weren't written down as riddles per se, but as 'question-answer' dialogues that scholars have identified as riddle-like. They often described everyday objects in poetic, indirect language — exactly the same format used in modern word puzzles."
+    },
+    {
+      "type": "paragraph",
+      "text": "The most famous riddle in Western history is the Riddle of the Sphinx from Greek mythology: 'What walks on four legs in the morning, two legs at noon, and three legs in the evening?' The answer — a human (crawling as a baby, walking as an adult, using a cane in old age) — is arguably the original word puzzle."
+    },
+    {
+      "type": "paragraph",
+      "text": "The Greeks loved wordplay. The word 'riddle' itself comes from the Old English 'rǣdan,' meaning 'to interpret' or 'to advise.' And the poetic riddles of the Exeter Book (circa 975 CE) are some of the oldest surviving English literature — nearly 100 riddles about everything from storms to books to one-legged birds."
+    },
+    {
+      "type": "heading",
+      "text": "The Golden Age of Crosswords"
+    },
+    {
+      "type": "paragraph",
+      "text": "The modern crossword puzzle was invented by journalist Arthur Wynne in 1913. Published in the New York World newspaper, his 'word-cross' was a diamond-shaped grid with simple clues. It was an immediate hit, and crosswords spread to newspapers across America."
+    },
+    {
+      "type": "paragraph",
+      "text": "By the 1920s, crosswords were a cultural phenomenon. They inspired songs, board games, and even fashion accessories like crossword-patterned hats and handbags. The first crossword book was published in 1924 and became a bestseller."
+    },
+    {
+      "type": "paragraph",
+      "text": "The New York Times famously resisted the crossword craze — its editors considered puzzles frivolous. That changed in 1942, when editor Lester Markel decided that readers needed a mental escape from wartime news. The NYT crossword launched on February 15, 1942, and has run daily ever since, becoming the gold standard of crossword puzzles worldwide."
+    },
+    {
+      "type": "heading",
+      "text": "The Digital Revolution"
+    },
+    {
+      "type": "paragraph",
+      "text": "The internet transformed word puzzles in three ways: accessibility, community, and daily rituals."
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Accessibility", "definition": "Anyone with an internet connection can play. No need to buy a newspaper or a puzzle book."},
+        {"term": "Community", "definition": "Online forums (Reddit's r/wordle, r/crossword) let players discuss strategies, share scores, and commiserate over hard puzzles."},
+        {"term": "Daily rituals", "definition": "The one-a-day format creates a shared experience. Everyone plays the same puzzle and compares results."}
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Wordle: The Viral Moment"
+    },
+    {
+      "type": "paragraph",
+      "text": "In October 2021, software engineer Josh Wardle created a simple word game for his partner who loved word puzzles. He named it Wordle — a play on his own last name. By January 2022, Wordle had gone from 90 players to over 2 million daily players. The New York Times bought it for a 'low seven figures' in February 2022."
+    },
+    {
+      "type": "paragraph",
+      "text": "Wordle's genius was twofold. First, the green/yellow/gray feedback system was intuitive and satisfying — it took 10 seconds to learn. Second, the emoji share grid made sharing your result easy: a row of colored squares that anyone could read at a glance."
+    },
+    {
+      "type": "paragraph",
+      "text": "Wordle sparked an explosion of daily puzzle games: Worldle (geography), Quordle (four Wordles at once), Heardle (music), Nerdle (math), and dozens more. It proved that a simple daily format could sustain a massive audience."
+    },
+    {
+      "type": "heading",
+      "text": "Where Heteronym Fits In"
+    },
+    {
+      "type": "paragraph",
+      "text": "Heteronym (at heteronym.online) continues the tradition of daily word puzzles, but with a different mechanism. Instead of guessing letters (like Wordle) or finding categories (like Connections), Heteronym tests your ability to connect two apparently unrelated clues through a single word — a heteronym."
+    },
+    {
+      "type": "paragraph",
+      "text": "It draws on the ancient tradition of riddles (two clues, one answer), the daily ritual of crosswords (one puzzle per day, same for everyone), and the modern shareability of Wordle (emoji share grid, streak tracking)."
+    },
+    {
+      "type": "paragraph",
+      "text": "The puzzle format itself — two clues pointing to one hidden word — is a direct descendant of the Sphinx's riddle. The only difference is that heteronyms are real linguistic phenomena, not poetic metaphors."
+    },
+    {
+      "type": "heading",
+      "text": "The Future of Word Puzzles"
+    },
+    {
+      "type": "paragraph",
+      "text": "Word puzzles continue to evolve. AI-generated puzzles, personalized difficulty, and social features are pushing the boundaries of what a word game can be. But the core appeal remains the same: the satisfaction of that 'aha' moment when two pieces of information click into place."
+    },
+    {
+      "type": "paragraph",
+      "text": "Whether it's a 1,000-year-old riddle from the Exeter Book or today's daily puzzle, the joy of solving a word puzzle connects us to every generation of humans who came before us."
+    },
+    {
+      "type": "cta",
+      "text": "Join the tradition — play today's puzzle at heteronym.online →",
+      "url": "https://heteronym.online"
+    }
+  ]
+}

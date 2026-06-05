@@ -6,5 +6,37 @@
     "description": "Heteronyms are words that are spelled the same but have different meanings and pronunciations. Learn what makes them unique with dozens of examples.",
     "readTime": "8 min read",
     "tags": ["heteronyms", "linguistics", "word-games"]
+  },
+  {
+    "slug": "words-that-are-their-own-opposites",
+    "title": "10 Words That Are Their Own Opposites (Contranyms)",
+    "date": "2026-06-05",
+    "description": "Contranyms are words that can mean two opposite things — like 'sanction' meaning both 'to approve' and 'to penalize.' Discover 10 fascinating examples.",
+    "readTime": "6 min read",
+    "tags": ["contranyms", "linguistics", "word-facts"]
+  },
+  {
+    "slug": "homophones-homographs-heteronyms-cheat-sheet",
+    "title": "Homophones vs Homographs vs Heteronyms: A Cheat Sheet",
+    "date": "2026-06-05",
+    "description": "Confused by homophones, homographs, and heteronyms? This clear cheat sheet explains the differences with examples and memory tricks.",
+    "readTime": "5 min read",
+    "tags": ["homophones", "homographs", "heteronyms", "linguistics"]
+  },
+  {
+    "slug": "5-daily-word-games-different-brain",
+    "title": "5 Daily Word Games That Challenge Different Parts of Your Brain",
+    "date": "2026-06-05",
+    "description": "Not all word games are the same. From deduction to vocabulary to lateral thinking, here are 5 daily word games that exercise different cognitive skills.",
+    "readTime": "7 min read",
+    "tags": ["word-games", "puzzles", "brain-training"]
+  },
+  {
+    "slug": "history-of-word-puzzles",
+    "title": "The History of Word Puzzles: From Ancient Riddles to Wordle",
+    "date": "2026-06-05",
+    "description": "Word puzzles have been around for thousands of years. From ancient Greek riddles to the Wordle phenomenon, explore the evolution of word games.",
+    "readTime": "7 min read",
+    "tags": ["history", "puzzles", "word-games", "culture"]
   }
 ]
