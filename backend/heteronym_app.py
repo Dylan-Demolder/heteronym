@@ -173,6 +173,39 @@ def app(environ, start_response):
             "id": idx,
         })
 
+    # --- Puzzle by ID ---
+    if path.startswith("/puzzle/"):
+        try:
+            puzzle_id = int(path.split("/puzzle/")[1].split("/")[0])
+        except (ValueError, IndexError):
+            return json_resp(start_response,
+                             {"error": "Invalid puzzle ID"}, "400 Bad Request")
+        if puzzle_id < 0 or puzzle_id >= len(puzzles):
+            return json_resp(start_response,
+                             {"error": "Puzzle not found"}, "404 Not Found")
+        puzzle = puzzles[puzzle_id]
+        return json_resp(start_response, {
+            "clue1": puzzle.get("Clue 1", ""),
+            "clue2": puzzle.get("Clue 2", ""),
+            "hints": [
+                puzzle.get("Hint 1", ""),
+                puzzle.get("Hint 2", ""),
+                puzzle.get("Hint 3", ""),
+            ],
+            "id": puzzle_id,
+        })
+
+    # --- Archive (list puzzle IDs from epoch to today) ---
+    if path == "/archive":
+        today = date.today()
+        archive = []
+        d = SEQ_EPOCH
+        while d <= today:
+            idx = (d - SEQ_EPOCH).days % len(puzzles) if puzzles else 0
+            archive.append({"id": idx, "date": d.isoformat()})
+            d += timedelta(days=1)
+        return json_resp(start_response, archive)
+
     # --- Guess ---
     # Frontend sends: POST /guess?puzzle_id=X&guess=Y
     if path == "/guess":
