@@ -2,6 +2,8 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { HeartsDisplay, GlassPanel, ChromaButton, StatCard, Icon, Badge, Input, Modal, Tabs, Skeleton } from './chroma'
 import Archive from './Archive'
 import About from './About'
+import BlogIndex from './BlogIndex'
+import BlogPost from './BlogPost'
 
 const API = '/api'
 const STATS_KEY = 'heteronym_stats'
@@ -56,6 +58,8 @@ export default function App() {
   const [showArchive, setShowArchive] = useState(false)
   const [archivePuzzleId, setArchivePuzzleId] = useState(null)
   const [showAbout, setShowAbout] = useState(false)
+  const [showBlog, setShowBlog] = useState(false)
+  const [blogPostSlug, setBlogPostSlug] = useState(null)
   const inputRef = useRef()
   const puzzleCardRef = useRef()
   const adsRef = useRef()
@@ -600,6 +604,9 @@ export default function App() {
       <ChromaButton variant="ghost" size="sm" onClick={() => setShowAbout(true)} className="chroma-mt-1">
         <Icon name="info" size={14} /> About
       </ChromaButton>
+      <ChromaButton variant="ghost" size="sm" onClick={() => setShowBlog(true)} className="chroma-mt-1">
+        <Icon name="article" size={14} /> Blog
+      </ChromaButton>
 
       {/* Stats modal */}
       <Modal open={showStats} onClose={() => setShowStats(false)} title="Statistics">
@@ -656,6 +663,25 @@ export default function App() {
               </ChromaButton>
             </div>
             <About />
+          </div>
+        </div>
+      )}
+
+      {/* Blog */}
+      {showBlog && (
+        <div className="chroma-fixed chroma-inset-0 chroma-z-50 chroma-bg-primary chroma-overflow-y-auto chroma-p-4">
+          <div className="chroma-w-full chroma-max-w-md chroma-mx-auto">
+            <div className="chroma-flex chroma-items-center chroma-justify-between chroma-mb-4">
+              <h2 className="chroma-text-xl chroma-font-bold chroma-text-primary">Blog</h2>
+              <ChromaButton variant="ghost" size="sm" icon="close" onClick={() => { setShowBlog(false); setBlogPostSlug(null) }}>
+                Close
+              </ChromaButton>
+            </div>
+            {blogPostSlug ? (
+              <BlogPost slug={blogPostSlug} onBack={() => setBlogPostSlug(null)} />
+            ) : (
+              <BlogIndex onSelectPost={(slug) => setBlogPostSlug(slug)} />
+            )}
           </div>
         </div>
       )}
