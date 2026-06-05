@@ -324,6 +324,9 @@ export default function App() {
       {mode === 'daily' && (
         <p className="chroma-text-xs chroma-text-tertiary">Puzzle #{dailyPuzzleNum + 1}</p>
       )}
+      <p className="chroma-text-xs chroma-text-violet chroma-font-semibold chroma-mb-1">
+        🔥 Streak: {stats.currentStreak}
+      </p>
       <p className="chroma-text-sm chroma-md-text-base chroma-mb-1 chroma-text-center chroma-max-w-md chroma-text-secondary">
         Two clues point to one hidden synonym
       </p>
