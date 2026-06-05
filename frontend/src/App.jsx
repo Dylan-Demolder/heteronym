@@ -344,7 +344,7 @@ export default function App() {
     if (result?.correct) {
       lines.push(`✅ Solved in ${guesses.length} guess${guesses.length === 1 ? '' : 's'} · ${hintIndex} hint${hintIndex === 1 ? '' : 's'}`)
     } else if (gaveUp) {
-      lines.push('🙌 Gave up')
+      lines.push('Gave up')
     } else {
       lines.push('❌ Out of lives')
     }
@@ -352,12 +352,12 @@ export default function App() {
     const MAX_GUESSES = 4
     let visual = ''
     guesses.forEach((_, i) => {
-      const filled = '🟪'.repeat(i + 1)
+      const filled = '■'.repeat(i + 1)
       const empty = '⬜'.repeat(MAX_GUESSES - (i + 1))
       visual += filled + empty + '\n'
     })
     lines.push(visual.trimEnd())
-    lines.push(`🔥 Streak: ${stats.currentStreak}`)
+    lines.push(`Streak: ${stats.currentStreak}`)
     lines.push('')
     lines.push(siteUrl)
 
@@ -439,7 +439,7 @@ export default function App() {
         </p>
       )}
       <p className="chroma-text-xs chroma-text-violet chroma-font-semibold chroma-mb-1">
-        🔥 Streak: {stats.currentStreak}
+        <Icon name="local_fire_department" size={14} color="var(--coral)" /> Streak: {stats.currentStreak}
       </p>
       <p className="chroma-text-sm chroma-md-text-base chroma-mb-1 chroma-text-center chroma-max-w-md chroma-text-secondary">
         Two clues point to one hidden synonym
@@ -588,10 +588,10 @@ export default function App() {
                     let grid = ''
                     if (guesses.length > 0) {
                       guesses.forEach((_, i) => {
-                        grid += '🟪'.repeat(i + 1) + '⬜'.repeat(MAX_G - (i + 1)) + '\n'
+                        grid += '■'.repeat(i + 1) + '⬜'.repeat(MAX_G - (i + 1)) + '\n'
                       })
                     } else {
-                      grid = '🟪\n'
+                      grid = '■\n'
                     }
                     const shareUrl = challengeMode
                       ? `https://heteronym.online/?challenge=${dailyPuzzleNum}`
@@ -599,7 +599,7 @@ export default function App() {
                     const tweetLines = [
                       `Heteronym — Puzzle #${dailyPuzzleNum + 1}`,
                       grid.trimEnd(),
-                      `🔥 Streak: ${stats.currentStreak}`,
+                      `Streak: ${stats.currentStreak}`,
                       shareUrl,
                     ]
                     const text = encodeURIComponent(tweetLines.join('\n'))
