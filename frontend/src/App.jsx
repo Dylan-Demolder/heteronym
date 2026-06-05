@@ -233,7 +233,7 @@ export default function App() {
   }
 
   const shareResult = async () => {
-    const lines = [`Heteronym #${dailyPuzzleNum + 1}`]
+    const lines = [`Heteronym — Puzzle #${dailyPuzzleNum + 1}`]
     if (result?.correct) {
       lines.push(`✅ Solved in ${guesses.length} guess${guesses.length === 1 ? '' : 's'} · ${hintIndex} hint${hintIndex === 1 ? '' : 's'}`)
     } else if (gaveUp) {
@@ -241,14 +241,16 @@ export default function App() {
     } else {
       lines.push('❌ Out of lives')
     }
-    // Emoji visualization: 🔍 for hint, 🔴 for wrong, 🟩 for correct
+    // CHROMA violet emoji grid — one row per guess, max 4 columns
+    const MAX_GUESSES = 4
     let visual = ''
-    if (hintIndex > 0) visual += '🔍'.repeat(hintIndex)
-    visual += guesses.map((g, i) => {
-      if (i === guesses.length - 1 && result?.correct) return '🟩'
-      return '🔴'
-    }).join('')
-    lines.push(visual)
+    guesses.forEach((_, i) => {
+      const filled = '🟪'.repeat(i + 1)
+      const empty = '⬜'.repeat(MAX_GUESSES - (i + 1))
+      visual += filled + empty + '\n'
+    })
+    lines.push(visual.trimEnd())
+    lines.push(`🔥 Streak: ${stats.currentStreak}`)
     lines.push('')
     lines.push('https://heteronym.online')
 
@@ -470,15 +472,22 @@ export default function App() {
                   size="sm"
                   icon="alternate_email"
                   onClick={() => {
-                    const text = encodeURIComponent(
-                      `Heteronym #${dailyPuzzleNum + 1}` +
-                      (result?.correct
-                        ? ` ✅ Solved in ${guesses.length} guess${guesses.length === 1 ? '' : 's'}`
-                        : gaveUp
-                          ? ` 🙌 Gave up`
-                          : ` ❌ Out of lives`) +
-                      `\nhttps://heteronym.online`
-                    )
+                    const MAX_G = 4
+                    let grid = ''
+                    if (guesses.length > 0) {
+                      guesses.forEach((_, i) => {
+                        grid += '🟪'.repeat(i + 1) + '⬜'.repeat(MAX_G - (i + 1)) + '\n'
+                      })
+                    } else {
+                      grid = '🟪\n'
+                    }
+                    const tweetLines = [
+                      `Heteronym — Puzzle #${dailyPuzzleNum + 1}`,
+                      grid.trimEnd(),
+                      `🔥 Streak: ${stats.currentStreak}`,
+                      `https://heteronym.online`,
+                    ]
+                    const text = encodeURIComponent(tweetLines.join('\n'))
                     window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank', 'noopener')
                   }}
                 >
