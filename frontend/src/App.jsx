@@ -4,6 +4,7 @@ import Archive from './Archive'
 import About from './About'
 import BlogIndex from './BlogIndex'
 import BlogPost from './BlogPost'
+import NewsletterSignup from './NewsletterSignup'
 
 const API = '/api'
 const STATS_KEY = 'heteronym_stats'
@@ -58,8 +59,13 @@ export default function App() {
   const [showArchive, setShowArchive] = useState(() => urlParams.get('page') === 'archive')
   const [archivePuzzleId, setArchivePuzzleId] = useState(null)
   const [showAbout, setShowAbout] = useState(() => urlParams.get('page') === 'about')
-  const [showBlog, setShowBlog] = useState(false)
-  const [blogPostSlug, setBlogPostSlug] = useState(null)
+  const [showBlog, setShowBlog] = useState(() => urlParams.get('page') === 'blog')
+  const [blogPostSlug, setBlogPostSlug] = useState(() => {
+    if (urlParams.get('page') === 'blog') {
+      return urlParams.get('slug') || null
+    }
+    return null
+  })
   const inputRef = useRef()
   const puzzleCardRef = useRef()
   const adsRef = useRef()
@@ -71,18 +77,28 @@ export default function App() {
     document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 
-  // Sync archive / about state with URL for ?page route support
+  // Sync overlay state with URL for ?page route support
   useEffect(() => {
     const url = new URL(window.location)
     if (showArchive) {
       url.searchParams.set('page', 'archive')
+      url.searchParams.delete('slug')
     } else if (showAbout) {
       url.searchParams.set('page', 'about')
+      url.searchParams.delete('slug')
+    } else if (showBlog) {
+      url.searchParams.set('page', 'blog')
+      if (blogPostSlug) {
+        url.searchParams.set('slug', blogPostSlug)
+      } else {
+        url.searchParams.delete('slug')
+      }
     } else {
       url.searchParams.delete('page')
+      url.searchParams.delete('slug')
     }
     window.history.replaceState(null, '', url.toString())
-  }, [showArchive, showAbout])
+  }, [showArchive, showAbout, showBlog, blogPostSlug])
 
   // Listen for back/forward navigation to sync overlay state
   useEffect(() => {
@@ -90,6 +106,10 @@ export default function App() {
       const params = new URLSearchParams(window.location.search)
       setShowArchive(params.get('page') === 'archive')
       setShowAbout(params.get('page') === 'about')
+      setShowBlog(params.get('page') === 'blog')
+      if (params.get('page') === 'blog') {
+        setBlogPostSlug(params.get('slug') || null)
+      }
     }
     window.addEventListener('popstate', handlePop)
     return () => window.removeEventListener('popstate', handlePop)
@@ -603,6 +623,11 @@ export default function App() {
             </ChromaButton>
           )}
         </GlassPanel>
+      )}
+
+      {/* Newsletter signup — shown on completion (daily mode) */}
+      {puzzle && mode === 'daily' && (result?.correct || (lives === 0 && result) || gaveUp) && (
+        <NewsletterSignup />
       )}
 
       {/* Score (free play) */}

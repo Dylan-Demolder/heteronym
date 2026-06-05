@@ -1,0 +1,13 @@
+# Disable directory listings site-wide (prevents file-explorer views)
+Options -Indexes
+
+RewriteEngine On
+
+# Don't rewrite JSON files in /blog/ — the SPA fetches them
+RewriteRule ^blog/.+\.json$ - [L]
+
+# Rewrite /blog and /blog/ to the SPA with page=blog param
+RewriteRule ^blog/?$ /?page=blog [L,R=302]
+
+# Rewrite /blog/{slug} to the SPA with page=blog&slug={slug}
+RewriteRule ^blog/([^/]+)/?$ /?page=blog&slug=$1 [L,R=302]
