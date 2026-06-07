@@ -97,10 +97,6 @@ export default function Archive({ onSelectPuzzle }) {
         )
       })}
 
-      {/* 1:1 Ad unit at bottom of archive listing */}
-      <div className="chroma-w-full chroma-flex chroma-justify-center chroma-min-h-ad chroma-pt-2">
-        <div id="container-549cbeb6999c4e80413bcd2218d2532b" />
-      </div>
     </div>
   )
 }

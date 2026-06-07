@@ -527,7 +527,6 @@ body {
 .chroma-max-w-full { max-width: 100%; }
 .chroma-max-w-md { max-width: 28rem; }
 .chroma-min-h-screen { min-height: 100vh; }
-.chroma-min-h-ad { min-height: 100px; }
 
 /* Positioning */
 .chroma-relative { position: relative; }

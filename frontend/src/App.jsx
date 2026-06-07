@@ -68,7 +68,6 @@ export default function App() {
   })
   const inputRef = useRef()
   const puzzleCardRef = useRef()
-  const adsRef = useRef()
 
   const setStats = useCallback(s => { setStatsRaw(s); saveStats(s) }, [])
 
@@ -125,18 +124,6 @@ export default function App() {
     }
     tick(); const id = setInterval(tick, 1000)
     return () => clearInterval(id)
-  }, [])
-
-  // Load Adsterra ad script
-  useEffect(() => {
-    const existing = document.querySelector('script[src*="effectivecpmnetwork"]')
-    if (existing) return
-    const s = document.createElement('script')
-    s.async = true
-    s.setAttribute('data-cfasync', 'false')
-    s.src = 'https://pl29639886.effectivecpmnetwork.com/549cbeb6999c4e80413bcd2218d2532b/invoke.js'
-    document.body.appendChild(s)
-    return () => { s.remove() }
   }, [])
 
   // Load puzzle
@@ -636,11 +623,6 @@ export default function App() {
           Score: <strong className="chroma-text-violet">{score}</strong>
         </p>
       )}
-
-      {/* Adsterra native banner */}
-      <div className="chroma-mt-6 chroma-w-full chroma-max-w-md chroma-flex chroma-justify-center chroma-min-h-ad">
-        <div id="container-549cbeb6999c4e80413bcd2218d2532b" />
-      </div>
 
       {/* Support link */}
       <a

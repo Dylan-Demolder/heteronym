@@ -85,10 +85,6 @@ export default function BlogPost({ slug, onBack }) {
 
         {post.content?.map((block, i) => renderBlock(block, i))}
 
-        {/* Ad unit inside blog post */}
-        <div className="chroma-mt-5 chroma-w-full chroma-flex chroma-justify-center chroma-min-h-ad">
-          <div id="container-549cbeb6999c4e80413bcd2218d2532b" />
-        </div>
       </GlassPanel>
     </div>
   )
