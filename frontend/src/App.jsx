@@ -368,8 +368,8 @@ export default function App() {
 
     const text = lines.join('\n')
 
-    // Native share API with clipboard fallback
-    if (navigator.share) {
+    // Native share on mobile only — desktop always copies to clipboard (like Wordle)
+    if (navigator.share && window.innerWidth < 768) {
       try {
         await navigator.share({ text })
         return
@@ -377,7 +377,7 @@ export default function App() {
         // User cancelled or failed — fall through to clipboard
       }
     }
-    // Clipboard fallback
+    // Clipboard (desktop default)
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
