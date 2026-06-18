@@ -2,8 +2,7 @@ import { useEffect, useState, useRef, useCallback } from 'react'
 import { HeartsDisplay, GlassPanel, ChromaButton, StatCard, Icon, Badge, Input, Modal, Tabs, Skeleton, FullPageOverlay } from './chroma'
 import Archive from './Archive'
 import About from './About'
-import BlogIndex from './BlogIndex'
-import BlogPost from './BlogPost'
+import BlogPage from './BlogPage'
 import NewsletterSignup from './NewsletterSignup'
 
 const API = '/api'
@@ -432,6 +431,15 @@ export default function App() {
         </div>
       </div>
 
+      {showBlog ? (
+        <BlogPage
+          slug={blogPostSlug}
+          onSelectPost={(slug) => setBlogPostSlug(slug)}
+          onClose={() => { setShowBlog(false); setBlogPostSlug(null) }}
+        />
+      ) : (
+        <>
+
       {/* Title */}
       <h1 className="chroma-font-display chroma-text-3xl chroma-font-bold chroma-mb-1 chroma-text-balance">Heteronym</h1>
       {mode === 'daily' && (
@@ -653,6 +661,8 @@ export default function App() {
       <ChromaButton variant="ghost" size="sm" onClick={() => setShowBlog(true)} className="chroma-mt-1">
         <Icon name="article" size={14} /> Blog
       </ChromaButton>
+        </>
+      )}
 
       {/* Stats modal */}
       <Modal open={showStats} onClose={() => setShowStats(false)} title="Statistics">
@@ -701,15 +711,6 @@ export default function App() {
       {/* About Page */}
       <FullPageOverlay open={showAbout} onClose={() => setShowAbout(false)} title="About" icon="description">
         <About />
-      </FullPageOverlay>
-
-      {/* Blog */}
-      <FullPageOverlay open={showBlog} onClose={() => { setShowBlog(false); setBlogPostSlug(null) }} title="Blog" icon="article">
-        {blogPostSlug ? (
-          <BlogPost slug={blogPostSlug} onBack={() => setBlogPostSlug(null)} />
-        ) : (
-          <BlogIndex onSelectPost={(slug) => setBlogPostSlug(slug)} />
-        )}
       </FullPageOverlay>
 
       {/* Puzzle Archive */}
