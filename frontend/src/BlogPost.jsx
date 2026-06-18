@@ -121,7 +121,7 @@ function renderBlock(block, i) {
             <thead>
               <tr className="chroma-bg-hover">
                 {block.headers.map((h, j) => (
-                  <th key={j} className="chroma-p-2 chroma-text-left chroma-font-semibold chroma-text-primary chroma-border-b chroma-border-subtle">
+                  <th key={j} className="chroma-p-2 chroma-text-left chroma-font-semibold chroma-text-primary">
                     {h}
                   </th>
                 ))}
@@ -129,9 +129,9 @@ function renderBlock(block, i) {
             </thead>
             <tbody>
               {block.rows.map((row, j) => (
-                <tr key={j} className="hover:chroma-bg-hover">
+                <tr key={j} className="chroma-bg-hover">
                   {row.map((cell, k) => (
-                    <td key={k} className="chroma-p-2 chroma-border-b chroma-border-subtle chroma-whitespace-nowrap">
+                    <td key={k} className="chroma-p-2 chroma-whitespace-nowrap">
                       {cell}
                     </td>
                   ))}

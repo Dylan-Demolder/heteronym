@@ -9,6 +9,7 @@ export default function Badge({
     'chroma-badge',
     variant === 'correct' ? 'chroma-badge-correct' : '',
     variant === 'wrong' ? 'chroma-badge-wrong' : '',
+    variant === 'accent' ? 'chroma-badge-accent' : '',
     className,
   ].filter(Boolean).join(' ')
 

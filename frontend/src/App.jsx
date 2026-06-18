@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
-import { HeartsDisplay, GlassPanel, ChromaButton, StatCard, Icon, Badge, Input, Modal, Tabs, Skeleton } from './chroma'
+import { HeartsDisplay, GlassPanel, ChromaButton, StatCard, Icon, Badge, Input, Modal, Tabs, Skeleton, FullPageOverlay } from './chroma'
 import Archive from './Archive'
 import About from './About'
 import BlogIndex from './BlogIndex'
@@ -9,6 +9,8 @@ import NewsletterSignup from './NewsletterSignup'
 const API = '/api'
 const STATS_KEY = 'heteronym_stats'
 const SCORE_KEY = 'heteronym_score'
+const FIRST_VISIT_KEY = 'heteronym_visited'
+const NEWSLETTER_COUNT_KEY = 'heteronym_nl_count'
 
 function today() { return new Date().toISOString().split('T')[0] }
 function yesterday() {
@@ -112,6 +114,15 @@ export default function App() {
     }
     window.addEventListener('popstate', handlePop)
     return () => window.removeEventListener('popstate', handlePop)
+  }, [])
+
+  // First-visit onboarding
+  useEffect(() => {
+    const visited = localStorage.getItem(FIRST_VISIT_KEY)
+    if (!visited) {
+      localStorage.setItem(FIRST_VISIT_KEY, 'true')
+      setShowInfo(true)
+    }
   }, [])
 
   // Countdown to midnight
@@ -258,6 +269,7 @@ export default function App() {
         setHintIndex(i => i + 1)
       }
       setLives(l => l - 1)
+      inputRef.current?.focus()
       // Last life lost — fetch the answer for the reveal dialog
       if (lives === 1) {
         fetch(`${API}/reveal?puzzle_id=${puzzle.id}`).then(r => r.json()).then(d => {
@@ -314,6 +326,9 @@ export default function App() {
       s.currentStreak = 0
     }
     setStats(s)
+    // Increment newsletter completion counter
+    const nlCount = Number(localStorage.getItem(NEWSLETTER_COUNT_KEY)) || 0
+    localStorage.setItem(NEWSLETTER_COUNT_KEY, nlCount + 1)
   }, [result, lives, gaveUp])
 
   const toggleTheme = () => {
@@ -404,9 +419,9 @@ export default function App() {
         />
 
         <div className="chroma-flex chroma-items-center chroma-gap-2">
-          <ChromaButton variant="ghost" size="sm" icon="info" onClick={() => setShowAbout(true)} />
-          <ChromaButton variant="ghost" size="sm" icon="history" onClick={() => setShowArchive(true)} />
-          <ChromaButton variant="ghost" size="sm" icon="bar_chart" onClick={() => setShowStats(true)} />
+          <ChromaButton variant="ghost" size="sm" icon="description" onClick={() => setShowAbout(true)} aria-label="About" />
+          <ChromaButton variant="ghost" size="sm" icon="history" onClick={() => setShowArchive(true)} aria-label="Puzzle Archive" />
+          <ChromaButton variant="ghost" size="sm" icon="bar_chart" onClick={() => setShowStats(true)} aria-label="Statistics" />
           <ChromaButton
             variant="ghost"
             size="sm"
@@ -420,19 +435,22 @@ export default function App() {
       {/* Title */}
       <h1 className="chroma-font-display chroma-text-3xl chroma-font-bold chroma-mb-1 chroma-text-balance">Heteronym</h1>
       {mode === 'daily' && (
-        <p className="chroma-text-xs chroma-text-tertiary">
-          Puzzle #{dailyPuzzleNum + 1}
-          {challengeMode && <Badge variant="accent" className="chroma-ml-1h">Challenge</Badge>}
-        </p>
+        <>
+          <p className="chroma-text-sm chroma-text-secondary chroma-font-semibold">
+            Puzzle #{dailyPuzzleNum + 1}
+            {challengeMode && <Badge variant="accent" className="chroma-ml-1h">Challenge</Badge>}
+          </p>
+          <p className="chroma-text-xs chroma-text-violet chroma-font-semibold chroma-mb-1">
+            <Icon name="local_fire_department" size={14} color="var(--coral)" /> Streak: {stats.currentStreak}
+          </p>
+        </>
       )}
-      <p className="chroma-text-xs chroma-text-violet chroma-font-semibold chroma-mb-1">
-        <Icon name="local_fire_department" size={14} color="var(--coral)" /> Streak: {stats.currentStreak}
-      </p>
       <p className="chroma-text-sm chroma-md-text-base chroma-mb-1 chroma-text-center chroma-max-w-md chroma-text-secondary">
-        Two clues point to one hidden synonym
+        Two clues, one heteronym — same spelling, different meanings
       </p>
 
       {/* Lives */}
+      <p className="chroma-text-xs chroma-text-tertiary chroma-mb-1 chroma-text-center">Lives</p>
       <div className="chroma-mb-4 chroma-mt-1">
         <HeartsDisplay total={4} active={lives} animate={false} />
       </div>
@@ -485,6 +503,7 @@ export default function App() {
                 >
                   Hint
                 </ChromaButton>
+                <p className="chroma-text-xs chroma-text-tertiary chroma-mt-1">Costs 1 life</p>
                 {mode === 'freeplay' && (
                   <ChromaButton variant="ghost" icon="skip_next" onClick={loadPuzzle}>
                     Skip
@@ -493,10 +512,10 @@ export default function App() {
               </div>
 
               {/* Give Up — shown when 1 life left (3 lost) or exhausted, giving up reveals answer */}
-              {lives <= 1 && !result && (
+              {puzzle && !result && !(result?.correct || (lives === 0 && result) || gaveUp) && (
                 <div className="chroma-mb-4">
-                  <ChromaButton variant="ghost" icon="visibility" fullWidth onClick={handleGiveUp}>
-                    Give Up / Show Answer
+                  <ChromaButton variant="ghost" icon="lightbulb" fullWidth onClick={handleGiveUp}>
+                    Show Answer
                   </ChromaButton>
                 </div>
               )}
@@ -511,7 +530,7 @@ export default function App() {
               result.correct ? 'chroma-text-green' : 'chroma-text-amber'
             }`}>
               {result.correct ? (
-                <><Icon name="check_circle" size={18} color="var(--green)" filled /> Correct!</>
+                <><Icon name="check_circle" size={18} color="var(--green)" filled /> Correct! ({guesses.length} guess{guesses.length !== 1 ? 'es' : ''})</>
               ) : gaveUp ? (
                 <><Icon name="visibility" size={18} color="var(--violet)" /> Gave up — the answer was <strong>{revealedAnswer}</strong></>
               ) : lives > 0 ? (
@@ -612,8 +631,8 @@ export default function App() {
         </GlassPanel>
       )}
 
-      {/* Newsletter signup — shown on completion (daily mode) */}
-      {puzzle && mode === 'daily' && (result?.correct || (lives === 0 && result) || gaveUp) && (
+      {/* Newsletter signup — shown on completion (daily mode), after 3 completions */}
+      {puzzle && mode === 'daily' && (Number(localStorage.getItem(NEWSLETTER_COUNT_KEY)) || 0) >= 3 && (result?.correct || (lives === 0 && result) || gaveUp) && (
         <NewsletterSignup />
       )}
 
@@ -625,14 +644,9 @@ export default function App() {
       )}
 
       {/* Support link */}
-      <a
-        href="https://ko-fi.com/dylandemolder"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="chroma-link chroma-mt-3"
-      >
-        <Icon name="coffee" size={16} /> Support the game
-      </a>
+      <ChromaButton variant="ghost" size="sm" icon="coffee" onClick={() => window.open('https://ko-fi.com/dylandemolder', '_blank', 'noopener')} className="chroma-mt-1">
+        Support the game
+      </ChromaButton>
       <ChromaButton variant="ghost" size="sm" onClick={() => setShowAbout(true)} className="chroma-mt-1">
         <Icon name="info" size={14} /> About
       </ChromaButton>
@@ -663,18 +677,18 @@ export default function App() {
       {/* Info modal */}
       <Modal open={showInfo} onClose={() => setShowInfo(false)} title="How to Play" titleIcon="info">
         <p className="chroma-text-sm chroma-mb-3 chroma-text-secondary">
-          You're given two clues. Both are synonyms of the same hidden word — a <strong className="chroma-text-primary">heteronym</strong> (spelled the same, different meanings).
+          You're given two clues. Both describe different meanings of the same hidden word — a <strong className="chroma-text-primary">heteronym</strong> (spelled the same, different meanings).
         </p>
         <p className="chroma-text-sm chroma-mb-3 chroma-text-secondary">
           Guess the word they both point to. Each wrong guess costs a life, and each hint you reveal also costs a life.
         </p>
         <div className="chroma-rounded-lg chroma-p-3 chroma-mb-3 chroma-space-y-1 chroma-bg-hover">
           <p className="chroma-text-sm chroma-text-primary">
-            <Badge variant="correct" className="chroma-tab-active chroma-inline-flex chroma-mr-1h p-3">Daily</Badge>
+            <Badge className="chroma-inline-flex chroma-mr-1h">Daily</Badge>
             <span className="chroma-text-secondary">One puzzle per day, same for everyone. Streaks and stats tracked.</span>
           </p>
           <p className="chroma-text-sm chroma-text-primary">
-            <Badge variant="correct" className="chroma-tab-active chroma-inline-flex chroma-mr-1h p-3">Free Play</Badge>
+            <Badge className="chroma-inline-flex chroma-mr-1h">Free Play</Badge>
             <span className="chroma-text-secondary">Random puzzles, practice mode with score.</span>
           </p>
         </div>
@@ -685,53 +699,23 @@ export default function App() {
       </Modal>
 
       {/* About Page */}
-      {showAbout && (
-        <div className="chroma-fixed chroma-inset-0 chroma-z-50 chroma-bg-primary chroma-overflow-y-auto chroma-p-4">
-          <div className="chroma-w-full chroma-max-w-md chroma-mx-auto">
-            <div className="chroma-flex chroma-items-center chroma-justify-between chroma-mb-4">
-              <h2 className="chroma-text-xl chroma-font-bold chroma-text-primary">About</h2>
-              <ChromaButton variant="ghost" size="sm" icon="close" onClick={() => setShowAbout(false)}>
-                Close
-              </ChromaButton>
-            </div>
-            <About />
-          </div>
-        </div>
-      )}
+      <FullPageOverlay open={showAbout} onClose={() => setShowAbout(false)} title="About" icon="description">
+        <About />
+      </FullPageOverlay>
 
       {/* Blog */}
-      {showBlog && (
-        <div className="chroma-fixed chroma-inset-0 chroma-z-50 chroma-bg-primary chroma-overflow-y-auto chroma-p-4">
-          <div className="chroma-w-full chroma-max-w-md chroma-mx-auto">
-            <div className="chroma-flex chroma-items-center chroma-justify-between chroma-mb-4">
-              <h2 className="chroma-text-xl chroma-font-bold chroma-text-primary">Blog</h2>
-              <ChromaButton variant="ghost" size="sm" icon="close" onClick={() => { setShowBlog(false); setBlogPostSlug(null) }}>
-                Close
-              </ChromaButton>
-            </div>
-            {blogPostSlug ? (
-              <BlogPost slug={blogPostSlug} onBack={() => setBlogPostSlug(null)} />
-            ) : (
-              <BlogIndex onSelectPost={(slug) => setBlogPostSlug(slug)} />
-            )}
-          </div>
-        </div>
-      )}
+      <FullPageOverlay open={showBlog} onClose={() => { setShowBlog(false); setBlogPostSlug(null) }} title="Blog" icon="article">
+        {blogPostSlug ? (
+          <BlogPost slug={blogPostSlug} onBack={() => setBlogPostSlug(null)} />
+        ) : (
+          <BlogIndex onSelectPost={(slug) => setBlogPostSlug(slug)} />
+        )}
+      </FullPageOverlay>
 
       {/* Puzzle Archive */}
-      {showArchive && (
-        <div className="chroma-fixed chroma-inset-0 chroma-z-50 chroma-bg-primary chroma-overflow-y-auto chroma-p-4">
-          <div className="chroma-w-full chroma-max-w-md chroma-mx-auto">
-            <div className="chroma-flex chroma-items-center chroma-justify-between chroma-mb-4">
-              <h2 className="chroma-text-xl chroma-font-bold chroma-text-primary">Archive</h2>
-              <ChromaButton variant="ghost" size="sm" icon="close" onClick={() => setShowArchive(false)}>
-                Close
-              </ChromaButton>
-            </div>
-            <Archive onSelectPuzzle={(id) => setArchivePuzzleId(id)} />
-          </div>
-        </div>
-      )}
+      <FullPageOverlay open={showArchive} onClose={() => setShowArchive(false)} title="Archive" icon="history">
+        <Archive onSelectPuzzle={(id) => setArchivePuzzleId(id)} />
+      </FullPageOverlay>
 
     </main>
   )
