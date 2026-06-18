@@ -280,8 +280,12 @@ export default function App() {
 
   const handleRevealHint = () => {
     if (hintIndex < puzzle.hints.length && lives > 0 && !result?.correct) {
-      setHintIndex(i => i + 1)
-      setLives(l => l - 1)
+      if (hintIndex === 0) {
+        setHintIndex(i => i + 1)
+      } else {
+        setHintIndex(i => i + 1)
+        setLives(l => l - 1)
+      }
     }
   }
 
@@ -353,7 +357,7 @@ export default function App() {
     const MAX_GUESSES = 4
     let visual = ''
     guesses.forEach((_, i) => {
-      const filled = '■'.repeat(i + 1)
+      const filled = '🟪'.repeat(i + 1)
       const empty = '⬜'.repeat(MAX_GUESSES - (i + 1))
       visual += filled + empty + '\n'
     })
@@ -417,10 +421,13 @@ export default function App() {
           onChange={handleTabChange}
         />
 
-        <div className="chroma-flex chroma-items-center chroma-gap-2">
+        <div className="chroma-flex chroma-items-center chroma-gap-1">
+          <div className="chroma-w-px chroma-h-5 chroma-bg-border chroma-mr-1" />
           <ChromaButton variant="ghost" size="sm" icon="description" onClick={() => setShowAbout(true)} aria-label="About" />
           <ChromaButton variant="ghost" size="sm" icon="history" onClick={() => setShowArchive(true)} aria-label="Puzzle Archive" />
-          <ChromaButton variant="ghost" size="sm" icon="bar_chart" onClick={() => setShowStats(true)} aria-label="Statistics" />
+          <ChromaButton variant="ghost" size="sm" icon="bar_chart" onClick={() => setShowStats(true)}>
+            Stats
+          </ChromaButton>
           <ChromaButton
             variant="ghost"
             size="sm"
@@ -511,7 +518,7 @@ export default function App() {
                 >
                   Hint
                 </ChromaButton>
-                <p className="chroma-text-xs chroma-text-tertiary chroma-mt-1">Costs 1 life</p>
+                <p className="chroma-text-xs chroma-text-tertiary chroma-mt-1">{hintIndex === 0 ? 'First hint free' : 'Costs 1 life'}</p>
                 {mode === 'freeplay' && (
                   <ChromaButton variant="ghost" icon="skip_next" onClick={loadPuzzle}>
                     Skip
@@ -532,7 +539,8 @@ export default function App() {
 
           {/* Result message */}
           {result && (
-            <p className={`chroma-text-base chroma-font-semibold chroma-mb-3 ${
+            <>
+            <p className={`chroma-text-base chroma-font-semibold chroma-mb-1 ${
               gaveUp ? 'chroma-text-violet' :
               lives === 0 && !result.correct ? 'chroma-text-red' :
               result.correct ? 'chroma-text-green' : 'chroma-text-amber'
@@ -547,6 +555,14 @@ export default function App() {
                 <><Icon name="heart_broken" size={18} color="var(--red)" /> Out of lives — <strong>{revealedAnswer}</strong></>
               )}
             </p>
+            {result.correct && (
+              <div className="chroma-flex chroma-gap-3 chroma-justify-center chroma-mb-3 chroma-text-xs chroma-text-secondary">
+                <span>Guesses: <strong>{guesses.length}</strong></span>
+                <span>Hints: <strong>{hintIndex}</strong></span>
+                <span>Lives: <strong>{lives}/{4}</strong></span>
+              </div>
+            )}
+            </>
           )}
 
           {/* Hints */}
@@ -602,10 +618,10 @@ export default function App() {
                     let grid = ''
                     if (guesses.length > 0) {
                       guesses.forEach((_, i) => {
-                        grid += '■'.repeat(i + 1) + '⬜'.repeat(MAX_G - (i + 1)) + '\n'
+                        grid += '🟪'.repeat(i + 1) + '⬜'.repeat(MAX_G - (i + 1)) + '\n'
                       })
                     } else {
-                      grid = '■\n'
+                      grid = '🟪\n'
                     }
                     const shareUrl = challengeMode
                       ? `https://heteronym.online/?challenge=${dailyPuzzleNum}`
