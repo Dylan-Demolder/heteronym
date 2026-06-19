@@ -6,12 +6,22 @@ RewriteEngine On
 # Don't rewrite JSON files in /blog/ — the SPA fetches them
 RewriteRule ^blog/.+\.json$ - [L]
 
-# Rewrite /blog and /blog/ to the SPA with page=blog param
+# Serve pre-rendered static HTML for blog posts if they exist
+# If the file or directory exists, Apache serves it directly (no rewrite)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^blog/?$ /?page=blog [L,R=302]
 
-# Rewrite /blog/{slug} to the SPA with page=blog&slug={slug}
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^blog/([^/]+)/?$ /?page=blog&slug=$1 [L,R=302]
 
 # Route /challenge/{id} to the API for OG meta tags (internal rewrite, no redirect)
 # The backend serves an HTML page with OG tags + JS redirect to the SPA
 RewriteRule ^challenge/([0-9]+)/?$ /api/challenge/$1 [L,PT]
+
+# Route /puzzle/{id} to the API for SEO-optimized puzzle pages
+# Each page is a unique heteronym example with full content for search engines
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^puzzle/([0-9]+)/?$ /api/puzzle-page/$1 [L,PT]

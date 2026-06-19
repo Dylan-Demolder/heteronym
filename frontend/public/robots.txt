@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Allow: /puzzle/
 Disallow: /*.json$
 
 Sitemap: https://heteronym.online/sitemap.xml
+Sitemap: https://heteronym.online/api/sitemap-puzzles.xml

@@ -409,6 +409,151 @@ def app(environ, start_response):
         start_response("200 OK", headers)
         return [html.encode()]
 
+    # --- Puzzle info page (SEO: individual page per heteronym with answer) ---
+    if path.startswith("/puzzle-page/"):
+        try:
+            puzzle_id = int(path.split("/puzzle-page/")[1].split("/")[0])
+        except (ValueError, IndexError):
+            return json_resp(start_response,
+                             {"error": "Invalid puzzle ID"}, "400 Bad Request")
+        if not puzzles or puzzle_id < 0 or puzzle_id >= len(puzzles):
+            return json_resp(start_response,
+                             {"error": "Puzzle not found"}, "404 Not Found")
+
+        p = puzzles[puzzle_id]
+        answer = p.get("Answer", "")
+        clue1 = p.get("Clue 1", "")
+        clue2 = p.get("Clue 2", "")
+        hint1 = p.get("Hint 1", "")
+        hint2 = p.get("Hint 2", "")
+        hint3 = p.get("Hint 3", "")
+        difficulty = p.get("Difficulty", "Medium")
+        title = f'Heteronym Example: "{answer}" — Same Spelling, Two Meanings'
+        desc = f'Learn the heteronym "{answer}": meaning 1 is "{clue1.lower()}", meaning 2 is "{clue2.lower()}". Pronunciation guide, examples, and a daily puzzle to test your skills.'
+
+        html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}</title>
+<meta name="description" content="{desc}">
+<meta property="og:title" content='{answer} — Heteronym Example'>
+<meta property="og:description" content="Clue 1: {clue1} · Clue 2: {clue2}. Can you find the hidden heteronym? Play the daily puzzle at heteronym.online">
+<meta property="og:image" content="https://heteronym.online/og-image.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://heteronym.online/puzzle/{puzzle_id}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://heteronym.online/puzzle/{puzzle_id}">
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Heteronym Example: {answer}",
+  "description": "The word '{answer}' is a heteronym. It can mean '{clue1.lower()}' or '{clue2.lower()}'. These are two different meanings of the same spelling.",
+  "author": {{ "@type": "Person", "name": "Dylan Demolder" }},
+  "publisher": {{ "@type": "Organization", "name": "Heteronym", "url": "https://heteronym.online" }},
+  "url": "https://heteronym.online/puzzle/{puzzle_id}"
+}}
+</script>
+<style>
+* {{ margin: 0; padding: 0; box-sizing: border-box; }}
+body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #f5f5f7; color: #1a1a2e; line-height: 1.6; }}
+.page {{ max-width: 640px; margin: 0 auto; padding: 32px 16px; }}
+.card {{ background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(124,92,252,0.12); border-radius: 16px; padding: 32px; margin-bottom: 16px; }}
+h1 {{ font-size: 26px; font-weight: 700; margin-bottom: 8px; }}
+.meta {{ color: #888; font-size: 13px; margin-bottom: 20px; }}
+.clue {{ background: rgba(124,92,252,0.06); border-radius: 10px; padding: 16px; margin-bottom: 12px; }}
+.clue-label {{ font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #7C5CFC; font-weight: 600; margin-bottom: 4px; }}
+.clue-text {{ font-size: 16px; color: #1a1a2e; font-weight: 600; }}
+.answer-box {{ background: #7C5CFC; color: white; border-radius: 10px; padding: 16px; text-align: center; margin: 20px 0; }}
+.answer-box .label {{ font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }}
+.answer-box .word {{ font-size: 24px; font-weight: 700; margin-top: 4px; }}
+.cta {{ display: block; text-align: center; margin: 24px 0; }}
+.cta a {{ display: inline-block; background: #7C5CFC; color: white; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-size: 16px; font-weight: 600; }}
+.cta a:hover {{ background: #6a4de0; }}
+.hints {{ margin-top: 16px; }}
+.hint {{ font-size: 14px; color: #666; padding: 8px 0; border-bottom: 1px solid #eee; }}
+.footer {{ text-align: center; padding: 24px 0; color: #888; font-size: 13px; }}
+.footer a {{ color: #7C5CFC; text-decoration: none; }}
+@media (prefers-color-scheme: dark) {{
+  body {{ background: #0f0f1a; color: #e8e8f0; }}
+  .card {{ background: rgba(20,20,35,0.9); border-color: rgba(124,92,252,0.2); }}
+  .clue {{ background: rgba(124,92,252,0.1); }}
+  .clue-text {{ color: #e8e8f0; }}
+  .hint {{ color: #b0b0c0; border-color: #2a2a3e; }}
+  .meta {{ color: #666; }}
+}}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="card">
+    <h1>Heteronym: "{answer}"</h1>
+    <p class="meta">{difficulty} difficulty · <a href="/" style="color:#7C5CFC">Play the daily puzzle</a></p>
+
+    <p style="margin-bottom:16px;color:#666;font-size:14px">The word "{answer}" is a heteronym — it's spelled the same but has different meanings (and often different pronunciations).</p>
+
+    <div class="clue">
+      <div class="clue-label">Meaning 1</div>
+      <div class="clue-text">{clue1}</div>
+    </div>
+    <div class="clue">
+      <div class="clue-label">Meaning 2</div>
+      <div class="clue-text">{clue2}</div>
+    </div>
+
+    <div class="answer-box">
+      <div class="label">The heteronym</div>
+      <div class="word">{answer}</div>
+    </div>
+
+    <p style="font-size:14px;color:#666">Can you find the connection between these two meanings? That's the challenge in every Heteronym puzzle — try today's puzzle to test your lateral thinking.</p>
+
+    <div class="cta">
+      <a href="/">Play Today's Heteronym Puzzle →</a>
+    </div>
+
+    <div class="hints">
+      <p style="font-size:13px;font-weight:600;margin-bottom:8px;color:#1a1a2e">Hints for this heteronym:</p>
+      <div class="hint">💡 {hint1}</div>
+      <div class="hint">💡 {hint2}</div>
+      <div class="hint">💡 {hint3}</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <p><a href="/">Heteronym</a> — Two clues, one hidden word. A new puzzle every day.</p>
+    <p style="margin-top:8px"><a href="/blog">Blog</a></p>
+  </div>
+</div>
+</body>
+</html>"""
+
+        headers = [
+            ("Content-Type", "text/html; charset=utf-8"),
+            ("Content-Length", str(len(html.encode()))),
+            ("Access-Control-Allow-Origin", "*"),
+        ]
+        start_response("200 OK", headers)
+        return [html.encode()]
+
+    # --- Puzzle sitemap (dynamic XML for all 357 puzzle pages) ---
+    if path == "/sitemap-puzzles.xml":
+        lines = ['<?xml version="1.0" encoding="UTF-8"?>']
+        lines.append('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')
+        for i in range(len(puzzles)):
+            lines.append(f"  <url><loc>https://heteronym.online/puzzle/{i}</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>")
+        lines.append("</urlset>")
+        xml = "\n".join(lines)
+        headers = [
+            ("Content-Type", "application/xml; charset=utf-8"),
+            ("Content-Length", str(len(xml.encode()))),
+            ("Access-Control-Allow-Origin", "*"),
+        ]
+        start_response("200 OK", headers)
+        return [xml.encode()]
+
     return json_resp(start_response, {"error": "Not found"}, "404 Not Found")
 
 

@@ -22,6 +22,77 @@
       plausible.init()
     </script>
 
+    <!-- FAQ + Game structured data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Heteronym",
+      "url": "https://heteronym.online",
+      "description": "A daily word puzzle where two clues point to one hidden heteronym — same spelling, different meanings.",
+      "applicationCategory": "GameApplication",
+      "operatingSystem": "All",
+      "browserRequirements": "Requires JavaScript",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Dylan Demolder"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a heteronym?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A heteronym is a word that is spelled the same as another word but has a different meaning and pronunciation. For example, 'lead' can mean to guide (pronounced 'leed') or a heavy metal (pronounced 'led')."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do you play Heteronym?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "You are shown two clues that describe different meanings of the same hidden word. Type your guess to see if you're correct. Wrong guesses cost lives, and hints reveal more information. Solve the daily puzzle to keep your streak alive."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Heteronym free to play?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, Heteronym is completely free to play. There are no paywalls, subscriptions, or in-app purchases. The daily puzzle and free play mode are both free."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is Heteronym different from Wordle?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Wordle challenges you to guess a 5-letter word letter-by-letter. Heteronym challenges you to find a word that connects two given clues — it tests vocabulary and lateral thinking rather than letter patterns."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many clues do I get?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Each puzzle gives you two clues. Both clues point to different meanings of the same heteronym. You can also use up to 3 hints if you get stuck."
+          }
+        }
+      ]
+    }
+    </script>
+
     <!-- Open Graph -->
     <meta property="og:title" content="Heteronym" />
     <meta property="og:description" content="Two clues point to one hidden synonym — can you guess the heteronym?" />
