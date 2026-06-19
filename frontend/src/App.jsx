@@ -50,6 +50,7 @@ export default function App() {
   const [showStats, setShowStats] = useState(false)
   const [showCompletion, setShowCompletion] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [challengeCopied, setChallengeCopied] = useState(false)
   const [nextTimer, setNextTimer] = useState('')
   const [stats, setStatsRaw] = useState(loadStats)
   const [dailyPuzzleNum, setDailyPuzzleNum] = useState(0)
@@ -99,6 +100,21 @@ export default function App() {
     }
     window.history.replaceState(null, '', url.toString())
   }, [showArchive, showAbout, showBlog, blogPostSlug])
+
+  // Update OG meta tags for challenge mode — social media previews
+  useEffect(() => {
+    if (!challengeMode || !puzzle) return
+    const prevOgTitle = document.querySelector('meta[property="og:title"]')?.getAttribute('content') || ''
+    const prevOgDesc = document.querySelector('meta[property="og:description"]')?.getAttribute('content') || ''
+    const ogTitle = document.querySelector('meta[property="og:title"]')
+    const ogDesc = document.querySelector('meta[property="og:description"]')
+    if (ogTitle) ogTitle.setAttribute('content', `Heteronym — Puzzle #${dailyPuzzleNum + 1} Challenge`)
+    if (ogDesc) ogDesc.setAttribute('content', `Two clues, one hidden word. Clue 1: ${puzzle.clue1} · Clue 2: ${puzzle.clue2}. Can you solve it?`)
+    return () => {
+      if (ogTitle) ogTitle.setAttribute('content', prevOgTitle)
+      if (ogDesc) ogDesc.setAttribute('content', prevOgDesc)
+    }
+  }, [challengeMode, puzzle])
 
   // Listen for back/forward navigation to sync overlay state
   useEffect(() => {
@@ -343,7 +359,7 @@ export default function App() {
   const shareResult = async () => {
     const isChallenge = challengeMode
     const siteUrl = isChallenge
-      ? `https://heteronym.online/?challenge=${dailyPuzzleNum}`
+      ? `https://heteronym.online/challenge/${dailyPuzzleNum}`
       : 'https://heteronym.online'
     const lines = [`Heteronym — Puzzle #${dailyPuzzleNum + 1}`]
     if (result?.correct) {
@@ -599,16 +615,59 @@ export default function App() {
           {/* Post-completion actions (daily mode) */}
           {mode === 'daily' && (result?.correct || (lives === 0 && result) || gaveUp) && (
             <div className="chroma-mt-4 chroma-space-y-3">
+              {/* Challenge a friend — share the daily puzzle link */}
+              {!challengeMode && (
+                <div className="chroma-rounded-xl chroma-p-3 chroma-bg-violet/5 chroma-border chroma-border-violet/10">
+                  <p className="chroma-text-sm chroma-font-semibold chroma-text-primary chroma-mb-1">
+                    <Icon name="emoji_events" size={16} color="var(--violet)" className="chroma-align-middle chroma-mr-1" />
+                    Challenge a friend
+                  </p>
+                  <p className="chroma-text-xs chroma-text-tertiary chroma-mb-2">
+                    See who can solve today's puzzle faster
+                  </p>
+                  <ChromaButton
+                    variant="primary"
+                    icon={challengeCopied ? 'check' : 'link'}
+                    fullWidth
+                    size="sm"
+                    onClick={async () => {
+                      const url = `https://heteronym.online/challenge/${dailyPuzzleNum}`
+                      try {
+                        await navigator.clipboard.writeText(url)
+                        setChallengeCopied(true)
+                        setTimeout(() => setChallengeCopied(false), 2000)
+                      } catch {
+                        // Fallback
+                        const ta = document.createElement('textarea')
+                        ta.value = url
+                        document.body.appendChild(ta)
+                        ta.select()
+                        document.execCommand('copy')
+                        document.body.removeChild(ta)
+                        setChallengeCopied(true)
+                        setTimeout(() => setChallengeCopied(false), 2000)
+                      }
+                    }}
+                  >
+                    {challengeCopied ? 'Link Copied!' : 'Copy Challenge Link'}
+                  </ChromaButton>
+                </div>
+              )}
+
+              {/* Share Result (clipboard / native share on mobile) */}
               <ChromaButton
                 variant="primary"
                 icon={copied ? 'check' : 'share'}
                 fullWidth
                 onClick={shareResult}
               >
-                {copied ? 'Copied!' : 'Share Result'}
+                {copied ? 'Copied!' : 'Share Score'}
               </ChromaButton>
+
               {/* Social share links */}
-              <div className="chroma-flex chroma-gap-2 chroma-justify-center">
+              <p className="chroma-text-xs chroma-text-center chroma-text-tertiary chroma--mb-1">Share on social</p>
+              <div className="chroma-flex chroma-gap-2 chroma-justify-center chroma-flex-wrap">
+                {/* X/Twitter */}
                 <ChromaButton
                   variant="ghost"
                   size="sm"
@@ -624,21 +683,50 @@ export default function App() {
                       grid = '🟪\n'
                     }
                     const shareUrl = challengeMode
-                      ? `https://heteronym.online/?challenge=${dailyPuzzleNum}`
+                      ? `https://heteronym.online/challenge/${dailyPuzzleNum}`
                       : `https://heteronym.online`
-                    const tweetLines = [
+                    const lines = [
                       `Heteronym — Puzzle #${dailyPuzzleNum + 1}`,
                       grid.trimEnd(),
                       `Streak: ${stats.currentStreak}`,
                       shareUrl,
                     ]
-                    const text = encodeURIComponent(tweetLines.join('\n'))
-                    window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank', 'noopener')
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener')
                   }}
                 >
                   X
                 </ChromaButton>
+                {/* WhatsApp */}
+                <ChromaButton
+                  variant="ghost"
+                  size="sm"
+                  icon="chat"
+                  onClick={() => {
+                    const MAX_G = 4
+                    let grid = ''
+                    if (guesses.length > 0) {
+                      guesses.forEach((_, i) => {
+                        grid += '🟪'.repeat(i + 1) + '⬜'.repeat(MAX_G - (i + 1)) + '\n'
+                      })
+                    } else {
+                      grid = '🟪\n'
+                    }
+                    const shareUrl = challengeMode
+                      ? `https://heteronym.online/challenge/${dailyPuzzleNum}`
+                      : `https://heteronym.online`
+                    const lines = [
+                      `Heteronym — Puzzle #${dailyPuzzleNum + 1}`,
+                      grid.trimEnd(),
+                      `Streak: ${stats.currentStreak}`,
+                      shareUrl,
+                    ]
+                    window.open(`https://wa.me/?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener')
+                  }}
+                >
+                  WhatsApp
+                </ChromaButton>
               </div>
+
               <p className="chroma-text-xs chroma-text-tertiary">
                 <Icon name="schedule" size={14} className="chroma-align-middle chroma-mr-1" />
                 Next puzzle in {nextTimer}

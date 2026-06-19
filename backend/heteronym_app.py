@@ -363,6 +363,52 @@ def app(environ, start_response):
         finally:
             conn.close()
 
+    # --- Challenge OG page (for social media preview cards) ---
+    if path.startswith("/challenge/"):
+        try:
+            challenge_id = int(path.split("/challenge/")[1].split("/")[0])
+        except (ValueError, IndexError):
+            return json_resp(start_response,
+                             {"error": "Invalid challenge ID"}, "400 Bad Request")
+        if not puzzles or challenge_id < 0 or challenge_id >= len(puzzles):
+            return json_resp(start_response,
+                             {"error": "Puzzle not found"}, "404 Not Found")
+
+        puzzle = puzzles[challenge_id]
+        clues = f"Clue 1: {puzzle.get('Clue 1', '')} / Clue 2: {puzzle.get('Clue 2', '')}"
+        title = f"Heteronym — Puzzle #{challenge_id + 1} Challenge"
+        description = f"Two clues, one hidden word. {clues}. Can you solve it?"
+
+        html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>{title}</title>
+<meta name="description" content="{description}">
+<meta property="og:title" content="{title}">
+<meta property="og:description" content="{description}">
+<meta property="og:image" content="https://heteronym.online/og-image.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://heteronym.online/challenge/{challenge_id}">
+<meta name="twitter:card" content="summary_large_image">
+<meta http-equiv="refresh" content="0;url=/?challenge={challenge_id}">
+<link rel="canonical" href="https://heteronym.online/?challenge={challenge_id}">
+</head>
+<body>
+<h1>{title}</h1>
+<p>{description}</p>
+<p>Redirecting to puzzle…</p>
+<script>location.href="/?challenge={challenge_id}";</script>
+</body>
+</html>"""
+        headers = [
+            ("Content-Type", "text/html; charset=utf-8"),
+            ("Content-Length", str(len(html.encode()))),
+            ("Access-Control-Allow-Origin", "*"),
+        ]
+        start_response("200 OK", headers)
+        return [html.encode()]
+
     return json_resp(start_response, {"error": "Not found"}, "404 Not Found")
 
 

@@ -20,7 +20,7 @@ export default function BlogPost({ slug, onBack }) {
       })
   }, [slug])
 
-  // SEO: update document title and meta tags when a post is loaded
+  // SEO: update document title, meta tags, and JSON-LD structured data when a post is loaded
   useEffect(() => {
     if (!post) return
     const prevTitle = document.title
@@ -36,6 +36,36 @@ export default function BlogPost({ slug, onBack }) {
     const ogDesc = document.querySelector('meta[property="og:description"]')
     if (ogDesc) ogDesc.setAttribute('content', post.description)
 
+    // JSON-LD structured data (Article schema)
+    let ldScript = document.getElementById('ld-article')
+    if (!ldScript) {
+      ldScript = document.createElement('script')
+      ldScript.id = 'ld-article'
+      ldScript.type = 'application/ld+json'
+      document.head.appendChild(ldScript)
+    }
+    ldScript.textContent = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: post.title,
+      description: post.description,
+      datePublished: post.date,
+      author: {
+        '@type': 'Person',
+        name: 'Dylan Demolder',
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Heteronym',
+        url: 'https://heteronym.online',
+      },
+      url: `https://heteronym.online/blog/${post.slug}`,
+      mainEntityOfPage: {
+        '@type': 'WebPage',
+        '@id': `https://heteronym.online/blog/${post.slug}`,
+      },
+    })
+
     return () => {
       document.title = prevTitle
       const dm = document.querySelector('meta[name="description"]')
@@ -44,6 +74,9 @@ export default function BlogPost({ slug, onBack }) {
       if (ot) ot.setAttribute('content', prevOgTitle)
       const od = document.querySelector('meta[property="og:description"]')
       if (od) od.setAttribute('content', prevOgDesc)
+      // Remove JSON-LD on unmount
+      const s = document.getElementById('ld-article')
+      if (s) s.remove()
     }
   }, [post])
 
