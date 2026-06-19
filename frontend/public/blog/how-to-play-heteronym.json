@@ -1,0 +1,132 @@
+{
+  "title": "How to Play Heteronym: Rules, Tips, and Strategies for Beginners",
+  "slug": "how-to-play-heteronym",
+  "date": "2026-06-19",
+  "description": "New to Heteronym? Learn the rules, scoring, hints system, and expert strategies to solve daily heteronym puzzles faster and build your streak.",
+  "tags": ["heteronyms", "how-to", "guide", "puzzles", "tips", "beginners"],
+  "readTime": "5 min read",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Heteronym is a daily word puzzle that challenges your lateral thinking and vocabulary. Each puzzle gives you two clues — and you must find the single word that connects them both. The twist? The answer is always a heteronym: a word spelled the same but with different meanings (and often different pronunciations)."
+    },
+    {
+      "type": "paragraph",
+      "text": "For example, the clues 'to guide' and 'a heavy metal' both point to 'lead'. The clues 'to rip' and 'a drop from your eye' both point to 'tear'. You're not guessing letters — you're making a semantic leap between two seemingly unrelated concepts."
+    },
+    {
+      "type": "heading",
+      "text": "How to Play"
+    },
+    {
+      "type": "paragraph",
+      "text": "The game is simple to understand but tricky to master:"
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Read the clues", "definition": "You're shown two clues. Each describes a different meaning of the same hidden word. Think about what concept connects them."},
+        {"term": "Type your guess", "definition": "Enter a word you think matches both clues. Submit it and the game will tell you if you're correct."},
+        {"term": "Use hints (carefully)", "definition": "If you're stuck, you can reveal a hint. The first hint is free — subsequent hints cost one life each."},
+        {"term": "Solve or lose lives", "definition": "Each wrong guess costs one life. You start with 4 lives. Lose all 4 and the puzzle is over."},
+        {"term": "Share your score", "definition": "If you solve the daily puzzle, you can share your result (in violet emoji grid format, just like Wordle) with friends."}
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Game Modes"
+    },
+    {
+      "type": "paragraph",
+      "text": "Heteronym offers two ways to play:"
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Daily Puzzle", "definition": "One new puzzle every day, the same for everyone worldwide. Your streak, win rate, and stats are tracked. Share your result and challenge friends to beat your score."},
+        {"term": "Free Play", "definition": "Practice mode with random puzzles from the archive. No streak pressure — just build your skills and vocabulary. A running score tracks your total points across sessions."}
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Scoring & Lives"
+    },
+    {
+      "type": "paragraph",
+      "text": "Understanding the scoring system helps you make strategic decisions:"
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "4 lives per puzzle", "definition": "Every wrong guess costs 1 life. Use hints strategically — the first is free, but each subsequent hint also costs 1 life."},
+        {"term": "Points for solving", "definition": "Solve without hints: 3 points. With 1 hint used: 2 points. With 2+ hints: 1 point. Points accumulate in Free Play mode."},
+        {"term": "Streaks", "definition": "Solve the daily puzzle on consecutive days to build your streak. Miss a day and it resets. Your longest streak is tracked separately."},
+        {"term": "Giving up", "definition": "If you're completely stuck, you can reveal the answer — but it counts as a loss and breaks your streak."}
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Strategies for Beginners"
+    },
+    {
+      "type": "paragraph",
+      "text": "Here are some proven strategies to improve your solve rate:"
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Think about word categories", "definition": "If Clue 1 is a verb and Clue 2 is a noun, you're looking for a word that works as both. Many heteronyms are noun-verb pairs (record, produce, contract, object)."},
+        {"term": "Look for the stress shift", "definition": "Common heteronym pattern: the noun is stressed on the first syllable (RE-cord, OB-ject), the verb on the second (re-CORD, ob-JECT). If the two clues feel like different parts of speech, this pattern is your friend."},
+        {"term": "Save hints for the end", "definition": "The first hint is free, but don't burn it immediately. Spend a few minutes thinking first — then use it to confirm or redirect your thinking."},
+        {"term": "Check dictionary definitions", "definition": "If you think of a word that might work but aren't sure, look it up. Heteronyms have distinct dictionary entries with different pronunciations."},
+        {"term": "Play daily", "definition": "Like any puzzle, you get better with practice. The daily format trains your brain to think in heteronym patterns over time."}
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "What Is a Heteronym? (Quick Refresher)"
+    },
+    {
+      "type": "paragraph",
+      "text": "A heteronym is a word that:"
+    },
+    {
+      "type": "list",
+      "items": [
+        {"term": "Same spelling", "definition": "Both meanings use the exact same letters — no changes, no accents."},
+        {"term": "Different meanings", "definition": "The two meanings are unrelated or distantly related (lead as 'to guide' vs lead as 'the metal')."},
+        {"term": "Different pronunciations", "definition": "Unlike homonyms (which sound the same), heteronyms sound different. Wind (air) rhymes with 'grinned'; wind (to twist) rhymes with 'find'."}
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Heteronyms are different from homophones (sound the same, spelled differently — like 'there/their/they're') and homographs (spelled the same, could sound the same or different — heteronyms are a subset of homographs that sound different)."
+    },
+    {
+      "type": "heading",
+      "text": "Challenge Your Friends"
+    },
+    {
+      "type": "paragraph",
+      "text": "After completing the daily puzzle, you can generate a challenge link. Share it with friends and see who can solve it faster. Each challenge link shares the same puzzle so you're comparing on equal footing."
+    },
+    {
+      "type": "paragraph",
+      "text": "Your friend clicks the link, plays the puzzle, and their result is independent from yours — but you can compare scores to see who solved in fewer guesses."
+    },
+    {
+      "type": "cta",
+      "text": "Play Today's Heteronym Puzzle",
+      "url": "https://heteronym.online"
+    },
+    {
+      "type": "paragraph",
+      "text": "Whether you're a word game veteran or brand new to heteronyms, the daily puzzle takes just a few minutes and exercises a different part of your brain than Wordle or Connections. One puzzle a day keeps your vocabulary sharp."
+    },
+    {
+      "type": "cta",
+      "text": "Explore More Heteronym Examples →",
+      "url": "https://heteronym.online/blog/100-common-heteronyms-complete-list"
+    }
+  ]
+}
