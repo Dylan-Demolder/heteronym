@@ -15,7 +15,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - name: Build frontend
         env:
-          VITE_BEEHIIV_EMBED_URL: ${{ secrets.BEEHIIV_EMBED_URL }}
+          VITE_NEWSLETTER_EMBED_URL: ${{ secrets.NEWSLETTER_EMBED_URL }}
         run: cd frontend && npm ci && npm run build
       - name: Deploy to cPanel
         env:

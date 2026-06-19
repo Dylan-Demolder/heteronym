@@ -2,24 +2,15 @@ import { useState, useEffect } from 'react'
 import { Input, ChromaButton, GlassPanel, Icon } from './chroma'
 
 /**
- * NewsletterSignup — Beehiiv signup embed for the puzzle completion screen.
+ * NewsletterSignup — Embedded form signup for the puzzle completion screen.
  *
- * HOW TO CONFIGURE (choose one):
+ * Set VITE_NEWSLETTER_EMBED_URL in your deployment env to the iframe embed URL
+ * from your email provider (MailerLite, Beehiiv, ConvertKit, etc.).
  *
- * Option A — Iframe embed (simplest, no API key needed):
- *   Set VITE_BEEHIIV_EMBED_URL in your deployment env to the Beehiiv iframe src.
- *   Example: VITE_BEEHIIV_EMBED_URL=https://embeds.beehiiv.com/abcdef12-3456-7890-abcd-ef1234567890
- *
- * Option B — Direct API submission (custom form, needs API key):
- *   Set VITE_BEEHIIV_API_URL and VITE_BEEHIIV_API_KEY (server-side proxy recommended).
- *   The frontend sends POST to VITE_BEEHIIV_API_URL with {email} in the body.
- *
- * If neither is set, the component shows a "Coming Soon" placeholder.
+ * If unset, the component is hidden.
  */
 
-const EMBED_URL = import.meta.env.VITE_BEEHIIV_EMBED_URL || ''
-const API_URL = import.meta.env.VITE_BEEHIIV_API_URL || ''
-const API_KEY = import.meta.env.VITE_BEEHIIV_API_KEY || ''
+const EMBED_URL = import.meta.env.VITE_NEWSLETTER_EMBED_URL || ''
 
 export default function NewsletterSignup() {
   const [email, setEmail] = useState('')
