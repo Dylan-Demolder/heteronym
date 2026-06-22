@@ -343,6 +343,7 @@ body {
 /* ── Input ─────────────────────────────────────── */
 .chroma-input {
   width: 100%;
+  box-sizing: border-box;
   font-family: var(--font-body);
   font-size: 16px;
   padding: 10px 14px;
