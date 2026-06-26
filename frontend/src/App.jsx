@@ -321,7 +321,7 @@ export default function App() {
 
   // Persist daily state & update stats on completion
   useEffect(() => {
-    if (!puzzle || mode !== 'daily' || !result) return
+    if (!puzzle || mode !== 'daily' || (!result && !gaveUp)) return
     if (!result.correct && lives > 0 && !gaveUp) return // still playing
 
     const state = { puzzle, guesses, hintIndex, lives, result, revealedAnswer, completed: true }
@@ -554,7 +554,7 @@ export default function App() {
           )}
 
           {/* Result message */}
-          {result && (
+          {(result || gaveUp) && (
             <>
             <p className={`chroma-text-base chroma-font-semibold chroma-mb-1 ${
               gaveUp ? 'chroma-text-violet' :
