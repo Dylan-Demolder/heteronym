@@ -561,7 +561,7 @@ export default function App() {
               lives === 0 && !result.correct ? 'chroma-text-red' :
               result.correct ? 'chroma-text-green' : 'chroma-text-amber'
             }`}>
-              {result.correct ? (
+              {result?.correct ? (
                 <><Icon name="check_circle" size={18} color="var(--green)" filled /> Correct! ({guesses.length} guess{guesses.length !== 1 ? 'es' : ''})</>
               ) : gaveUp ? (
                 <><Icon name="visibility" size={18} color="var(--violet)" /> Gave up — the answer was <strong>{revealedAnswer}</strong></>
@@ -571,7 +571,7 @@ export default function App() {
                 <><Icon name="heart_broken" size={18} color="var(--red)" /> Out of lives — <strong>{revealedAnswer}</strong></>
               )}
             </p>
-            {result.correct && (
+            {result?.correct && (
               <div className="chroma-flex chroma-gap-3 chroma-justify-center chroma-mb-3 chroma-text-xs chroma-text-secondary">
                 <span>Guesses: <strong>{guesses.length}</strong></span>
                 <span>Hints: <strong>{hintIndex}</strong></span>
