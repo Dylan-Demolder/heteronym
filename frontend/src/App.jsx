@@ -543,7 +543,7 @@ export default function App() {
               </div>
 
               {/* Give Up — shown when 1 life left (3 lost) or exhausted, giving up reveals answer */}
-              {puzzle && !result && !(result?.correct || (lives === 0 && result) || gaveUp) && (
+              {puzzle && !(result?.correct || (lives === 0 && result) || gaveUp) && (
                 <div className="chroma-mb-4">
                   <ChromaButton variant="ghost" icon="lightbulb" fullWidth onClick={handleGiveUp}>
                     Show Answer
