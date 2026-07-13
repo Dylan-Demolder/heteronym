@@ -1,0 +1,105 @@
+{
+  "title": "Beyond English: Do Other Languages Have Heteronyms?",
+  "slug": "heteronyms-in-other-languages",
+  "date": "2026-07-13",
+  "description": "English isn't the only language with double-meaning words. From French to Mandarin, discover how other languages handle heteronyms — words spelled the same with different pronunciations and meanings.",
+  "tags": ["heteronyms", "linguistics", "cross-linguistic", "mandarin", "french", "language-comparison"],
+  "readTime": "6 min read",
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "If you've spent any time learning about heteronyms, you know English is packed with them. \"Lead\" (the metal) and \"lead\" (to guide). \"Bass\" (the fish) and \"bass\" (low sound). \"Close\" (nearby) and \"close\" (to shut). English has hundreds of these tricky pairs — same spelling, different pronunciation, different meaning. They're one of the most confusing aspects of the language for learners, and one of the most delightful for wordplay enthusiasts."
+    },
+    {
+      "type": "paragraph",
+      "text": "But here's a question you might not have considered: is English unique in having heteronyms? Do French speakers struggle with double-meaning spellings? Do Mandarin learners groan over characters that change pronunciation? The answer might surprise you: not only do other languages have heteronyms, some have far more than English."
+    },
+    {
+      "type": "heading",
+      "text": "French: A Small but Elegant Set of Hétéronymes"
+    },
+    {
+      "type": "paragraph",
+      "text": "French does have heteronyms, though they're far less common than in English. French spelling was standardized earlier and is more phonetic, leaving less room for the spelling-pronunciation mismatches that create English heteronyms. Still, a few excellent examples show that even a language with relatively consistent spelling can produce genuine double-meaning words:"
+    },
+    {
+      "type": "table",
+      "headers": ["French Word", "Pronunciation 1", "Meaning 1", "Pronunciation 2", "Meaning 2"],
+      "rows": [
+        ["fils", "/fis/", "son (child)", "/fil/", "threads (plural of thread)"],
+        ["couvent", "/kuvɑ̃/", "convent, nunnery", "/kuv/", "they brood (from couver)"],
+        ["est", "/ɛ/", "is (être conjugation)", "/ɛst/", "east (compass point)"],
+        ["plus", "/ply/", "more (negative sense)", "/plys/", "more (affirmative, emphasis)"],
+        ["portions", "/pɔʁsjɔ̃/", "portions, servings", "/pɔʁtjɔ̃/", "we carried (from porter)"]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "Notice the pattern: most French heteronyms arise from verb conjugations that happen to be spelled the same as a noun — the same mechanism that gives English \"record\" (noun vs verb stress shift) and \"close\" (adjective vs verb). The difference is quantity: English accumulated hundreds of these because its spelling froze around the 15th century, just before pronunciation went through enormous changes. French periodically reformed its spelling, keeping the heteronym count relatively low."
+    },
+    {
+      "type": "heading",
+      "text": "Mandarin Chinese: The Undisputed Heteronym Champion"
+    },
+    {
+      "type": "paragraph",
+      "text": "If English has hundreds of heteronyms, Mandarin Chinese has thousands. The language is rich in 多音字 (duōyīnzì) — literally \"many-sound characters\" — where a single written character carries multiple pronunciations with different meanings. Because Chinese uses a logographic writing system rather than an alphabet, one written form can map to many spoken forms without the usual constraints of alphabetic spelling."
+    },
+    {
+      "type": "table",
+      "headers": ["Character", "Pronunciation 1", "Meaning 1", "Pronunciation 2", "Meaning 2"],
+      "rows": [
+        ["行", "xíng", "to walk, capable, OK", "háng", "line, profession, bank"],
+        ["长", "cháng", "long (in length)", "zhǎng", "to grow, leader, elder"],
+        ["乐", "lè", "happiness, joy", "yuè", "music"],
+        ["了", "le", "past tense particle", "liǎo", "to finish, understand clearly"],
+        ["着", "zhe", "progressive aspect marker", "zháo", "to touch, to be affected by"]
+      ]
+    },
+    {
+      "type": "paragraph",
+      "text": "The character 行 (xíng / háng) is a perfect example of the challenge. As xíng, it means \"to walk\" or \"OK\" — you see it in words like 步行 (bùxíng, \"to walk\") and 流行 (liúxíng, \"popular\"). But as háng, it means \"bank\" or \"profession\" — 银行 (yínháng, \"bank\") and 行业 (hángyè, \"industry\"). A Mandarin learner encountering 银行 for the first time might try to pronounce it as *yínxíng, making the exact same kind of mistake an English learner makes when reading \"I'll lead the way with this lead pipe.\" The experience of learning heteronyms, it turns out, is universal."
+    },
+    {
+      "type": "heading",
+      "text": "German and Japanese: Different Systems, Same Challenge"
+    },
+    {
+      "type": "paragraph",
+      "text": "German has relatively few heteronyms, but the ones it does have are fascinating. The classic example is \"umfahren\" — which also happens to be a contranym (a word that means its own opposite). With stress on the first syllable (úmfahren, separable prefix), it means \"to run over.\" With stress on the middle syllable (umfáhren, inseparable prefix), it means \"to drive around\" (to avoid). One word, two pronunciations, opposite meanings. Other German examples include \"übersetzen\" (to translate vs to ferry across) and \"modern\" (fashionable, an adjective, vs to rot, a verb). These arise from the separable/inseparable verb prefix system, a grammatical feature English lost centuries ago."
+    },
+    {
+      "type": "paragraph",
+      "text": "Japanese offers yet another flavor. The language uses Chinese characters (kanji) with two major reading categories: on'yomi (Chinese-derived readings) and kun'yomi (native Japanese readings). Many kanji compounds can be read multiple ways. For instance, 上手 can be read as \"jōzu\" (skilful, good at) or \"uwate\" (upper hand, top part). 今日 is \"kyō\" (today) in everyday speech or \"konnichi\" (these days) in formal writing. 大人 reads as \"otona\" (adult) or \"daijin\" (great person, a historical title). These aren't technically heteronyms in the strict linguistic sense — since kanji represent ideas rather than sounds — but functionally they create the same brain-twisting experience: same written word, different pronunciation, different meaning, and context is everything."
+    },
+    {
+      "type": "heading",
+      "text": "Romance Languages: The Phonetic Exception"
+    },
+    {
+      "type": "paragraph",
+      "text": "Italian and Spanish stand out as languages with almost no true heteronyms. Why? Both underwent systematic spelling reforms that kept writing closely aligned with pronunciation. Spanish has been regulated by the Real Academia Española since the 18th century, which periodically updates spelling to reflect how people actually speak. Italian spelling was largely standardized around the Florentine dialect in the 14th century and has remained remarkably stable and phonetic. In these languages, what you see is essentially what you say — making them blissfully free of the spelling-pronunciation traps that make English heteronyms so notorious."
+    },
+    {
+      "type": "heading",
+      "text": "What This Teaches Us About Language"
+    },
+    {
+      "type": "paragraph",
+      "text": "This cross-linguistic tour reveals an important insight: heteronyms aren't a quirk of English. They're a natural consequence of the gap between writing and speech — a gap that exists in every language with a writing system. The question isn't whether a language has heteronyms, but how many and why."
+    },
+    {
+      "type": "paragraph",
+      "text": "Languages that reform their spelling regularly (Spanish, Italian, modern German) accumulate fewer heteronyms. Languages with conservative spelling traditions (English, French) accumulate more. And languages where writing operates at a different level than sound (Chinese, Japanese kanji) can produce vast numbers of heteronym-like phenomena. English sits somewhere in the middle — not the worst offender, but certainly one of the most entertaining."
+    },
+    {
+      "type": "paragraph",
+      "text": "Next time you're puzzling over whether \"lead\" is LED or LEED, remember: Mandarin learners are puzzling over 行 (xíng or háng), French learners are wrestling with fil vs fils, and Japanese learners are decoding 上手 (jōzu or uwate). Double meanings are part of the human experience of written language — and that's precisely what makes heteronyms so endlessly fascinating."
+    },
+    {
+      "type": "cta",
+      "text": "Ready to put your heteronym skills to the test? Play today's puzzle →",
+      "url": "https://heteronym.online"
+    }
+  ]
+}
