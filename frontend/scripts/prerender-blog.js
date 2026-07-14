@@ -2,7 +2,7 @@
  * Pre-render blog posts as static HTML files for SEO.
  * Runs after vite build — reads JSON posts from public/blog/,
  * renders them to <dist>/blog/<slug>/index.html with full content,
- * OG tags, JSON-LD, and inlined CHROMA-inspired styles.
+ * OG tags, JSON-LD, and inlined CHROMA styles.
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
@@ -15,15 +15,96 @@ const DIST = join(__dirname, '..', 'dist', 'blog')
 
 const SITE = 'https://heteronym.online'
 
-// ── Minimal CHROMA-inspired styles (inlined, no external deps) ──
+// ── CHROMA Design System styles (inlined, no external deps) ──
 const STYLES = `
+/* ═══════════════════════════════════════════════════
+   CHROMA Design System — Blog pages
+   Palette: Violet, Coral, Teal, Amber
+   ═══════════════════════════════════════════════════ */
+
+/* ── CSS Custom Properties (Design Tokens) ──────── */
+:root {
+  --violet: #7C5CFC;
+  --violet-light: #8B6FF7;
+  --violet-lighter: #A78BFA;
+  --violet-dim: #6A4EE0;
+  --coral: #FF6B6B;
+  --coral-light: #FF8A8A;
+  --coral-dim: #E55A5A;
+  --teal: #14B8A6;
+  --teal-light: #2DD4BF;
+  --teal-dim: #0D9488;
+  --amber: #F59E0B;
+  --amber-light: #FBBF24;
+  --amber-dim: #D97706;
+  --bg-page: #f5f5f7;
+  --bg-content: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.7);
+  --bg-glass-l2: rgba(255, 255, 255, 0.5);
+  --bg-glass-l3: rgba(255, 255, 255, 0.9);
+  --bg-hover: rgba(0, 0, 0, 0.04);
+  --text-primary: #1d1d1f;
+  --text-secondary: #6e6e73;
+  --text-tertiary: #86868b;
+  --border-glass: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.16);
+  --green: #30d158;
+  --red: #ef4444;
+  --orange: #ff9f0a;
+  --r-sm: 6px;
+  --r-md: 8px;
+  --r-lg: 10px;
+  --r-xl: 14px;
+  --r-full: 9999px;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-page: #1c1c1e;
+    --bg-content: #2c2c2e;
+    --bg-glass: rgba(44, 44, 46, 0.8);
+    --bg-glass-l2: rgba(44, 44, 46, 0.6);
+    --bg-glass-l3: rgba(60, 60, 62, 0.9);
+    --bg-hover: rgba(255, 255, 255, 0.08);
+    --text-primary: #f5f5f7;
+    --text-secondary: #a1a1a6;
+    --text-tertiary: #8e8e93;
+    --border-glass: rgba(255, 255, 255, 0.15);
+    --border-strong: rgba(255, 255, 255, 0.2);
+    --violet: #A78BFA;
+    --violet-light: #B99CFF;
+    --coral: #FF8A8A;
+    --teal: #2DD4BF;
+    --amber: #FBBF24;
+  }
+}
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  background: #f5f5f7;
-  color: #1a1a2e;
-  line-height: 1.6;
+html {
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  font-family: var(--font-body);
+  background:
+    radial-gradient(ellipse 80% 60% at 0% 20%, rgba(124, 92, 252, 0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 10%, rgba(255, 107, 107, 0.05) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 40% at 50% 100%, rgba(20, 184, 166, 0.04) 0%, transparent 50%),
+    var(--bg-page);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+@media (prefers-color-scheme: dark) {
+  body {
+    background:
+      radial-gradient(ellipse 80% 60% at 0% 20%, rgba(124, 92, 252, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 100% 10%, rgba(255, 107, 107, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 40% at 50% 100%, rgba(20, 184, 166, 0.06) 0%, transparent 50%),
+      var(--bg-page);
+  }
 }
 .chroma-page {
   max-width: 680px;
@@ -37,43 +118,70 @@ body {
   margin-bottom: 32px;
 }
 .chroma-header a {
-  color: #7C5CFC;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--violet);
   text-decoration: none;
+  font-family: var(--font-body);
   font-size: 14px;
   font-weight: 600;
+  transition: color 0.15s;
 }
-.chroma-header a:hover { text-decoration: underline; }
+.chroma-header a:hover { color: var(--violet-light); text-decoration: underline; }
+.chroma-header-brand {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
 .chroma-card {
-  background: rgba(255,255,255,0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(124,92,252,0.12);
-  border-radius: 16px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--border-glass);
+  border-radius: var(--r-lg);
+  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04);
   padding: 32px;
   margin-bottom: 16px;
+  transition: box-shadow 0.2s ease, background 0.3s ease;
+}
+.chroma-card-link { text-decoration: none; display: block; margin-bottom: 16px; }
+.chroma-card-link:hover .chroma-card {
+  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.06);
+  transform: translateY(-1px);
+}
+.chroma-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  margin-bottom: 4px;
 }
 .chroma-title {
+  font-family: var(--font-display);
   font-size: 28px;
   font-weight: 700;
-  color: #1a1a2e;
+  color: var(--text-primary);
   margin-bottom: 8px;
   line-height: 1.3;
 }
 .chroma-meta {
   font-size: 13px;
-  color: #888;
+  color: var(--text-tertiary);
   margin-bottom: 24px;
 }
 .chroma-h2 {
+  font-family: var(--font-display);
   font-size: 20px;
   font-weight: 600;
-  color: #1a1a2e;
+  color: var(--text-primary);
   margin-top: 32px;
   margin-bottom: 12px;
 }
 .chroma-p {
   font-size: 15px;
-  color: #444;
+  color: var(--text-secondary);
   margin-bottom: 16px;
 }
 .chroma-list-item {
@@ -82,10 +190,10 @@ body {
   padding: 12px 16px;
   margin-bottom: 8px;
   font-size: 14px;
-  color: #444;
+  color: var(--text-secondary);
 }
 .chroma-list-item strong {
-  color: #1a1a2e;
+  color: var(--text-primary);
 }
 .chroma-table-wrap {
   overflow-x: auto;
@@ -95,18 +203,18 @@ body {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
-  color: #444;
+  color: var(--text-secondary);
 }
 .chroma-table th {
   background: rgba(124,92,252,0.08);
-  color: #1a1a2e;
+  color: var(--text-primary);
   font-weight: 600;
   text-align: left;
   padding: 10px 12px;
 }
 .chroma-table td {
   padding: 8px 12px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 0.5px solid var(--border-glass);
 }
 .chroma-cta {
   display: block;
@@ -114,37 +222,32 @@ body {
   margin: 24px 0;
 }
 .chroma-cta a {
-  display: inline-block;
-  background: #7C5CFC;
-  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, var(--violet), var(--violet-dim));
+  color: #fff;
   text-decoration: none;
   padding: 12px 28px;
-  border-radius: 10px;
+  border-radius: var(--r-sm);
   font-size: 15px;
   font-weight: 600;
-  transition: background 0.2s;
+  font-family: var(--font-body);
+  box-shadow: 0 1px 3px rgba(124, 92, 252, 0.25);
+  transition: box-shadow 0.2s, transform 0.15s, background 0.2s;
 }
-.chroma-cta a:hover { background: #6a4de0; }
+.chroma-cta a:hover {
+  box-shadow: 0 2px 8px rgba(124, 92, 252, 0.35);
+  transform: translateY(-0.5px);
+}
 .chroma-footer {
   text-align: center;
   padding: 24px 0;
-  color: #888;
+  color: var(--text-tertiary);
   font-size: 13px;
 }
-.chroma-footer a { color: #7C5CFC; text-decoration: none; }
+.chroma-footer a { color: var(--violet); text-decoration: none; }
 .chroma-footer a:hover { text-decoration: underline; }
-@media (prefers-color-scheme: dark) {
-  body { background: #0f0f1a; color: #e8e8f0; }
-  .chroma-card { background: rgba(20,20,35,0.9); border-color: rgba(124,92,252,0.2); }
-  .chroma-title { color: #e8e8f0; }
-  .chroma-p { color: #b0b0c0; }
-  .chroma-list-item { background: rgba(124,92,252,0.08); color: #b0b0c0; }
-  .chroma-list-item strong { color: #e8e8f0; }
-  .chroma-table td { border-color: #2a2a3e; color: #b0b0c0; }
-  .chroma-table th { background: rgba(124,92,252,0.12); color: #e8e8f0; }
-  .chroma-meta { color: #888; }
-  .chroma-footer { color: #666; }
-}
 `
 
 // ── Content block renderers ──
@@ -180,6 +283,11 @@ function renderBlock(block) {
 function renderContent(blocks) {
   return blocks.map(renderBlock).join('\n')
 }
+
+const FONT_LINKS = `
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">`
 
 // ── Build HTML page ──
 
@@ -218,31 +326,31 @@ function buildPage(post) {
   <meta property="og:type" content="article">
   <meta property="og:url" content="${url}">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="${url}">
+  <link rel="canonical" href="${url}">${FONT_LINKS}
   <script type="application/ld+json">${ld}</script>
   <style>${STYLES}</style>
 </head>
 <body>
   <div class="chroma-page">
     <header class="chroma-header">
-      <a href="/">← Play Heteronym</a>
-      <a href="/blog">Blog</a>
+      <a href="/">\u2190 Play Heteronym</a>
+      <span class="chroma-header-brand">Blog</span>
     </header>
     <main>
       <article class="chroma-card">
         <h1 class="chroma-title">${post.title}</h1>
-        <p class="chroma-meta">${post.date}${readTime ? ' · ' + readTime : ''}${tags ? ' · ' + tags : ''}</p>
+        <p class="chroma-meta">${post.date}${readTime ? ' \u00b7 ' + readTime : ''}${tags ? ' \u00b7 ' + tags : ''}</p>
         <div class="chroma-content">
           ${body}
         </div>
       </article>
       <div class="chroma-cta">
-        <a href="/">Play Today's Heteronym Puzzle →</a>
+        <a href="/">Play Today's Heteronym Puzzle \u2192</a>
       </div>
     </main>
     <footer class="chroma-footer">
-      <p><a href="/">Heteronym</a> — Two clues, one hidden word. A new puzzle every day.</p>
-      <p style="margin-top:8px"><a href="/blog">Blog</a> · <a href="/?page=about">About</a> · <a href="/?page=archive">Archive</a></p>
+      <p><a href="/">Heteronym</a> \u2014 Two clues, one hidden word. A new puzzle every day.</p>
+      <p style="margin-top:8px"><a href="/blog">Blog</a> \u00b7 <a href="/?page=about">About</a> \u00b7 <a href="/?page=archive">Archive</a></p>
     </footer>
   </div>
 </body>
@@ -260,7 +368,7 @@ function main() {
     const jsonPath = join(PUBLIC, `${slug}.json`)
 
     if (!existsSync(jsonPath)) {
-      console.warn(`  ⚠  Missing: ${slug}.json — skipping`)
+      console.warn(`  \u26a0  Missing: ${slug}.json — skipping`)
       continue
     }
 
@@ -270,14 +378,14 @@ function main() {
     const outDir = join(DIST, slug)
     mkdirSync(outDir, { recursive: true })
     writeFileSync(join(outDir, 'index.html'), html, 'utf-8')
-    console.log(`  ✓  ${slug}/index.html`)
+    console.log(`  \u2713  ${slug}/index.html`)
   }
 
   // Also generate an index page at /blog/index.html
   const indexHtml = buildBlogIndex(index)
   mkdirSync(join(DIST, '..', 'blog'), { recursive: true })
   writeFileSync(join(DIST, '..', 'blog', 'index.html'), indexHtml, 'utf-8')
-  console.log('  ✓  blog/index.html')
+  console.log('  \u2713  blog/index.html')
 }
 
 function buildBlogIndex(posts) {
@@ -285,7 +393,7 @@ function buildBlogIndex(posts) {
     <a href="/blog/${p.slug}" class="chroma-card-link">
       <article class="chroma-card">
         <h2 class="chroma-card-title">${p.title}</h2>
-        <p class="chroma-meta">${p.date}${p.readTime ? ' · ' + p.readTime : ''}</p>
+        <p class="chroma-meta">${p.date}${p.readTime ? ' \u00b7 ' + p.readTime : ''}</p>
         <p class="chroma-p" style="margin-bottom:0">${p.description}</p>
       </article>
     </a>
@@ -312,30 +420,23 @@ function buildBlogIndex(posts) {
   <meta property="og:type" content="website">
   <meta property="og:url" content="${SITE}/blog">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="${SITE}/blog">
+  <link rel="canonical" href="${SITE}/blog">${FONT_LINKS}
   <script type="application/ld+json">${ld}</script>
-  <style>${STYLES}
-.chroma-card-link { text-decoration: none; display: block; margin-bottom: 16px; }
-.chroma-card-link:hover .chroma-card { border-color: rgba(124,92,252,0.3); }
-.chroma-card-title { font-size: 18px; font-weight: 600; color: #1a1a2e; margin-bottom: 4px; }
-@media (prefers-color-scheme: dark) {
-  .chroma-card-title { color: #e8e8f0; }
-}
-  </style>
+  <style>${STYLES}</style>
 </head>
 <body>
   <div class="chroma-page">
     <header class="chroma-header">
-      <a href="/">← Play Heteronym</a>
-      <span style="font-size:14px;font-weight:600;color:#1a1a2e">Blog</span>
+      <a href="/">\u2190 Play Heteronym</a>
+      <span class="chroma-header-brand">Blog</span>
     </header>
     <main>
-      <h1 style="font-size:24px;font-weight:700;margin-bottom:8px">Heteronym Blog</h1>
-      <p style="color:#888;font-size:14px;margin-bottom:24px">Puzzles, word curiosities, and behind-the-scenes from the world of heteronyms.</p>
+      <h1 class="chroma-title" style="margin-bottom:8px">Heteronym Blog</h1>
+      <p class="chroma-p">Puzzles, word curiosities, and behind-the-scenes from the world of heteronyms.</p>
       ${cards}
     </main>
     <footer class="chroma-footer">
-      <p><a href="/">Heteronym</a> — Two clues, one hidden word. A new puzzle every day.</p>
+      <p><a href="/">Heteronym</a> \u2014 Two clues, one hidden word. A new puzzle every day.</p>
     </footer>
   </div>
 </body>

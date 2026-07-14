@@ -59,6 +59,7 @@ export default function App() {
   const [revealedAnswer, setRevealedAnswer] = useState(null)
   const [challengeMode] = useState(challengeId !== null && challengeId !== '')
   const [showArchive, setShowArchive] = useState(() => urlParams.get('page') === 'archive')
+  const [showGiveUpConfirm, setShowGiveUpConfirm] = useState(false)
   const [archivePuzzleId, setArchivePuzzleId] = useState(null)
   const [showAbout, setShowAbout] = useState(() => urlParams.get('page') === 'about')
   const [showBlog, setShowBlog] = useState(() => urlParams.get('page') === 'blog')
@@ -313,6 +314,7 @@ export default function App() {
 
   const handleGiveUp = async () => {
     if (!puzzle) return
+    setShowGiveUpConfirm(false)
     const res = await fetch(`${API}/reveal?puzzle_id=${puzzle.id}`)
     const data = await res.json()
     setRevealedAnswer(data.answer)
@@ -335,7 +337,7 @@ export default function App() {
 
     if (gaveUp) {
       s.gaveUp += 1
-      s.currentStreak = 0
+      // Streak is preserved — giving up does not reset progress
     } else if (result.correct) {
       s.wins += 1
       s.totalGuesses += guesses.length
@@ -542,11 +544,11 @@ export default function App() {
                 )}
               </div>
 
-              {/* Give Up — shown when 1 life left (3 lost) or exhausted, giving up reveals answer */}
-              {puzzle && !(result?.correct || (lives === 0 && result) || gaveUp) && (
+              {/* Give Up — only shown when all lives are exhausted, reveals answer on confirm */}
+              {puzzle && lives === 0 && !(result?.correct || gaveUp) && (
                 <div className="chroma-mb-4">
-                  <ChromaButton variant="ghost" icon="lightbulb" fullWidth onClick={handleGiveUp}>
-                    Show Answer
+                  <ChromaButton variant="amber" icon="warning" fullWidth onClick={() => setShowGiveUpConfirm(true)}>
+                    Give Up
                   </ChromaButton>
                 </div>
               )}
@@ -696,6 +698,21 @@ export default function App() {
                 >
                   X
                 </ChromaButton>
+                {/* LinkedIn */}
+                <ChromaButton
+                  variant="ghost"
+                  size="sm"
+                  icon="badge"
+                  onClick={() => {
+                    const shareUrl = challengeMode
+                      ? `https://heteronym.online/challenge/${dailyPuzzleNum}`
+                      : `https://heteronym.online`
+                    const text = `I solved Heteronym — Puzzle #${dailyPuzzleNum + 1} in ${guesses.length} guesses! Can you?`
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, '_blank', 'noopener')
+                  }}
+                >
+                  LinkedIn
+                </ChromaButton>
                 {/* WhatsApp */}
                 <ChromaButton
                   variant="ghost"
@@ -742,6 +759,22 @@ export default function App() {
           )}
         </GlassPanel>
       )}
+
+      {/* ── Ad placement container (BuySellAds / Adsterra) ── */}
+      {/*
+       * To activate ads:
+       * 1. Sign up at https://buysellads.com (no traffic minimum)
+       * 2. Replace the script src and data attributes below with your publisher code
+       * 3. Remove the outer comment block (the {/\* *\/} wrapper)
+       * Alternative: Adsterra (https://adsterra.com) also has no traffic minimum
+       *
+       * <GlassPanel padding={16} className="chroma-w-full chroma-max-w-md chroma-text-center chroma-mt-2">
+       *   <div id="bsa-zone_1234567890" className="chroma-min-h-[90px] chroma-flex chroma-items-center chroma-justify-center">
+       *     <script async src="//cdn.buysellads.com/ac/pro.js"></script>
+       *     <p className="chroma-text-xs chroma-text-tertiary">Ad</p>
+       *   </div>
+       * </GlassPanel>
+       */}
 
       {/* Newsletter signup — shown on completion (daily mode), after 3 completions */}
       {puzzle && mode === 'daily' && (Number(localStorage.getItem(NEWSLETTER_COUNT_KEY)) || 0) >= 3 && (result?.correct || (lives === 0 && result) || gaveUp) && (
@@ -821,6 +854,27 @@ export default function App() {
       <FullPageOverlay open={showArchive} onClose={() => setShowArchive(false)} title="Archive" icon="history">
         <Archive onSelectPuzzle={(id) => setArchivePuzzleId(id)} />
       </FullPageOverlay>
+
+      {/* Give Up Confirmation */}
+      <Modal
+        open={showGiveUpConfirm}
+        onClose={() => setShowGiveUpConfirm(false)}
+        title="Give up?"
+        icon="warning"
+      >
+        <p className="chroma-text-sm chroma-mb-4 chroma-text-secondary">
+          You'll see the correct answer and this session won't count toward your win rate.
+          Your current streak will be preserved.
+        </p>
+        <div className="chroma-flex chroma-gap-2">
+          <ChromaButton variant="ghost" fullWidth onClick={() => setShowGiveUpConfirm(false)}>
+            Keep Playing
+          </ChromaButton>
+          <ChromaButton variant="amber" icon="warning" fullWidth onClick={handleGiveUp}>
+            Give Up
+          </ChromaButton>
+        </div>
+      </Modal>
 
     </main>
   )
