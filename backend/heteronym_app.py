@@ -445,6 +445,9 @@ def app(environ, start_response):
 <meta property="og:url" content="https://heteronym.online/puzzle/{puzzle_id}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://heteronym.online/puzzle/{puzzle_id}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {{
   "@context": "https://schema.org",
@@ -457,47 +460,83 @@ def app(environ, start_response):
 }}
 </script>
 <style>
-* {{ margin: 0; padding: 0; box-sizing: border-box; }}
-body {{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: #f5f5f7; color: #1a1a2e; line-height: 1.6; }}
-.page {{ max-width: 640px; margin: 0 auto; padding: 32px 16px; }}
-.card {{ background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); border: 1px solid rgba(124,92,252,0.12); border-radius: 16px; padding: 32px; margin-bottom: 16px; }}
-h1 {{ font-size: 26px; font-weight: 700; margin-bottom: 8px; }}
-.meta {{ color: #888; font-size: 13px; margin-bottom: 20px; }}
-.clue {{ background: rgba(124,92,252,0.06); border-radius: 10px; padding: 16px; margin-bottom: 12px; }}
-.clue-label {{ font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #7C5CFC; font-weight: 600; margin-bottom: 4px; }}
-.clue-text {{ font-size: 16px; color: #1a1a2e; font-weight: 600; }}
-.answer-box {{ background: #7C5CFC; color: white; border-radius: 10px; padding: 16px; text-align: center; margin: 20px 0; }}
-.answer-box .label {{ font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }}
-.answer-box .word {{ font-size: 24px; font-weight: 700; margin-top: 4px; }}
-.cta {{ display: block; text-align: center; margin: 24px 0; }}
-.cta a {{ display: inline-block; background: #7C5CFC; color: white; text-decoration: none; padding: 14px 32px; border-radius: 10px; font-size: 16px; font-weight: 600; }}
-.cta a:hover {{ background: #6a4de0; }}
-.hints {{ margin-top: 16px; }}
-.hint {{ font-size: 14px; color: #666; padding: 8px 0; border-bottom: 1px solid #eee; }}
-.footer {{ text-align: center; padding: 24px 0; color: #888; font-size: 13px; }}
-.footer a {{ color: #7C5CFC; text-decoration: none; }}
-@media (prefers-color-scheme: dark) {{
-  body {{ background: #0f0f1a; color: #e8e8f0; }}
-  .card {{ background: rgba(20,20,35,0.9); border-color: rgba(124,92,252,0.2); }}
-  .clue {{ background: rgba(124,92,252,0.1); }}
-  .clue-text {{ color: #e8e8f0; }}
-  .hint {{ color: #b0b0c0; border-color: #2a2a3e; }}
-  .meta {{ color: #666; }}
+:root {{
+  --violet: #7C5CFC; --violet-light: #8B6FF7; --violet-dim: #6A4EE0;
+  --coral: #FF6B6B; --teal: #14B8A6; --amber: #F59E0B;
+  --bg-page: #f5f5f7; --bg-content: #ffffff;
+  --bg-glass: rgba(255,255,255,0.7);
+  --text-primary: #1d1d1f; --text-secondary: #6e6e73; --text-tertiary: #86868b;
+  --border-glass: rgba(0,0,0,0.08);
+  --r-sm: 6px; --r-lg: 10px; --r-xl: 14px;
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
 }}
+@media (prefers-color-scheme: dark) {{
+  :root {{
+    --bg-page: #1c1c1e; --bg-content: #2c2c2e;
+    --bg-glass: rgba(44,44,46,0.8);
+    --text-primary: #f5f5f7; --text-secondary: #a1a1a6; --text-tertiary: #8e8e93;
+    --border-glass: rgba(255,255,255,0.15);
+    --violet: #A78BFA; --coral: #FF8A8A; --teal: #2DD4BF; --amber: #FBBF24;
+  }}
+}}
+* {{ margin: 0; padding: 0; box-sizing: border-box; }}
+html {{ font-family: var(--font-body); -webkit-font-smoothing: antialiased; }}
+body {{
+  font-family: var(--font-body);
+  background: radial-gradient(ellipse 80% 60% at 0% 20%, rgba(124,92,252,0.06) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 100% 10%, rgba(255,107,107,0.05) 0%, transparent 50%), radial-gradient(ellipse 50% 40% at 50% 100%, rgba(20,184,166,0.04) 0%, transparent 50%), var(--bg-page);
+  color: var(--text-primary); line-height: 1.6; min-height: 100vh;
+}}
+@media (prefers-color-scheme: dark) {{
+  body {{
+    background: radial-gradient(ellipse 80% 60% at 0% 20%, rgba(124,92,252,0.12) 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 100% 10%, rgba(255,107,107,0.08) 0%, transparent 50%), radial-gradient(ellipse 50% 40% at 50% 100%, rgba(20,184,166,0.06) 0%, transparent 50%), var(--bg-page);
+  }}
+}}
+.page {{ max-width: 640px; margin: 0 auto; padding: 32px 16px; }}
+.card {{
+  background: var(--bg-glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border: 0.5px solid var(--border-glass); border-radius: var(--r-lg);
+  box-shadow: 0 0 0 0.5px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.04);
+  padding: 32px; margin-bottom: 16px;
+}}
+h1 {{ font-family: var(--font-display); font-size: 26px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }}
+.meta {{ color: var(--text-tertiary); font-size: 13px; margin-bottom: 20px; }}
+.clue {{ background: rgba(124,92,252,0.06); border-radius: var(--r-sm); padding: 16px; margin-bottom: 12px; }}
+.clue-label {{ font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--violet); font-weight: 600; margin-bottom: 4px; }}
+.clue-text {{ font-size: 16px; color: var(--text-primary); font-weight: 600; }}
+.answer-box {{ background: linear-gradient(135deg, var(--violet), var(--violet-dim)); color: white; border-radius: var(--r-sm); box-shadow: 0 1px 3px rgba(124,92,252,0.25); padding: 16px; text-align: center; margin: 20px 0; }}
+.answer-box .label {{ font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.8; }}
+.answer-box .word {{ font-family: var(--font-display); font-size: 24px; font-weight: 700; margin-top: 4px; }}
+.cta {{ display: block; text-align: center; margin: 24px 0; }}
+.cta a {{
+  display: inline-flex; align-items: center; gap: 6px;
+  background: linear-gradient(135deg, var(--violet), var(--violet-dim)); color: white;
+  text-decoration: none; padding: 14px 32px; border-radius: var(--r-sm);
+  font-family: var(--font-body); font-size: 16px; font-weight: 600;
+  box-shadow: 0 1px 3px rgba(124,92,252,0.25);
+  transition: box-shadow 0.2s, transform 0.15s;
+}}
+.cta a:hover {{ box-shadow: 0 2px 8px rgba(124,92,252,0.35); transform: translateY(-0.5px); }}
+.hints {{ margin-top: 16px; }}
+.hint {{ font-size: 14px; color: var(--text-secondary); padding: 8px 0; border-bottom: 0.5px solid var(--border-glass); }}
+.footer {{ text-align: center; padding: 24px 0; color: var(--text-tertiary); font-size: 13px; }}
+.footer a {{ color: var(--violet); text-decoration: none; }}
+.footer a:hover {{ text-decoration: underline; }}
 </style>
 </head>
 <body>
 <div class="page">
   <div class="card">
     <h1>Heteronym: "{answer}"</h1>
-    <p class="meta">{difficulty} difficulty · <a href="/" style="color:#7C5CFC">Play the daily puzzle</a></p>
+    <p class="meta">{difficulty} difficulty · <a href="/" style="color:var(--violet)">Play the daily puzzle</a></p>
 
-    <p style="margin-bottom:16px;color:#666;font-size:14px">The word "{answer}" is a heteronym — it's spelled the same but has different meanings (and often different pronunciations).</p>
+    <p style="margin-bottom:16px;color:var(--text-secondary);font-size:14px">The word "{answer}" is a heteronym — it's spelled the same but has different meanings (and often different pronunciations).</p>
 
     <div class="clue">
       <div class="clue-label">Meaning 1</div>
       <div class="clue-text">{clue1}</div>
     </div>
+
     <div class="clue">
       <div class="clue-label">Meaning 2</div>
       <div class="clue-text">{clue2}</div>
@@ -508,14 +547,14 @@ h1 {{ font-size: 26px; font-weight: 700; margin-bottom: 8px; }}
       <div class="word">{answer}</div>
     </div>
 
-    <p style="font-size:14px;color:#666">Can you find the connection between these two meanings? That's the challenge in every Heteronym puzzle — try today's puzzle to test your lateral thinking.</p>
+    <p style="font-size:14px;color:var(--text-secondary)">Can you find the connection between these two meanings? That's the challenge in every Heteronym puzzle — try today's puzzle to test your lateral thinking.</p>
 
     <div class="cta">
       <a href="/">Play Today's Heteronym Puzzle →</a>
     </div>
 
     <div class="hints">
-      <p style="font-size:13px;font-weight:600;margin-bottom:8px;color:#1a1a2e">Hints for this heteronym:</p>
+      <p style="font-size:13px;font-weight:600;margin-bottom:8px;color:var(--text-primary)">Hints for this heteronym:</p>
       <div class="hint">💡 {hint1}</div>
       <div class="hint">💡 {hint2}</div>
       <div class="hint">💡 {hint3}</div>
@@ -529,7 +568,6 @@ h1 {{ font-size: 26px; font-weight: 700; margin-bottom: 8px; }}
 </div>
 </body>
 </html>"""
-
         headers = [
             ("Content-Type", "text/html; charset=utf-8"),
             ("Content-Length", str(len(html.encode()))),
