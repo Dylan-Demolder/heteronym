@@ -1,0 +1,124 @@
+{
+  "title": "Heteronyms in Headlines: Journalism's Clever Wordplay",
+  "slug": "heteronyms-in-headlines",
+  "date": "2026-08-31",
+  "description": "Headlines rely on short, memorable language. Learn how heteronyms create ambiguity, rhythm, and surprise in journalism without misleading readers.",
+  "readTime": "6 min read",
+  "tags": ["heteronyms", "headlines", "journalism", "wordplay", "writing", "reading"] ,
+  "content": [
+    {
+      "type": "heading",
+      "text": "Heteronyms in Headlines: Journalism's Clever Wordplay"
+    },
+    {
+      "type": "paragraph",
+      "text": "A headline has very little space to make a reader stop. The strongest ones use precise facts, active verbs, and sometimes a well-timed word with more than one possible reading. Heteronyms are especially useful because their spelling stays the same while their meaning and pronunciation can change. A word such as “refuse” can describe rubbish or an act of rejection, while “record” can be a noun or a verb. In a headline, that compact double route can create a moment of surprise before the article supplies the context."
+    },
+    {
+      "type": "heading",
+      "text": "Why Headlines Need Every Word to Work Hard"
+    },
+    {
+      "type": "paragraph",
+      "text": "News headlines are compressed language. Editors must identify the event, signal its importance, and give readers a reason to continue, often in one line. That pressure makes word choice unusually visible. A heteronym can carry two related ideas without taking up extra characters, but it also asks the reader to pause and resolve the intended sense. The technique works best when the ambiguity is playful or revealing, not when it hides the actual news."
+    },
+    {
+      "type": "table",
+      "headers": ["Heteronym", "Reading one", "Reading two", "Headline possibility"],
+      "rows": [
+        ["record", "A documented result or achievement", "To capture audio, video, or data", "“New record set as scientists record the event”"],
+        ["refuse", "Discarded material", "To decline or reject", "“City refuses more refuse after depot fills”"],
+        ["conduct", "Behaviour or manner", "To lead or carry out", "“Conduct review follows questions about conduct”"],
+        ["does", "Performs an action", "More than one female deer", "“What the reserve does for does”"],
+        ["wind", "Moving air", "To twist, turn, or finish", "“Wind farm plans wind through final hearing”"]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "The Most Useful Headline Patterns"
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "term": "Noun and verb",
+          "definition": "Words such as record, present, and project shift stress when they move between a thing and an action. The headline can make that grammatical change visible in a tiny space."
+        },
+        {
+          "term": "Action and consequence",
+          "definition": "Refuse and reject-related words can connect what happened with what was rejected: a council refuses a proposal, or a refuse collection fails."
+        },
+        {
+          "term": "Literal and figurative",
+          "definition": "Wind, bound, and entrance can support a concrete event and a figurative idea at once, giving a headline an extra layer without requiring a pun explanation."
+        },
+        {
+          "term": "Repeated spelling, changed sound",
+          "definition": "The reader recognises the letters immediately but hears the intended pronunciation only after parsing the sentence. That delayed click is the headline's small reward."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Examples: When Context Chooses the Sound"
+    },
+    {
+      "type": "paragraph",
+      "text": "Consider “The farm will produce more produce.” The first produce is a verb meaning to make or grow; the second is the noun for farm goods. On the page, the repeated spelling creates a neat visual hinge. Spoken aloud, the stress pattern separates the two readings. A headline editor could use a similar construction for a farming, manufacturing, or food story, provided the surrounding words make the sentence easy to understand."
+    },
+    {
+      "type": "paragraph",
+      "text": "“The band will present a present” uses the same idea in a lighter story. Present as a verb means to show or give something formally; present as a noun is a gift. The headline is not informative enough on its own, but a local-news article about an award ceremony could make the joke work. Good headline wordplay creates curiosity while the standfirst or article immediately clarifies the event."
+    },
+    {
+      "type": "heading",
+      "text": "The Difference Between Clever and Confusing"
+    },
+    {
+      "type": "paragraph",
+      "text": "Ambiguity is not automatically a virtue. Readers scan headlines quickly, often on a phone, and may never open a story if the wording seems unclear. A responsible editor checks whether the intended meaning can be recovered from grammar and subject matter. “The bass was difficult to hear” could concern a fish or a low musical sound; without a clue, the joke becomes a guessing game rather than useful journalism."
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "term": "Lead with the fact",
+          "definition": "The wordplay should support the news, not replace it. Readers should be able to tell the subject and event from the headline."
+        },
+        {
+          "term": "Read it aloud",
+          "definition": "A silent pun may look perfect but sound awkward, especially when the two readings have different stress patterns. Say the line as a reader would hear it."
+        },
+        {
+          "term": "Check the audience",
+          "definition": "A specialist publication can assume more vocabulary than a general local paper. Avoid a clever construction if too many readers need a dictionary before they can understand it."
+        },
+        {
+          "term": "Add a clear standfirst",
+          "definition": "If the headline deliberately delays the answer, the short summary beneath it should remove doubt rather than extend the ambiguity."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "How to Spot Headline Heteronyms"
+    },
+    {
+      "type": "paragraph",
+      "text": "When you read a striking headline, look first for a word that could be a noun in one sentence and a verb in another. Then test its pronunciation: does the stress move, or does the vowel change? Next, replace the word with a synonym. If the headline loses its compact second meaning when you do that, you have probably found the mechanism. Finally, read the article's opening paragraph. Journalism supplies context quickly, so the full story should make the chosen reading unmistakable."
+    },
+    {
+      "type": "heading",
+      "text": "Why This Wordplay Still Matters"
+    },
+    {
+      "type": "paragraph",
+      "text": "Headline heteronyms show that word puzzles are not separate from everyday reading. They train the same skill as a daily heteronym challenge: hold several possible meanings in mind, inspect the sentence around the word, and choose the pronunciation that fits. The best examples are memorable because the ambiguity is resolved, not because the reader is left in the dark."
+    },
+    {
+      "type": "cta",
+      "text": "Test your context clues with a fresh word puzzle. Play today's puzzle →",
+      "url": "https://heteronym.online"
+    }
+  ]
+}
