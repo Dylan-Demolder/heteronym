@@ -1,0 +1,180 @@
+{
+  "title": "Heteronym Spelling Patterns: Predict Pronunciation",
+  "slug": "heteronym-spelling-patterns",
+  "date": "2026-09-21",
+  "description": "Learn the spelling patterns behind English heteronyms and use word endings, stress clues, and context to predict the pronunciation you need.",
+  "readTime": "6 min read",
+  "tags": ["heteronyms", "spelling-patterns", "pronunciation", "english-vocabulary", "word-study", "linguistics"],
+  "content": [
+    {
+      "type": "heading",
+      "text": "Heteronym Spelling Patterns: Predict Pronunciation"
+    },
+    {
+      "type": "paragraph",
+      "text": "A heteronym keeps the same letters while changing its pronunciation and meaning. That makes words such as lead, wind, and refuse look like spelling problems, even when the spelling is perfectly consistent. The useful question is not whether the letters give away the answer every time. They do not. It is whether recurring patterns can give you a strong first guess before context confirms it."
+    },
+    {
+      "type": "paragraph",
+      "text": "English spelling is full of historical layers, so these patterns are clues rather than laws. A familiar ending may suggest a stress shift, while a short word such as tear may require you to memorise two vowel sounds. Treat the patterns as a reading strategy: notice the shape of the word, make a provisional pronunciation, then test it against the sentence."
+    },
+    {
+      "type": "heading",
+      "text": "The Most Useful Clue: Stress Can Move"
+    },
+    {
+      "type": "paragraph",
+      "text": "Many heteronyms are related noun-and-verb pairs. The spelling stays still, but English speakers often put the emphasis on different syllables. In PREsent, the word can mean a gift or something happening now. In preSENT, it means to give or show something formally. Hearing the stress move helps you recognise the grammatical job the word is doing."
+    },
+    {
+      "type": "table",
+      "headers": ["Word", "First pronunciation", "Second pronunciation", "Meaning clue"],
+      "rows": [
+        ["record", "REK-ord", "re-KORD", "a stored account / to capture"],
+        ["object", "OB-jekt", "ub-JEKT", "a thing / to protest"],
+        ["project", "PROJ-ekt", "pro-JEKT", "a planned piece of work / to estimate or cast forward"],
+        ["present", "PREZ-ent", "pri-ZENT", "a gift or current / to give formally"],
+        ["permit", "PER-mit", "per-MIT", "an official document / to allow"],
+        ["contest", "CON-test", "con-TEST", "a competition / to challenge"],
+        ["contract", "CON-tract", "con-TRACT", "an agreement / to become smaller or enter an agreement"]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Pattern 1: -ject Words Often Shift Stress"
+    },
+    {
+      "type": "paragraph",
+      "text": "Words ending in -ject are a productive family to watch. As nouns, object and project usually carry strong stress near the beginning. As verbs, the emphasis moves to the final syllable: obJECT and proJECT. Subject follows the same broad pattern: SUBject is a topic or person under authority, while subJECT means to expose someone to an experience or control."
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "term": "Look for a grammatical switch",
+          "definition": "If the word follows a, the, or this, it may be a noun. If it follows to, can, or will, it may be a verb. The surrounding grammar is more reliable than the letters alone."
+        },
+        {
+          "term": "Expect exceptions",
+          "definition": "Not every -ject word behaves as a neat noun-and-verb pair, and specialised uses may vary. Use the pattern to form a guess, not to overrule a dictionary or a fluent speaker."
+        },
+        {
+          "term": "Say the sentence, not just the word",
+          "definition": "Reading the complete phrase aloud makes the stress change easier to hear: 'a project' and 'to project an image' belong to different patterns."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Pattern 2: -use and -duce Can Hide a Verb"
+    },
+    {
+      "type": "paragraph",
+      "text": "The endings -use and -duce create another useful warning sign. A noun such as REF-use means rubbish, while the verb re-FYOOZ means to decline. PRO-duce is something made or grown; pro-DUCE is the action of making or growing it. The letters do not change, but the stress and sometimes the final vowel do."
+    },
+    {
+      "type": "table",
+      "headers": ["Spelling", "Noun or adjective", "Verb", "Quick test"],
+      "rows": [
+        ["refuse", "REF-yoos: rubbish", "ri-FYOOZ: decline", "Can you put 'to' before it?"],
+        ["produce", "PRO-doos: farm goods or output", "pro-DOOS: make or grow", "Is it a thing or an action?"],
+        ["excuse", "EX-kyoos: a reason", "ex-KYOOZ: forgive or release", "Is someone giving it or making it?"],
+        ["abuse", "A-byooos: harmful treatment", "a-BYOOZ: use wrongly", "Is it naming harm or describing an action?"]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Pattern 3: Stress-Shifting -ate Words Need Context"
+    },
+    {
+      "type": "paragraph",
+      "text": "The ending -ate is a strong signal in several common words. A noun or adjective often ends with an unstressed sound, while the verb gives the final syllable more weight. CON-flict and con-FLICT, for example, show the same noun-versus-verb idea without the -ate ending; words such as IN-valid and in-VAL-id show that stress can also distinguish an adjective from a noun. Because regional accents differ, listen for the pattern rather than expecting one exact vowel."
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "term": "duplicate",
+          "definition": "DUP-li-kit is a copy; DUP-li-kate is to make a copy. The final syllable becomes more prominent in the verb."
+        },
+        {
+          "term": "deliberate",
+          "definition": "de-LIB-er-it means intentional; de-LIB-er-ate means to think or discuss carefully."
+        },
+        {
+          "term": "separate",
+          "definition": "SEP-rut is an adjective or noun; SEP-uh-rate is the verb meaning to divide."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Not Every Heteronym Follows a Suffix Rule"
+    },
+    {
+      "type": "paragraph",
+      "text": "Some of the most famous heteronyms are not predictable from an ending. Lead is pronounced LEED when it means guide and LED when it means the metal. Wind is WIND for moving air and WYND for a turning action. Tear is TEER for liquid from the eye and TAIR for a rip. These pairs are best learned as small pronunciation families, with an example sentence attached to each meaning."
+    },
+    {
+      "type": "table",
+      "headers": ["Word", "Meaning one", "Meaning two", "Memory sentence"],
+      "rows": [
+        ["lead", "LEED: guide", "LED: metal", "The guide will lead us past the lead pipes."],
+        ["wind", "WIND: moving air", "WYND: twist", "The wind made it hard to wind the string."],
+        ["tear", "TEER: drop from the eye", "TAIR: rip", "A tear appeared when the tear opened wider."],
+        ["bass", "BASS: low sound", "BASE: fish", "The bass player spotted a bass in the lake."],
+        ["sow", "SOH: plant seeds", "SOW: female pig", "The farmer will sow grain beside the sow."]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "A Three-Step Reading Method"
+    },
+    {
+      "type": "paragraph",
+      "text": "When you meet an unfamiliar heteronym, use a repeatable process. First, identify the word's grammatical role: noun, verb, adjective, or something else. Second, scan for a familiar family such as -ject, -use, or -duce and try the stress pattern associated with it. Third, check the meaning against the sentence. If the sentence describes a physical object, a verb pronunciation is unlikely; if it follows to, a noun reading may be wrong."
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "term": "1. Mark the grammar",
+          "definition": "Look at the words around the heteronym. Articles, prepositions, auxiliary verbs, and endings often reveal how the word functions."
+        },
+        {
+          "term": "2. Mark the stress",
+          "definition": "Try the common early-stress reading and the late-stress reading. Notice which one sounds natural in the phrase."
+        },
+        {
+          "term": "3. Confirm the meaning",
+          "definition": "Use the sentence's subject, action, and topic to choose the pronunciation. Then record the word with that example for future practice."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Why Patterns Beat Isolated Memorisation"
+    },
+    {
+      "type": "paragraph",
+      "text": "Memorising a long list of pairs can work, but patterns give each new word a place to belong. Once you recognise the noun-and-verb contrast in record and object, project and permit feel less random. You are building a network of spelling, grammar, stress, and meaning instead of storing unrelated facts. That network also makes mistakes easier to catch: an unexpected pronunciation sounds wrong because it conflicts with the sentence's structure."
+    },
+    {
+      "type": "paragraph",
+      "text": "The best practice is active rather than passive. Cover one column in a table, read the example, and say the missing pronunciation. Then write a second sentence using the other meaning. Heteronyms become much easier when your brain has to choose between two live possibilities instead of merely recognising a definition on a page."
+    },
+    {
+      "type": "heading",
+      "text": "The Rule to Remember"
+    },
+    {
+      "type": "paragraph",
+      "text": "Spelling patterns are helpful signposts, not pronunciation laws. Use word endings to make an informed guess, use grammar to narrow the options, and use context to make the final decision. That combination turns a confusing repeated spelling into a solvable mini-puzzle — exactly the skill a heteronym game is designed to practise."
+    },
+    {
+      "type": "cta",
+      "text": "Test your context clues on a fresh word puzzle. Play today's puzzle →",
+      "url": "https://heteronym.online"
+    }
+  ]
+}
