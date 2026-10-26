@@ -1,0 +1,137 @@
+{
+  "title": "Why Text-to-Speech Still Mispronounces Heteronyms",
+  "slug": "why-text-to-speech-mispronounces-heteronyms",
+  "date": "2026-10-26",
+  "description": "Voice assistants choose one reading of bass, lead and wound — often the wrong one. How text-to-speech resolves heteronyms, and why it still fails.",
+  "readTime": "5 min read",
+  "tags": ["heteronyms", "text-to-speech", "pronunciation", "voice-assistants", "language-technology", "ai"],
+  "content": [
+    {
+      "type": "paragraph",
+      "text": "Ask a smart speaker to read a sentence containing 'lead' and you will usually get the metal when you wanted the verb, or the verb when you wanted the metal. The failure is small, instant, and oddly reassuring: it is the sound of a machine discovering that English spelling does not contain enough information to say the word out loud. Heteronyms are where that shortage is most visible, and text-to-speech is where it gets tested millions of times a day."
+    },
+    {
+      "type": "heading",
+      "text": "One Spelling, Two Sound Files"
+    },
+    {
+      "type": "paragraph",
+      "text": "Every speech synthesiser follows roughly the same pipeline. Text is normalised — numbers expanded, abbreviations spelled out — then split into tokens and tagged with parts of speech. Each word is looked up in a pronunciation lexicon, and anything missing is passed to letter-to-sound rules that guess phonemes from spelling. Only then does the system set stress, rhythm, and intonation, and hand the result to a vocoder that makes audio. For most English words this chain is invisible. For a heteronym, the lexicon step is a fork in the road: the spelling has two or more valid pronunciations on file, and the system must choose one before it can say anything at all."
+    },
+    {
+      "type": "heading",
+      "text": "The Easy Case: Stress Shift Does the Work"
+    },
+    {
+      "type": "paragraph",
+      "text": "Two-syllable words borrowed from Latin and French — the largest systematic family of English heteronyms — behave predictably. The noun takes stress on the first syllable, the verb on the second. The part-of-speech tagger has therefore solved the problem before the lexicon is ever consulted: tag it as a noun and you get one entry, tag it as a verb and you get the other. This is why a synthesiser almost never says CON-vict when it means con-VICT."
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "term": "convict",
+          "definition": "CON-vict is the person in the dock; con-VICT is what the jury does. One tag, one reading, no guesswork."
+        },
+        {
+          "term": "rebel",
+          "definition": "REB-el is the person who refuses to obey; re-BEL is the act of refusing. Only the syllable carrying the beat tells you which."
+        },
+        {
+          "term": "suspect",
+          "definition": "SUS-pect is the person under suspicion; sus-PECT is the suspicion itself. A tagger that flips them turns a description into an accusation."
+        },
+        {
+          "term": "progress",
+          "definition": "PRO-gress is the noun; pro-GRESS is the verb. 'We need to progress the progress' is grammatical, comprehensible, and horrible."
+        },
+        {
+          "term": "perfect",
+          "definition": "PER-fect is the adjective; per-FECT is the verb, as in to perfect a recipe. Same letters, different syllable holding the beat."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "The Hard Case: Same Job, Different Word"
+    },
+    {
+      "type": "paragraph",
+      "text": "Tagging only helps when the two readings belong to different parts of speech. English has plenty of heteronyms where both readings are the same word class, and there the grammar has nothing to offer. Bass is a fish and a low instrument, and both are nouns. Row is a line of seats and a British argument, and both are nouns again. Now the system needs meaning — what the sentence is actually about — which is a far harder question than what job the word is doing in the sentence."
+    },
+    {
+      "type": "table",
+      "headers": ["Word", "Reading one", "Reading two", "What decides it"],
+      "rows": [
+        ["bass", "BASS: a fish", "BASE: low pitch", "Topic: fishing or music"],
+        ["row", "ROH: a line", "ROW: an argument", "Dialect and subject"],
+        ["tear", "TEER: from crying", "TAIR: a rip", "Which noun fits"],
+        ["dove", "DUV: the bird", "DOHV: dived (US)", "Tense and region"],
+        ["lead", "LEED: to guide", "LED: the metal", "Verb or substance"],
+        ["invalid", "IN-vuh-lid: a patient", "in-VAL-id: not valid", "Noun or adjective"]
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "Why Headlines Break It Most Often"
+    },
+    {
+      "type": "paragraph",
+      "text": "News briefings are one of the biggest markets for synthetic speech, and headlines are the worst possible input for it. Headline grammar drops articles and auxiliaries, so 'Record numbers refuse to budge' arrives with three heteronyms and almost no function words to anchor them. The tagger sees a noun-shaped word in a verb-shaped slot, the language model picks the most frequent reading, and the listener hears a sentence nobody wrote. The same compression that makes a headline punchy makes it hostile to a system that resolves ambiguity with grammar."
+    },
+    {
+      "type": "heading",
+      "text": "The Same Problem in Reverse"
+    },
+    {
+      "type": "paragraph",
+      "text": "Speech recognition runs the problem backwards. The microphone delivers a sound and the system has to choose a spelling. LED could be the past tense of lead, the metal, or the abbreviation for a light; REED could be the plant or the present tense of read. Transcription tools resolve this from context like everything else, which is why interview transcripts regularly contain 'lead' where the speaker said 'led' — an error no spellchecker will ever flag, because both spellings are real words and only one matches what was actually said."
+    },
+    {
+      "type": "heading",
+      "text": "What Engineers Actually Do About It"
+    },
+    {
+      "type": "list",
+      "items": [
+        {
+          "term": "Ship a pronunciation lexicon",
+          "definition": "Serious synthesis stacks carry a dictionary — CMUdict is the classic open one — with alternative entries for homographs, usually annotated by part of speech. The lexicon is the difference between guessing and knowing."
+        },
+        {
+          "term": "Tag before you speak",
+          "definition": "Part-of-speech tagging resolves the stress-shift families cheaply and reliably. It is the first tool engineers reach for, and it covers the majority of two-syllable pairs."
+        },
+        {
+          "term": "Score the sentence, not the word",
+          "definition": "Statistical and neural models weigh the surrounding words and pick the likeliest reading. That is how 'bass guitar' beats 'bass', and also how a model trained on fishing reports confidently misreads a concert review."
+        },
+        {
+          "term": "Let writers override",
+          "definition": "SSML, the markup behind most synthesis, allows a phoneme or alias tag that forces a pronunciation. Broadcasters and audiobook producers use it constantly for names and for the heteronyms their own scripts keep stumbling over."
+        },
+        {
+          "term": "Keep a human on names",
+          "definition": "Proper nouns are the wildest edge case, and the reason newsreaders still get a pronunciation guide before a shift. The machine handles the dictionary; a person handles its gaps."
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "text": "The Failure Is Informative"
+    },
+    {
+      "type": "paragraph",
+      "text": "When a synthesiser reads 'the bass was heavy' and picks the fish, it has not made a linguistic error. It has exposed an information gap that was always there in the writing, waiting for a reader to fill it. Speech carries stress, vowel length, and phrasing; writing throws all of that away and trusts context to carry the load instead. Machines fail at heteronyms roughly in proportion to how much world knowledge a sentence demands — which is a fair measure of how much the human reader is quietly supplying."
+    },
+    {
+      "type": "paragraph",
+      "text": "That is also why heteronym puzzles are harder than they look. Nothing on the page says which reading is live; you have to hold both, test each against the clues, and commit. A voice assistant does the same thing, badly, in a few milliseconds. You can do it deliberately — and get better at it."
+    },
+    {
+      "type": "cta",
+      "text": "Two readings, one answer. Play today's puzzle →",
+      "url": "https://heteronym.online"
+    }
+  ]
+}

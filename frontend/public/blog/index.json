@@ -1,5 +1,13 @@
 [
   {
+    "slug": "why-text-to-speech-mispronounces-heteronyms",
+    "title": "Why Text-to-Speech Still Mispronounces Heteronyms",
+    "date": "2026-10-26",
+    "description": "Voice assistants choose one reading of bass, lead and wound — often the wrong one. How text-to-speech resolves heteronyms, and why it still fails.",
+    "readTime": "5 min read",
+    "tags": ["heteronyms", "text-to-speech", "pronunciation", "voice-assistants", "language-technology", "ai"]
+  },
+  {
     "slug": "heteronym-mistakes-in-writing",
     "title": "12 Heteronym Mistakes That Trip Up Even Good Writers",
     "date": "2026-10-19",
